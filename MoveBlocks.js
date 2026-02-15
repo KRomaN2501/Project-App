@@ -36,7 +36,6 @@ blocks.forEach(block => {
         newLeft = Math.max(0, Math.min(newLeft, maxLeft));
         newTop = Math.max(0, Math.min(newTop, maxTop));
 
-        // 6. Применяем новые координаты
         block.style.left = newLeft + 'px';
         block.style.top = newTop + 'px';
     });

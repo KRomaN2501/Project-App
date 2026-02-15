@@ -8,7 +8,7 @@ class Block {
     };
 
     constructor() {
-        this.nextIndex = -1;
+        this.nextBlock = null;
     }
 
     /**
@@ -33,10 +33,8 @@ class Block {
         }
 
         Block.allBlocks.forEach(block => {
-            if (block.nextIndex > index) {
-                block.nextIndex -= 1;
-            } else if (block.nextIndex === index) {
-                block.nextIndex = -1;
+            if (block.nextBlock === this) {
+                block.nextBlock = null;
             }
         });
     }
@@ -46,8 +44,8 @@ class Block {
     }
 
     runNext() {
-        if (this.nextIndex !== -1 && Block.allBlocks[this.nextIndex]) {
-            Block.allBlocks[this.nextIndex].activate();
+        if (this.nextBlock) {
+            this.nextBlock.activate();
         }
     }
 }
