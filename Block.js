@@ -23,6 +23,15 @@ class Block {
         return block;
     }
 
+    /** @param {Block} block */
+    setNext(block) {
+        this.nextBlock = block;
+    }
+
+    removeNext() {
+        this.nextBlock = null;
+    }
+
     delete() {
         const index = this.index;
 
@@ -39,8 +48,13 @@ class Block {
         });
     }
 
+    _perform() {
+        // переопределяется в дочерних классах
+    }
+
     activate() {
-        throw new Error('Метод activate должен быть переопределён в дочернем классе');
+        this._perform();
+        this.runNext();
     }
 
     runNext() {
