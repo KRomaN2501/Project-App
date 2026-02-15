@@ -1,0 +1,20 @@
+#workspace {
+    position: relative;
+    width: 200vw;
+    height: 100vh;
+    background: #f0f0f0;
+    /*overflow: hidden;*/
+}
+
+.block {
+    position: absolute;
+    width: 120px;
+    padding: 10px;
+    text-align: center;
+    background: white;
+    border: 2px solid #3498db;
+    border-radius: 6px;
+    cursor: move;
+    user-select: none;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+}
