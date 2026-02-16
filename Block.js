@@ -1,11 +1,7 @@
 class Block {
     static allBlocks = [];
 
-    static variables = {
-        number: {},
-        string: {},
-        boolean: {}
-    };
+    static variables = new Map();
 
     constructor() {
         this.nextBlock = null;

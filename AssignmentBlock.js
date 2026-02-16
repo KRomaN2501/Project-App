@@ -1,14 +1,8 @@
 class AssignmentBlock extends Block {
     constructor() {
         super();
-        this.varType = null;   //number, string, boolean
         this.varName = null;
         this.varValue = null;
-    }
-
-    /** @param {string} type - 'number', 'string' или 'boolean' */
-    setType(type) {
-        this.varType = type;
     }
 
     /** @param {string} name */
@@ -16,14 +10,14 @@ class AssignmentBlock extends Block {
         this.varName = name;
     }
 
-    /** @param {number|string|boolean} value */
+    /** @param {number} value */
     setValue(value) {
         this.varValue = value;
     }
 
     _perform() {
-        if (this.varType && this.varName && this.varValue !== undefined && this.varValue !== null) {
-            Block.variables[this.varType][this.varName] = this.varValue;
+        if (this.varName && this.varValue !== undefined && this.varValue !== null) {
+            Block.variables.set(this.varName, this.varValue);
         }
     }
 }
