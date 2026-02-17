@@ -20,10 +20,6 @@ class CreateVarBlock extends Block {
     }
 
     _perform() {
-        if (this.varNames == null) {
-            this.setNames(Console.input());
-        }
-
         if (this.varNames != null) {
             this.varNames.forEach(name => Block.variables.set(name, defaultValue));
         }
