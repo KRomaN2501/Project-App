@@ -2,21 +2,22 @@ class Block {
     static allBlocks = [];
 
     static variables = new Map();
+    static potentialVariables = [];
 
-    constructor() {
-        this.nextBlock = null;
+    /** @param {string} BlockID */
+    constructor(BlockID) {
+        this.nextBlock = null
+        this.blockID = BlockID;
     }
 
     /**
      * @param {typeof Block} BlockClass
-     * @param {...any} args
-     * @returns {Block}
+     * @param {string} BlockID
      */
-    static create(BlockClass, ...args) {
-        const block = new BlockClass(...args);
+    static create(BlockClass, BlockID) {
+        let block = new BlockClass(BlockID);
         block.index = Block.allBlocks.length;
         Block.allBlocks.push(block);
-        return block;
     }
 
     /** @param {Block} block */

@@ -1,38 +1,28 @@
+const defaultValue = 0;
+
 class AssignmentVarBlock extends Block {
-    constructor() {
-        super();
-        this.varNames = null;
+    /** @param {string} BlockID */
+    constructor(BlockID) {
+        super(BlockID);
+        this.varNames = new Set;
         this.varValue = null;
     }
 
     /** @param {string} str */
     setNames(str) {
-        let names = new Set(str.split(',').map(s => s.trim()).filter(name => name !== ''));
-        if (names.size != 0) {
-            if ([...names].every(name => Block.variables.has(name))) {
-                this.varNames = names;
-            }
-            else {
-                //ОШИБКА: Переменная не существует
-            }
-        }
+        let names = Convert.convertVarNames(str); //Вернуть пустое множество, если невозможно
+        this.varNames = names;
     }
 
     /** @param {string} value */
     setValue(value) {
-        this.varValue = Convert.convertToNumber(value);
+        this.varValue = Convert.convertToNumber(value); //вернуть null, если невозможно
     }
 
     _perform() {
-        if (this.varNames == null) {
-            this.setNames(Console.input());
-        }
         if (this.varValue == null) {
             this.setValue(Console.input());
         }
-
-        if (this.varNames != null && this.varValue != null) {
-            this.varNames.forEach(name => Block.variables.set(name, this.varValue));
-        }
+        this.varNames.forEach(name => Block.variables.set(name, this.varValue ? this.varValue : 0));
     }
 }

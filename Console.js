@@ -1,6 +1,6 @@
 class Console {
     /** @returns {string} */
-    static input(str) { //ЗАГЛУШКА
+    static input() { //ЗАГЛУШКА
         return "x";
     }
 

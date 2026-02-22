@@ -19,7 +19,7 @@ class Convert {
     static convertToBool(str) { //ЗАГЛУШКА
         return str === "true" ? true : false;
     }
-    
+
     // Сама реализация convertToNumber
 
     static transformation(str_) {
@@ -179,6 +179,46 @@ class Convert {
         }
 
         return stack_num[0];
+    }
+
+    /**
+     * @param {string} str
+     * @returns {Set}
+     */
+    static convertNewVarNames(str) {
+        let names = new Set(str.split(',').map(s => s.trim()).filter(name => name !== ''));
+        if ([...names].some(name => Block.potentialVariables.includes(name))) {
+            //ОШИБКА: Переменная уже объявлена
+            return new Set();
+        }
+        return names;
+    }
+
+
+    /**
+     * @param {string} str
+     * @returns {Set}
+     */
+    static convertVarNames(str) {
+        let names = new Set(str.split(',').map(s => s.trim()).filter(name => name !== ''));
+        if (![...names].every(name => Block.potentialVariables.includes(name))) {
+            //ОШИБКА: Переменная не существует
+            return new Set();
+        }
+        return names;
+    }
+
+    /**
+     * @param {string} str
+     * @returns {string}
+     */
+    static convertCondition(str) {
+        let condition = str;
+        if (false) {
+            //ОШИБКА: Невозможно перевести в условие
+            return null;
+        }
+        return condition;
     }
 }
 Convert.dict_vars = new Map();
