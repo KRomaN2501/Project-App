@@ -1,0 +1,86 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>CodeBlock</title>
+    <link rel="stylesheet" href="STYLE.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Kosugi+Maru&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Kosugi+Maru&family=Montserrat+Alternates:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Press+Start+2P&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <div class="sidebar">
+            <h2>Блоки</h2>
+            <ul id="blocks-list">
+                <li class="block block-start" draggable="true" id="block-0">Начало</li>
+                <li class="block" draggable="true" id="block-1">
+                    Новая переменная
+                    <input type="text" class="block-input" placeholder="имя переменной" value="имя переменной">
+                </li>
+                <li class="block" draggable="true" id="block-2">
+                    Присваивание
+                    <input type="text" class="block-input" placeholder="имя переменной" value="имя переменной">
+                    <input type="text" class="block-input" placeholder="значение" value="значение">
+                </li>
+                <li class="block" draggable="true" id="block-3">
+                    Массив
+                    <input type="text" class="block-input" placeholder="имя массива" value="имя массива">
+                    <input type="text" class="block-input" placeholder="размер" value="размер">
+                </li>
+                <li class="block" draggable="true" id="block-4">
+                    Присваивание в массиве
+                    <input type="text" class="block-input" placeholder="имя массива" value="имя массива">
+                    <input type="text" class="block-input" placeholder="индекс" value="индекс">
+                    <input type="text" class="block-input" placeholder="значение" value="значение">
+                </li>
+
+
+                <li class="block" draggable="true" id="block-5">
+                    Условие if
+                    <input type="text" class="block-input" placeholder="Условие" value="условие">
+                </li>
+                <li class="block" draggable="true" id="block-6">
+                    Цикл while
+                    <input type="text" class="block-input" placeholder="выполнять пока" value="выполнять пока">
+                </li>
+                <!--<li class="block" draggable="true" id="block-7">
+                Цикл for
+                <input type="text" class="block-input" placeholder="сколько раз" value="сколько раз">
+
+            </li>-->
+                <li class="block block-end" draggable="true" id="block-1000">Конец</li>
+            </ul>
+
+
+            <div class="text-container">
+                <div class="intput-area">
+                    <!--<h3>Ввод</h3>-->
+                    <textarea class="field" id="input-field" placeholder="Ввод"></textarea>
+                </div>
+                <div class="output-area">
+                    <!--<h3>Вывод</h3>-->
+                    <textarea class="field" id="output-field" readonly placeholder="Вывод"></textarea>
+                </div>
+            </div>
+
+
+        </div>
+        <div class="workspace" id="workspace">
+            <div class="h2" id="h2">
+                <h2>Поле для кода</h2>
+                <button class="start-button" id="startButton">Запустить ▶</button>
+            </div>
+            <div class="code-area" id="code-area" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+
+        </div>
+        <!--<script src="Moving&Connect.js"></script>-->
+        <!--<script src="MOVE2.js"></script>-->
+        <!--<script src="CONNECTION.js"></script>-->
+        <script src="Block.js"></script>
+        <script src="MOVE.js"></script> 
+</body>
+</html>

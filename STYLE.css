@@ -44,11 +44,12 @@ body {
         list-style: none;
         padding: 0;
         margin: 0;
+        flex-shrink: 0;
     }
 
     .sidebar .block {
         position: relative;
-        margin-bottom: 10px;
+        margin-bottom: 0px;
         cursor: grab;
         background: #f0f0f0;
         border: 2px solid #C6B7CC;
@@ -58,20 +59,67 @@ body {
         transition: all 0.3s ease;
         font-weight: 500;
         color: black;
-        width: auto;
+        padding-right: 40px;
     }
-    .sidebar ul {
-        list-style: none;
-        padding: 0;
-        margin: 0 0 20px 0;
-        flex-shrink: 0;
+    .sidebar.drag-over {
+        background-color: #ffe6e6 !important;
+        border: 2px dashed #ff4d4d;
+    }
 
-    }
-        
-    
-    
-.block:hover {
-    background: #F7D9E0;
+.block::before {
+    content: "";
+    position: absolute;
+    top: -10px;
+    right: 20px;
+    width: 30px;
+    height: 12px;
+    background: inherit;
+    border: 2px solid #C6B7CC;
+    border-bottom: none;
+    border-radius: 5px 5px 0 0;
+    z-index: 2;
+}
+
+#block-0::before {
+    display: none;
+}
+.block::before {
+    z-index: 10; 
+}
+.block-start::before {
+    display: none !important;
+}
+
+.block-end::after {
+    display: none !important;
+}
+
+.block::after {
+    content: "";
+    position: absolute;
+    bottom: -11px; 
+    right: 20px;
+    width: 30px;
+    height: 10px;
+    background: white; 
+    border: 2px solid #C6B7CC;
+    border-top: none;
+    border-radius: 0 0 5px 5px;
+    z-index: 1;
+}
+
+
+
+.sidebar .block:hover {
+/*    background-color: #FCF6F5FF !important;*/
+    filter: brightness(1.05);
+    cursor: grab;
+    transform: translateX(6px);
+}
+
+#code-area .block:hover {
+    filter: brightness(1.05);
+    border-color: #CDCCF7 !important;
 }
 
 
@@ -83,21 +131,58 @@ body {
     display: flex;
     flex-direction: column;
     position: relative;
+    overflow: hidden;
 }
-#workspace .block {
-    position: absolute;
-    margin: 0;
-    cursor: move;
-    z-index: 100;
-    background: #f0f0f0;
-    border: 2px solid #C6B7CC;
-    border-radius: 8px;
-    padding: 15px;
-    user-select: none;
-    font-weight: 500;
-    color: black;
-    box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+    #workspace .block {
+        position: absolute;
+        margin: 0;
+        cursor: move;
+        z-index: 100;
+        background: #f0f0f0;
+        border: 2px solid #C6B7CC;
+        border-radius: 8px;
+        padding: 15px;
+        user-select: none;
+        font-weight: 500;
+        color: black;
+        box-shadow: none;
+        box-sizing: border-box;
+        width: 350px; 
+        box-sizing: border-box; 
+        display: flex; 
+        flex-direction: column;
+        gap: 8px;
+    }
+    #workspace .block::after {
+        background: #f8f8f8;
+    }
+    #workspace .block-input {
+        width: 100% !important;
+        box-sizing: border-box;
+    }
+    #code-area .block,
+    #workspace .block {
+        position: absolute !important; 
+        width: 350px !important;
+        min-width: 350px !important; 
+        box-sizing: border-box !important;
+        display: flex !important;
+        flex-direction: column;
+        gap: 5px;
+        padding: 15px !important;
+    }
+
+    #code-area .block-input,
+    #workspace .block-input {
+        width: 100% !important;
+        box-sizing: border-box !important;
+        display: block !important;
+    }
+
+#code-area .block::before, #code-area .block::after {
+    right: 20px !important; 
 }
+
 
 #code-area {
     flex: 1;
@@ -107,12 +192,38 @@ body {
     padding: 10px;
     min-height: 200px;
     border: 2px dashed #ccc;
+    overflow-y: auto;
+    overflow-x: auto;
 }
+
+    #code-area .block {
+        position: absolute !important; 
+        width: 350px !important;
+        min-width: 350px;
+        max-width: 350px;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        padding: 15px;
+        margin: 0;
+        cursor: move;
+        z-index: 100;
+    }
+
+        #code-area .block .block-input {
+            width: 100% !important;
+            box-sizing: border-box !important;
+            margin-top: 5px;
+        }
+
 
 
 .dragging {
     opacity: 0.5;
     transform: scale(0.95);
+    z-index: 2000 !important;
+    opacity: 0.8; 
 }
 
 .input-field-block {
@@ -140,7 +251,8 @@ input[type="text"] {
     font-family: "Press Start 2P", system-ui;
     padding: 10px 24px;
     font-size: 16px;
-    background-color: #9F99D1;
+    /*    background-color: #9F99D1;*/ 
+    background-color: #CDCCF7;
     color: black;
     border-radius: 5px;
     border: 2px solid #C6B7CC;
@@ -182,3 +294,66 @@ input[type="text"] {
 #output-field {
     cursor: default;
 }
+
+
+/* Начало конец */
+.block[id="block-0"], .block[data-block-type="block-0"],
+.block[id="block-1000"], .block[data-block-type="block-1000"] {
+    background-color: #CDCCF7 !important;
+}
+
+/* Переменные */
+.block[id="block-1"], .block[data-block-type="block-1"],
+.block[id="block-2"], .block[data-block-type="block-2"] {
+    background-color: #BBDFFF !important;
+}
+
+/* Массивы */
+.block[id="block-3"], .block[data-block-type="block-3"],
+.block[id="block-4"], .block[data-block-type="block-4"] {
+    background-color: #F7D1D7 !important;
+}
+
+/* Условия и циклы */
+.block[id="block-5"], .block[data-block-type="block-5"],
+.block[id="block-6"], .block[data-block-type="block-6"] {
+    background-color: #F8E6A0 !important;
+}
+
+/* фон рабочего поля */
+#code-area .block::after {
+    background-color: #f8f8f8 !important;
+}
+
+/*  фон сайдбара */
+.sidebar .block::after {
+    background-color: white !important;
+}
+
+
+
+
+.block-if {
+    min-height: 100px !important;
+    padding-bottom: 40px !important; 
+}
+
+.inner-container {
+    margin-top: 10px;
+    margin-left: 20px;
+    min-height: 40px;
+    background: rgba(0, 0, 0, 0.05);
+    border: 1px dashed #666;
+    border-radius: 4px;
+    position: relative;
+    background: rgba(0, 0, 0, 0.05);
+}
+    .inner-container .block {
+        position: relative !important;
+        left: 0 !important;
+        top: 0 !important;
+        margin-bottom: 5px !important;
+        width: calc(100% - 10px) !important; 
+        min-width: 0 !important;
+    }
+
