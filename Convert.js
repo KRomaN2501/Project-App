@@ -5,22 +5,23 @@ class Convert {
      * @param {Map<string, number>} [dict_vars]
      * @returns {number}
      */
-    static dict_vars;
 
-    static convertToNumber(str, dict_vars = Convert.dict_vars) {
-        const rpn_arr = Convert.transformation_to_RPN(str);
-        return Convert.count_RPN(rpn_arr, dict_vars);
+    static convertToNumber(str, dict_vars) { 
+        const rpn_arr = Convert.transformation_to_RPN_and_bool(str);
+        return Convert.count_RPN_and_bool(rpn_arr, dict_vars);
     }
 
     /**
      * @param {string} str
+     * @param {Map<string, number>} [dict_vars]
      * @returns {boolean}
      */
     static convertToBool(str) { //ЗАГЛУШКА
-        return str === "true" ? true : false;
+        const rpn_arr = Convert.transformation_to_RPN_and_bool(str);
+        return Convert.count_RPN_and_bool(rpn_arr, dict_vars) === 1;
     }
 
-    // Сама реализация convertToNumber
+    // Сама реализация convertToNumber и converToBool
 
     static transformation(str_) {
         const correct_cout = [];
@@ -67,21 +68,51 @@ class Convert {
                 i++;
                 continue;
             }
+            
+            if(c === "&" && i+1 < str_.length() && str_[i+1] === "&"){
+                correct_cout.push("&&");
+                i+=2;
+                continue;
+            }
+            
+            if(c === "|" && i+1 < str_.length() && str_[i+1] === "|"){
+                correct_cout.push("||");
+                i+=2;
+                continue;
+            }
+
+            if((c === ">" || c === "<" || c === "!" || c === "=") && i+1 < str_.length() && str_[i+1] === "="){
+                correct_cout.push(c + "=");
+                i+=2;
+                continue
+            }
+            
+            if(c === ">" || c === "<" || c === "!"){
+                correct_cout.push(c);
+                i++;
+                continue;
+            }
 
             i++;
         }
 
         return correct_cout;
     }
-
-    static transformation_to_RPN(str_) {
+    static transformation_to_RPN_and_bool(str_) {
         const rigth_str = Convert.transformation(str_);
         const out = [];
         const stack_op = [];
-        const priority = { "+": 1, "-": 1, "*": 2, "/": 2 };
+        const priority = { "||" : 1, "&&" : 2, "!=": 3, "==": 3, ">=": 4, ">": 4, "<=": 4, "<": 4, "+":5, "-": 5, "*": 6, "/": 7, "!": 8  };
 
         function isOperator(a) {
-            return (a === "+" || a === "-" || a === "/" || a === "*");
+            return (a === "+" || a === "-" || a === "/" || a === "*" ||
+                    a === ">" || a === "<" || a === ">=" || a === "<=" ||
+                    a === "==" || a === "!=" || a === "!" ||
+                    a === "&&" || a === "||");
+        }
+        
+        function isDenial(a){
+            return a === "!";
         }
 
         function isNumber(a) {
@@ -104,7 +135,7 @@ class Convert {
         }
 
         for (const c of rigth_str) {
-            if (isNumber(c) || isVariable(c)) {
+            if (isNumber(c) || isVariable(c) || c === "true" || c === "false") {
                 out.push(c);
                 continue;
             }
@@ -113,7 +144,7 @@ class Convert {
                 while (
                     stack_op.length > 0 &&
                     isOperator(stack_op[stack_op.length - 1]) &&
-                    priority[stack_op[stack_op.length - 1]] >= priority[c]
+                    (priority[stack_op[stack_op.length - 1]] >= priority[c] || (c!= "!" && priority[stack_op[stack_op.length() - 1]] == priority[c]))
                 ) {
                     out.push(stack_op.pop());
                 }
@@ -140,11 +171,14 @@ class Convert {
         return out;
     }
 
-    static count_RPN(rpn_arr, dict_vars) {
+    static count_RPN_and_bool(rpn_arr, dict_vars) {
         const stack_num = [];
 
         function isOperator(a) {
-            return (a === "+" || a === "-" || a === "/" || a === "*");
+            return (a === "+" || a === "-" || a === "/" || a === "*" ||
+                    a === ">" || a === "<" || a === ">=" || a === "<=" ||
+                    a === "==" || a === "!=" || a === "!" ||
+                    a === "&&" || a === "||");
         }
 
         function isNumber(a) {
@@ -162,11 +196,33 @@ class Convert {
                 continue;
             }
 
+            if(value === "true"){
+                stack_num.push(1);
+                continue;
+            }
+
+            if(value === "false"){
+                stack_num.push(0);
+                continue;
+            }
+
             if (!isOperator(value)) {
                 let v = 0;
                 if (dict_vars && dict_vars.has && dict_vars.has(value)) v = dict_vars.get(value);
                 stack_num.push(v);
                 continue;
+            }
+
+            if(value === "!"){
+                const v = stack_num.pop();
+                if(v){
+                    stack_num.push(0);
+                    continue;
+                }
+                else{
+                    stack_num.push(1);
+                    continue;
+                }
             }
 
             const second_number = stack_num.pop();
@@ -176,6 +232,15 @@ class Convert {
             else if (value === "-") stack_num.push(first_number - second_number);
             else if (value === "*") stack_num.push(first_number * second_number);
             else if (value === "/") stack_num.push(Math.trunc(first_number / second_number));
+
+            else if(value === ">") stack_num.push(first_number > second_number ? 1 : 0);
+            else if(value === ">=") stack_num.push(first_number >= second_number ? 1 : 0);
+            else if(value === "<") stack_num.push(first_number < second_number ? 1 : 0);
+            else if(value === "<=") stack_num.push(first_number <= second_number ? 1 : 0);
+            else if(value === "==") stack_num.push(first_number === second_number ? 1 : 0);
+            else if(value === "!=") stack_num.push(first_number !== second_number ? 1 : 0);
+            else if(value === "&&") stack_num.push((first_number === 1 && second_number === 1) ? 1 : 0);
+            else if(value === "||") stack_num.push((first_number === 1  || second_number === 1) ? 1 : 0);
         }
 
         return stack_num[0];
@@ -186,7 +251,7 @@ class Convert {
      * @returns {Set}
      */
     static convertNewVarNames(str) {
-        let names = new Set(str.split(',').map(s => s.trim()).filter(name => name !== ''));
+        let names = neSetw (str.split(',').map(s => s.trim()).filter(name => name !== ''));
         if ([...names].some(name => Block.potentialVariables.includes(name))) {
             //ОШИБКА: Переменная уже объявлена
             return new Set();
@@ -221,4 +286,3 @@ class Convert {
         return condition;
     }
 }
-Convert.dict_vars = new Map();
