@@ -1,0 +1,145 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>CodeBlock</title>
+    <link rel="stylesheet" href="STYLE_3.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Kosugi+Maru&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Kosugi+Maru&family=Montserrat+Alternates:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Press+Start+2P&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <div class="sidebar">
+            <h2>Блоки</h2>
+            <div class="tabs-menu">
+                <button class="tab-btn active" onclick="openTab(event, 'tab-variables')">Начало и конец</button>
+                <button class="tab-btn" onclick="openTab(event, 'tab-arrays')">Переменные и массивы</button>
+                <button class="tab-btn" onclick="openTab(event, 'tab-logic')">Условия и циклы</button>
+                <button class="tab-btn" onclick="openTab(event, 'tab-output')">Вывод</button>
+                <button class="tab-btn" onclick="openTab(event, 'tab-functions')">Функции</button>
+            </div>
+
+            <div id="tab-variables" class="tab-content active">
+                <ul class="blocks-list">
+                    <li class="block block-start" draggable="true" id="block-0">Начало</li>
+
+                    <li class="block block-end" draggable="true" id="block-1000">Конец</li>
+                </ul>
+            </div>
+
+            <div id="tab-logic" class="tab-content">
+                <ul class="blocks-list">
+                    <li class="block" draggable="true" id="block-5">
+                        Если
+                        <input type="text" class="block-input" placeholder="Условие" value="условие">
+                    </li>
+                    <li class="block" draggable="true" id="block-12">
+                        Иначе если
+                        <input type="text" class="block-input" placeholder="Условие" value="условие">
+                    </li>
+                    <li class="block" draggable="true" id="block-7">
+                        Иначе
+                    </li>
+                    <li class="block" draggable="true" id="block-6">
+                        Выполнять пока
+                        <input type="text" class="block-input" placeholder="выполнять пока" value="условие">
+                    </li>
+                    <li class="block" draggable="true" id="block-10">
+                        Повторить
+                        <input type="text" class="block-input" style="width: 50px;" value="10"> раз
+                    </li>
+
+                    <li class="block" draggable="true" id="block-11">
+                        Повторить для <input type="text" class="block-input" style="width: 60px;" value="i">
+                        от <input type="text" class="block-input" style="width: 40px;" value="1">
+                        до <input type="text" class="block-input" style="width: 40px;" value="10">
+                        шаг <input type="text" class="block-input" style="width: 40px;" value="1">
+                    </li>
+                </ul>
+            </div>
+
+            <div id="tab-arrays" class="tab-content">
+                <ul class="blocks-list">
+                    <li class="block" draggable="true" id="block-1">
+                        Новая переменная
+                        <input type="text" class="block-input" placeholder="имя переменной" value="имя переменной" tyle="width: 150px;">
+                    </li>
+                    <li class="block" draggable="true" id="block-2">
+                        Присваивание
+                        <input type="text" class="block-input" placeholder="имя переменной" value="имя переменной">
+                        <input type="text" class="block-input" placeholder="значение" value="значение">
+                    </li>
+                    <li class="block" draggable="true" id="block-3">
+                        Массив
+                        <input type="text" class="block-input" placeholder="имя массива" value="имя массива">
+                        <input type="text" class="block-input" placeholder="размер" value="размер">
+                    </li>
+                    <li class="block" draggable="true" id="block-4">
+                        Присваивание в массиве
+                        <input type="text" class="block-input" placeholder="имя массива" value="имя массива">
+                        <input type="text" class="block-input" placeholder="индекс" value="индекс">
+                        <input type="text" class="block-input" placeholder="значение" value="значение">
+                    </li>
+
+                </ul>
+            </div>
+
+            <div id="tab-output" class="tab-content">
+                <ul id="block-list-output">
+                    <li class="block" draggable="true" id="block-8">
+                        Вывести
+                        <input type="text" class="block-input" placeholder="имя переменной" value="имя переменной">
+                    </li>
+                    <li class="block" draggable="true" id="block-9">
+                        Вывести эл-т массива
+                        <input type="text" class="block-input" placeholder="массив" value="имя массива">
+                        <input type="text" class="block-input" placeholder="индекс" value="индекс">
+                    </li>
+                </ul>
+            </div>
+            <div id="tab-functions" class="tab-content">
+                <ul id="block-list">
+                    <li class="block" draggable="true" id="block-20">
+                        Функция: <input type="text" class="block-input" style="width: 150px;" value="имя_функции">
+                    </li>
+
+                    <li class="block" draggable="true" id="block-21">
+                        Выполнить: <input type="text" class="block-input" style="width: 150px;" value="имя_функции">
+                    </li>
+                </ul>
+            </div>
+            <div class="text-container">
+                <div class="intput-area">
+                    <!--<h3>Ввод</h3>-->
+                    <textarea class="field" id="input-field" placeholder="Ввод"></textarea>
+                </div>
+                <div class="output-area">
+                    <!--<h3>Вывод</h3>-->
+                    <textarea class="field" id="output-field" readonly placeholder="Вывод"></textarea>
+                </div>
+            </div>
+
+
+        </div>
+        <div class="workspace" id="workspace">
+            <div class="h2" id="h2">
+                <h2>Поле для кода</h2>
+                <button class="start-button" id="startButton">Запустить ▶</button>
+            </div>
+            <div class="code-area" id="code-area" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+
+        </div>
+        <!--<script src="Moving&Connect.js"></script>-->
+        <!--<script src="MOVE2.js"></script>-->
+        <!--<script src="CONNECTION.js"></script>-->
+        <script src="Block_3.js"></script>
+        <script src="MOVE_3.js"></script>
+        <script src="BLOCK_MENU.js"></script>
+        <script src="CreateVarBlock_3.js"></script>
+        
+</body>
+</html>

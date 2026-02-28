@@ -28,6 +28,7 @@ body {
     height: calc(100vh - 40px);
 }
 
+/* плажка с блоками */
 .sidebar {
     width: 400px;
     background: white;
@@ -44,13 +45,14 @@ body {
         list-style: none;
         padding: 0;
         margin: 0;
+        flex-shrink: 0;
     }
 
     .sidebar .block {
         position: relative;
-        margin-bottom: 10px;
+        margin-bottom: 15px;
         cursor: grab;
-        background: #f0f0f0;
+/*        background: #f0f0f0;*/
         border: 2px solid #C6B7CC;
         border-radius: 8px;
         padding: 15px;
@@ -58,23 +60,73 @@ body {
         transition: all 0.3s ease;
         font-weight: 500;
         color: black;
-        width: auto;
+        padding-right: 40px;
     }
-    .sidebar ul {
-        list-style: none;
-        padding: 0;
-        margin: 0 0 20px 0;
-        flex-shrink: 0;
+        .sidebar .block::after {
+            background-color: white !important;
+        }
 
+        .sidebar .block:hover {
+            /*    background-color: #FCF6F5FF !important;*/
+            filter: brightness(1.05);
+            cursor: grab;
+            transform: translateX(6px);
+        }
+
+    .sidebar.drag-over {
+        background-color: #ffe6e6 !important;
+        border: 2px dashed #ff4d4d;
     }
-        
-    
-    
-.block:hover {
-    background: #F7D9E0;
+
+/* соединяшки для блоков */
+.block::before {
+    content: "";
+    position: absolute;
+    top: -10px;
+    right: 20px;
+    width: 30px;
+    height: 12px;
+    background: inherit;
+    border: 2px solid #C6B7CC;
+    border-bottom: none;
+    border-radius: 5px 5px 0 0;
+    z-index: 2;
+}
+
+#block-0::before {
+    display: none;
+}
+.block::before {
+    z-index: 10; 
+}
+.block-start::before {
+    display: none !important;
+}
+
+.block-end::after {
+    display: none !important;
+}
+
+.block::after {
+    content: "";
+    position: absolute;
+    bottom: -11px; 
+    right: 20px;
+    width: 30px;
+    height: 10px;
+    background: white; 
+    border: 2px solid #C6B7CC;
+    border-top: none;
+    border-radius: 0 0 5px 5px;
+    z-index: 1;
 }
 
 
+
+
+
+
+/* рабочая область*/
 #workspace {
     flex: 1;
     background: white;
@@ -83,21 +135,57 @@ body {
     display: flex;
     flex-direction: column;
     position: relative;
+    overflow: hidden;
 }
-#workspace .block {
-    position: absolute;
-    margin: 0;
-    cursor: move;
-    z-index: 100;
-    background: #f0f0f0;
-    border: 2px solid #C6B7CC;
-    border-radius: 8px;
-    padding: 15px;
-    user-select: none;
-    font-weight: 500;
-    color: black;
-    box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
-}
+    #workspace .block {
+        position: absolute;
+        margin: 0;
+        cursor: move;
+        z-index: 100;
+        background: #f0f0f0;
+        border: 2px solid #C6B7CC;
+        border-radius: 8px;
+        padding: 15px;
+        user-select: none;
+        font-weight: 500;
+        color: black;
+        box-shadow: none;
+        box-sizing: border-box;
+        width: 350px; 
+        box-sizing: border-box; 
+        display: flex; 
+        flex-direction: column;
+        gap: 8px;
+    }
+    #workspace .block::after {
+        background: #f8f8f8;
+    }
+    #workspace .block-input {
+        width: 100% !important;
+        box-sizing: border-box;
+    }
+    #code-area .block,
+    #workspace .block {
+        position: absolute !important; 
+        width: 350px !important;
+        min-width: 350px !important; 
+        box-sizing: border-box !important;
+        display: flex !important;
+        flex-direction: column;
+        gap: 5px;
+        padding: 15px !important;
+    }
+
+    #code-area .block-input,
+    #workspace .block-input {
+        width: 100% !important;
+        box-sizing: border-box !important;
+        display: block !important;
+    }
+
+
+
+/* зона для блоков внутри рабочей области */
 
 #code-area {
     flex: 1;
@@ -107,14 +195,59 @@ body {
     padding: 10px;
     min-height: 200px;
     border: 2px dashed #ccc;
+    overflow-y: auto;
+    overflow-x: auto;
 }
 
+    #code-area .block {
+        position: absolute !important; 
+        width: 350px !important;
+        min-width: 350px;
+        max-width: 350px;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        padding: 15px;
+        margin: 0;
+        cursor: move;
+        z-index: 100;
+    }
+        #code-area .block::after {
+            background-color: #f8f8f8 !important;
+        }
+
+        #code-area .block:hover {
+            filter: brightness(1.05);
+            border-color: #CDCCF7 !important;
+        }
+
+        #code-area .block::before, #code-area .block::after {
+            right: 20px !important;
+        }
+
+        #code-area .block .block-input {
+            width: 100% !important;
+            box-sizing: border-box !important;
+            margin-top: 5px;
+        }
+    #code-area .inner-container .block {
+        position: relative !important;
+        left: 0 !important;
+        top: 0 !important;
+        margin-bottom: 5px !important; 
+        width: calc(100% - 10px) !important;
+        min-width: 0 !important;
+        z-index: 10;
+    }
 
 .dragging {
     opacity: 0.5;
     transform: scale(0.95);
+    z-index: 2000 !important;
+    opacity: 0.8; 
 }
-
+/* поля для ввода */
 .input-field-block {
     width: 100px;
     height: 40px;
@@ -136,11 +269,13 @@ input[type="text"] {
     border-radius: 5px;
 }
 
+/* кнопка старт */
 .start-button {
     font-family: "Press Start 2P", system-ui;
     padding: 10px 24px;
     font-size: 16px;
-    background-color: #9F99D1;
+    /*    background-color: #9F99D1;*/ 
+    background-color: #CDCCF7;
     color: black;
     border-radius: 5px;
     border: 2px solid #C6B7CC;
@@ -182,3 +317,228 @@ input[type="text"] {
 #output-field {
     cursor: default;
 }
+
+/* раскрашиваю блоки в разные цвета */
+/* Начало конец */
+.block[id="block-0"], .block[data-block-type="block-0"],
+.block[id="block-1000"], .block[data-block-type="block-1000"] {
+    background-color: #CDCCF7 !important;
+}
+
+/* Переменные */
+.block[id="block-1"], .block[data-block-type="block-1"],
+.block[id="block-2"], .block[data-block-type="block-2"] {
+    background-color: #BBDFFF !important;
+}
+
+/* Массивы */
+.block[id="block-3"], .block[data-block-type="block-3"],
+.block[id="block-4"], .block[data-block-type="block-4"] {
+    background-color: #F7D1D7 !important;
+}
+
+/* Условия и циклы */
+.block[id="block-5"], .block[data-block-type="block-5"] { 
+    background-color: #F8E6A0 !important;
+/*    background-color: #FFFBDB !important;*/
+}
+
+/*.block[id="block-10"], .block[data-block-type="block-10"],
+.block[id="block-11"], .block[data-block-type="block-11"] {
+    background-color: #F8E6A0 !important; 
+    min-height: 100px !important;
+    padding-bottom: 40px !important;
+}
+*/
+
+.block[data-block-type="block-6"], .block[id="block-6"],
+.block[data-block-type="block-10"], .block[id="block-10"],
+.block[data-block-type="block-11"], .block[id="block-11"] {
+    /*    background-color: #FFD09B !important;*/
+/*    background-color: #FBCEB1 !important;*/
+    background-color: #FDD9B5 !important;
+}
+
+#code-area .block[data-block-type="block-6"] .inner-container,
+#code-area .block[data-block-type="block-10"] .inner-container,
+#code-area .block[data-block-type="block-11"] .inner-container {
+    border: 1px dashed rgba(0,0,0,0.1);
+    margin-top: 10px;
+    background: rgba(255,255,255,0.2);
+    border-radius: 4px;
+}
+
+
+.block[data-block-type="block-11"] .block-input {
+    display: inline-block !important;
+    width: auto !important;
+    min-width: 30px;
+}
+
+/*функции*/
+.block[data-block-type="block-20"], .block[id="block-20"],
+.block[data-block-type="block-21"], .block[id="block-21"] {
+    background-color: #BACCE6 !important; 
+}
+
+#code-area .block[data-block-type="block-20"] {
+    min-height: 120px !important;
+    padding-bottom: 40px !important;
+}
+
+    #code-area .block[data-block-type="block-20"] .inner-container {
+        border: 1px dashed rgba(0,0,0,0.1);
+        margin-top: 10px;
+        background: rgba(255,255,255,0.2);
+        border-radius: 4px;
+    }
+
+.sidebar .block[data-block-type="block-20"] {
+    min-height: 0 !important;
+    padding-bottom: 15px !important;
+}
+.block[id="block-7"], .block[data-block-type="block-7"] {
+    background-color: #F8E6A0 !important;
+}
+
+
+.block[data-block-type="block-7"] {
+    min-height: 80px !important;
+    padding-bottom: 30px !important;
+}
+
+#code-area .block[data-block-type="block-7"] .inner-container {
+    border: 1px dashed rgba(0,0,0,0.1);
+    margin-top: 10px;
+    background: rgba(255,255,255,0.2);
+    border-radius: 4px;
+}
+
+.block[id="block-12"], .block[data-block-type="block-12"] {
+    background-color: #F8E6A0 !important; 
+    min-height: 40px !important;
+    padding-bottom: 20px !important;
+}
+
+.block[data-block-type="block-12"] {
+    border-left: 5px solid #E6B400;
+}
+
+#code-area .block[data-block-type="block-5"] .inner-container {
+    border: 1px dashed rgba(0,0,0,0.1);
+    margin-top: 10px;
+    background: rgba(255,255,255,0.2);
+    border-radius: 4px;
+}
+
+#code-area .block[data-block-type="block-12"] .inner-container {
+    border: 1px dashed rgba(0,0,0,0.1);
+    margin-top: 10px;
+    background: rgba(255,255,255,0.2);
+    border-radius: 4px;
+}
+
+/*вывод*/
+/*переменная*/
+.block[id="block-8"], .block[data-block-type="block-8"] {
+    background-color: #D1EFBD !important;
+}
+
+#code-area .block[data-block-type="block-8"] .block-input {
+    border: 1px solid rgba(0,0,0,0.1);
+    background: white;
+}
+/*массив*/
+.block[id="block-9"], .block[data-block-type="block-9"] {
+    background-color: #D1EFBD !important;
+}
+
+    .block[data-block-type="block-9"] input {
+        text-align: center;
+    }
+
+
+/*
+#code-area .block[data-block-type="block-6"] .inner-container,
+#code-area .block[data-block-type="block-10"] .inner-container,
+#code-area .block[data-block-type="block-11"] .inner-container {
+    border: 1px dashed rgba(0,0,0,0.1);
+    margin-top: 10px;
+    background: rgba(255,255,255,0.2);
+    border-radius: 4px;*/
+}
+
+/*#code-area .block[data-block-type="block-10"] .inner-container {
+    border: 1px dashed rgba(0,0,0,0.1);
+    margin-top: 10px;
+    background: rgba(255,255,255,0.2);
+    border-radius: 4px;
+}*/
+/*
+#code-area .block[data-block-type="block-11"] .inner-container {
+    border: 1px dashed rgba(0,0,0,0.1);
+    margin-top: 10px;
+    background: rgba(255,255,255,0.2);
+    border-radius: 4px;
+}
+*/
+.block-if {
+    min-height: 100px !important;
+    padding-bottom: 40px !important; 
+}
+/*контейнер для запихивания блоков друг в друга */
+.inner-container {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    min-height: 50px;
+    height: auto !important;
+}
+    .inner-container .block {
+        position: relative !important;
+        left: 0 !important;
+        top: 0 !important;
+        margin-bottom: 5px !important;
+        width: calc(100% - 10px) !important; 
+        min-width: 0 !important;
+    }
+
+/* менюшка блоков в сайдбаре */
+.tabs-menu {
+    display: flex;
+    gap: 5px;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
+}
+
+.tab-btn {
+    font-family: "Press Start 2P", cursive;
+    font-size: 8px; 
+    padding: 8px;
+    cursor: pointer;
+    background: #f0f0f0;
+    border: 2px solid #C6B7CC;
+    border-radius: 5px;
+    transition: 0.3s;
+}
+
+    .tab-btn.active {
+        background: #CDCCF7;
+        border-color: #A76E9C;
+    }
+
+.tab-content {
+    display: none;
+    flex-grow: 1;
+}
+
+    .tab-content.active {
+        display: block;
+    }
+
+.blocks-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
