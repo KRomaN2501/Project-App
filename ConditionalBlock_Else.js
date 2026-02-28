@@ -2,6 +2,7 @@ class ConditionalBlock_Else extends Block {
     /** @param {string} BlockID */
     constructor(BlockID) {
         super(BlockID);
+        this.innerBlock = null;
         this.isActivate = null;
         this.falseNextBlock = null;
     }

@@ -4,6 +4,7 @@ class ConditionalBlock extends Block {
     /** @param {string} BlockID */
     constructor(BlockID) {
         super(BlockID);
+        this.innerBlock = null;
         this.condition = null;
         this.trueNextBlock = null;
     }

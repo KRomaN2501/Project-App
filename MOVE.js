@@ -17,24 +17,19 @@ function drop(ev) {
     const data = ev.dataTransfer.getData("text");
     const draggedElement = document.getElementById(data);
 
-    
+
 
     const newBlock = draggedElement.cloneNode(true);
     const uniqueId = 'block-inst-' + Date.now();
     newBlock.id = uniqueId;
-    //Block.allBlocks.Add(newBlock);
+
     newBlock.setAttribute('data-block-type', draggedElement.id);
     newBlock.classList.remove('dragging');
     newBlock.setAttribute('draggable', 'false');
 
     if (!draggedElement) return;
     //let newBlockType = null;
-    switch (draggedElement.id) {
-        case 'block-1':
 
-            Block.allBlocks.Add(new CreateVarBlock(newBlock.id));
-
-    }
     if (draggedElement.id === 'block-5' || draggedElement.id === 'block-6' ||
         draggedElement.id === 'block-7' || draggedElement.id === 'block-10' ||
         draggedElement.id === 'block-11' || draggedElement.id === 'block-12' ||
@@ -57,9 +52,10 @@ function drop(ev) {
     newBlock.style.top = Math.max(0, top) + 'px';
     newBlock.style.position = 'absolute';
 
-    const blockLogic = Block.create(Block);
-
-    blockLogic.domElement = newBlock;
+    switch (draggedElement.id) {
+        case 'block-1':
+            new CreateVarBlock(newBlock);
+    }
 
     blockLogic.type = draggedElement.id;
 
@@ -285,7 +281,7 @@ function updateContainerSize(containerBlock) {
 
         totalHeight += block.offsetHeight;
         if (index < blocks.length - 1) {
-            totalHeight += 5; 
+            totalHeight += 5;
         }
     });
 

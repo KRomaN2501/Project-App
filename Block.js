@@ -4,18 +4,10 @@ class Block {
     static variables = new Map();
     static potentialVariables = [];
 
-    /** @param {string} BlockID */
-    constructor(BlockID) {
+    /** @param {string} domElement */
+    constructor(domElement) {
         this.nextBlock = null
-        this.blockID = BlockID;
-    }
-
-    /**
-     * @param {typeof Block} BlockClass
-     * @param {string} BlockID
-     */
-    static create(BlockClass, BlockID) {
-        let block = new BlockClass(BlockID);
+        this.domElement = domElement;
         block.index = Block.allBlocks.length;
         Block.allBlocks.push(block);
     }
