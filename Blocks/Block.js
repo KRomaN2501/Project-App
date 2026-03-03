@@ -4,7 +4,6 @@ class Block {
     static variables = new Map();
     static potentialVariables = [];
 
-    /** @param {string} domElement */
     constructor(domElement) {
         this.nextBlock = null
         this.domElement = domElement;
@@ -32,7 +31,7 @@ class Block {
 
         Block.allBlocks.forEach(block => {
             if (block.nextBlock === this) {
-                block.nextBlock = null;
+                block.removeNext();
             }
         });
     }

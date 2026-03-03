@@ -1,9 +1,9 @@
 const defaultValue = 0;
 
 class CreateVarBlock extends Block {
-    /** @param {string} BlockID */
-    constructor(BlockID) {
-        super(BlockID);
+
+    constructor(domElement) {
+        super(domElement);
         this.varNames = new Set();
     }
 

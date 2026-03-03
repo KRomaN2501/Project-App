@@ -1,9 +1,8 @@
 const defaultValue = 0;
 
 class AssignmentVarBlock extends Block {
-    /** @param {string} BlockID */
-    constructor(BlockID) {
-        super(BlockID);
+    constructor(domElement) {
+        super(domElement);
         this.varNames = new Set;
         this.varValue = null;
     }
@@ -23,6 +22,6 @@ class AssignmentVarBlock extends Block {
         if (this.varValue == null) {
             this.setValue(Console.input());
         }
-        this.varNames.forEach(name => Block.variables.set(name, this.varValue ? this.varValue : 0));
+        this.varNames.forEach(name => Block.variables.set(name, this.varValue ? this.varValue : defaultValue));
     }
 }
