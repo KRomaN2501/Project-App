@@ -6,9 +6,54 @@ class Convert {
      * @returns {number}
      */
 
-    static convertToNumber(str, dict_vars) { 
-        const rpn_arr = Convert.transformation_to_RPN_and_bool(str);
-        return Convert.count_RPN_and_bool(rpn_arr, dict_vars);
+    static convertToNumber(str, dict_vars) {
+
+    if (!str || typeof str !== "string" || str.trim() === "") {
+        //ЗДЕСЬ БУДЕТ ВЫЗЫВАТЬСЯ ОШИБКА
+        return null;
+    }
+
+    if (dict_vars && !(dict_vars instanceof Map)) {
+        //ЗДЕСЬ БУДЕТ ВЫЗЫВАТЬСЯ ОШИБКА
+        return null;
+    }
+
+    const rpn_arr = Convert.transformation_to_RPN_and_bool(str);
+
+    if (!rpn_arr || rpn_arr.length === 0) {
+        //ЗДЕСЬ БУДЕТ ВЫЗЫВАТЬСЯ ОШИБКА
+        return null;
+    }
+
+    const parsVar = rpn_arr.filter(v => Convert.isVariable(v)); 
+    if (parsVar.length > 0) {
+        const existingVars = Convert.convertVarNames(parsVar.join(','));
+        if (existingVars.size === 0) {
+            //ЗДЕСЬ БУДЕТ ВЫЗЫВАТЬСЯ ОШИБКА
+            return null;
+        }
+    }
+
+    const result = Convert.count_RPN_and_bool(rpn_arr, dict_vars);
+
+    if (result === null || result === undefined || typeof result !== "number") {
+        //ЗДЕСЬ БУДЕТ ВЫЗЫВАТЬСЯ ОШИБКА
+        return null;
+    }
+
+    // Проверка что это не булев результат
+    if (result === 0 || result === 1) {
+        for (let v of rpn_arr) {
+            if (v === ">" || v === "<" || v === ">=" || v === "<=" ||
+                v === "==" || v === "!=" || v === "&&" || v === "||") {
+
+                //ЗДЕСЬ БУДЕТ ВЫЗЫВАТЬСЯ ОШИБКА
+                return null;
+            }
+        }
+    }
+
+    return result;
     }
 
     /**
@@ -16,9 +61,42 @@ class Convert {
      * @param {Map<string, number>} [dict_vars]
      * @returns {boolean}
      */
-    static convertToBool(str) { //ЗАГЛУШКА
-        const rpn_arr = Convert.transformation_to_RPN_and_bool(str);
-        return Convert.count_RPN_and_bool(rpn_arr, dict_vars) === 1;
+    static convertToBool(str, dict_vars) {
+
+    if (!str || typeof str !== "string" || str.trim() === "") {
+        //ЗДЕСЬ БУДЕТ ВЫЗЫВАТЬСЯ ОШИБКА
+        return null;
+    }
+
+    if (dict_vars && !(dict_vars instanceof Map)) {
+        //ЗДЕСЬ БУДЕТ ВЫЗЫВАТЬСЯ ОШИБКА
+        return null;
+    }
+
+    const rpn_arr = Convert.transformation_to_RPN_and_bool(str);
+
+    if (!rpn_arr || rpn_arr.length === 0) {
+        //ЗДЕСЬ БУДЕТ ВЫЗЫВАТЬСЯ ОШИБКА
+        return null;
+    }
+
+    const parsVar = rpn_arr.filter(v => Convert.isVariable(v)); 
+    if (parsVar.length > 0) {
+        const existingVars = Convert.convertVarNames(parsVar.join(','));
+        if (existingVars.size === 0) {
+            //ЗДЕСЬ БУДЕТ ВЫЗЫВАТЬСЯ ОШИБКА
+            return null;
+        }
+    }
+
+    const result = Convert.count_RPN_and_bool(rpn_arr, dict_vars);
+
+    if (result !== 0 && result !== 1) {
+        //ЗДЕСЬ БУДЕТ ВЫЗЫВАТЬСЯ ОШИБКА
+        return null;
+    }
+
+    return result === 1;
     }
 
     // Сама реализация convertToNumber и converToBool
@@ -251,7 +329,7 @@ class Convert {
      * @returns {Set}
      */
     static convertNewVarNames(str) {
-        let names = neSetw (str.split(',').map(s => s.trim()).filter(name => name !== ''));
+        let names = new Set (str.split(',').map(s => s.trim()).filter(name => name !== ''));
         if ([...names].some(name => Block.potentialVariables.includes(name))) {
             //ОШИБКА: Переменная уже объявлена
             return new Set();
@@ -281,8 +359,18 @@ class Convert {
         let condition = str;
         if (false) {
             //ОШИБКА: Невозможно перевести в условие
-            return null;
+            return null;    
         }
         return condition;
+    }
+    static isVariable(a) {
+        if (a.length === 0) return false;
+        const symbol0 = a[0];
+        if (!((symbol0 >= "a" && symbol0 <= "z") || (symbol0 >= "A" && symbol0 <= "Z") || symbol0 === "_")) return false;
+        for (let i = 1; i < a.length; i++) {
+            const symbol = a[i];
+            if (!((symbol >= "a" && symbol <= "z") || (symbol >= "A" && symbol <= "Z") || symbol === "_" || (symbol >= "0" && symbol <= "9"))) return false;
+        }
+        return true;
     }
 }
