@@ -9,7 +9,8 @@ class CreateVarBlock extends Block {
 
     /** @param {string} str */
     setNames(str) {
-        let names = Convert.convertNewVarNames(str);  //Вернуть пустое множество, если невозможно
+        //Удалить из potentialVariables то, что есть в varNames
+        let names = Convert.convertVarNames(str, false);  //Вернуть пустое множество, если невозможно
         this.varNames = names;
         this.varNames.forEach(name => Block.potentialVariables.push(name))
     }

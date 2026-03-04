@@ -9,7 +9,7 @@ class AssignmentVarBlock extends Block {
 
     /** @param {string} str */
     setNames(str) {
-        let names = Convert.convertVarNames(str); //Вернуть пустое множество, если невозможно
+        let names = Convert.convertVarNames(str, true); //Вернуть пустое множество, если невозможно
         this.varNames = names;
     }
 
