@@ -36,7 +36,7 @@ class AssignmentArrBlock extends Block {
         let arrIndex = this.arrIndex ? this.arrIndex : defaultIndex;
         let arrValue = this.arrValue ? this.arrValue : defaultValue;
 
-        for (const name of arrName) {
+        for (const name of this.arrNames) {
             let arr = Block.arrays.get(name);
 
             if (arrIndex >= arr.length) {
