@@ -55,6 +55,7 @@ function drop(ev) {
     switch (draggedElement.id) {
         case 'block-1':
             new CreateVarBlock(newBlock);
+            break;
     }
 
     blockLogic.type = draggedElement.id;

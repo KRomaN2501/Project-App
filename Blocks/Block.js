@@ -4,8 +4,14 @@ class Block {
     static variables = new Map();
     static potentialVariables = [];
 
-    constructor(domElement) {
-        this.nextBlock = null
+    static arrays = new Map();
+    static potentialArrays = [];
+
+    static startBlock = null;
+
+    constructor(domElement, start) {
+        if (!startBlock && start) startBlock = this;
+        this.nextBlock = null;
         this.domElement = domElement;
         block.index = Block.allBlocks.length;
         Block.allBlocks.push(block);

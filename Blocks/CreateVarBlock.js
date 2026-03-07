@@ -9,7 +9,7 @@ class CreateVarBlock extends Block {
 
     /** @param {string} str */
     setNames(str) {
-        //Удалить из potentialVariables то, что есть в varNames
+        Block.potentialVariables = Block.potentialVariables.filter(item => !this.varNames.has(item))
         let names = Convert.convertVarNames(str, false);  //Вернуть пустое множество, если невозможно
         this.varNames = names;
         this.varNames.forEach(name => Block.potentialVariables.push(name))
