@@ -39,7 +39,7 @@ class AssignmentArrBlock extends Block {
         for (const name of this.arrNames) {
             let arr = Block.arrays.get(name);
 
-            if (arrIndex >= arr.length) {
+            if (arrIndex < 1 || arrIndex >= arr.length) {
                 arr.push(arrValue);
             } else {
                 arr[arrIndex] = arrValue;
