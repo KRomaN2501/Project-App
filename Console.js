@@ -1,11 +1,13 @@
 class Console {
     /** @returns {string} */
-    static input() { //ЗАГЛУШКА
-        return "x";
+    static input() {
+        return InputAreaOnConsole();
     }
 
     /** @param {string} str*/
-    static output(str) { //ЗАГЛУШКА
-        //ВЫВОД str
+    static output(str) {
+        printToConsole(str);
     }
+
+
 }
