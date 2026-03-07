@@ -1,4 +1,4 @@
-function InputAreaOnBlocks(logic /* тут будет тип данных по типу ¬арЅлок и тд*/, domElement) {
+function InputAreaInBlocks(logic, domElement) {
     const inputs = domElement.querySelectorAll('.block-input');
 
     inputs.forEach((input, index) => {
@@ -6,29 +6,29 @@ function InputAreaOnBlocks(logic /* тут будет тип данных по типу ¬арЅлок и тд*/,
             const text = input.value;
 
             if (logic instanceof CreateVarBlock) {
-                //setNames();
+                logic.setNames(text);
             }
             else if (logic instanceof AssignmentVarBlock) {
                 if (index === 0)
-                    //setNames();
-                if (index === 1)
-                   //setValues();
+                    logic.setNames(text);
+                else if (index === 1)
+                    logic.setValue(text);
             }
 
             else if (logic instanceof CreateArrBlock) {
-                //setNames();
+                logic.setNames(text);
             }
             else if (logic instanceof AssignmentVarBlock) {
                 if (index === 0)
-                    //setNames();
-                if (index === 1)
-                    //setIndex();
-                if (index === 2)
-                    //setValues();
+                    logic.setNames(text);
+                else if (index === 1)
+                    logic.setIndex(text);
+                else if (index === 2)
+                    logic.setValue(text);
 
             }
             else if (logic.setCondition) {
-                //setConditions(); - это и дл€ циклов и дл€ условиц
+                logic.setCondition(text);
             }
 
             if (logic instanceof PrintVarBlock) {
@@ -37,19 +37,19 @@ function InputAreaOnBlocks(logic /* тут будет тип данных по типу ¬арЅлок и тд*/,
 
             else if (logic instanceof PrintArrBlock) {
                 if (index === 0)
-                    //setNames();
-                if (index === 1)
-                    //setIndex();
+                    logic.setNames(text);
+                else if (index === 1)
+                    logic.setIndex(text);
             }
         });
     });
 }
-//вызов функции: 
-Input(blockLogic, newBlock);
+//вызов
+InputAreaInBlocks(blockLogic, newBlock);
 
 
 
-function InputAreaOnConsole() {
+function InputAreaInConsole() {
     const inputField = document.getElementById('input-field');
 
     if (!inputField) return;
@@ -60,16 +60,14 @@ function InputAreaOnConsole() {
                 e.preventDefault();
                 const currentText = inputField.value;
 
-                //тут должна быть передача данных дальше куда-нибудь 
                 return currentText;
 
             }
         }
     });
 }
-
-//вызов (мб сразу при запуске или потом где-то вызвать)
-document.addEventListener('ConsoleContent', InputAreaOnSidebar);
+//вызов 
+document.addEventListener('ConsoleContent', InputAreaInSidebar);
 
 
 function printToConsole(txt) {
