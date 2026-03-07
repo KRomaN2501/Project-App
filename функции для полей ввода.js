@@ -18,7 +18,7 @@ function InputAreaInBlocks(logic, domElement) {
             else if (logic instanceof CreateArrBlock) {
                 logic.setNames(text);
             }
-            else if (logic instanceof AssignmentVarBlock) {
+            else if (logic instanceof AssignmentArrBlock) {
                 if (index === 0)
                     logic.setNames(text);
                 else if (index === 1)
@@ -44,8 +44,7 @@ function InputAreaInBlocks(logic, domElement) {
         });
     });
 }
-//вызов
-InputAreaInBlocks(blockLogic, newBlock);
+//пїЅпїЅпїЅпїЅпїЅ
 
 
 
@@ -66,8 +65,8 @@ function InputAreaInConsole() {
         }
     });
 }
-//вызов 
-document.addEventListener('ConsoleContent', InputAreaInSidebar);
+//пїЅпїЅпїЅпїЅпїЅ 
+
 
 
 function printToConsole(txt) {

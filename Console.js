@@ -1,11 +1,12 @@
 class Console {
     /** @returns {string} */
     static input() {
-        return InputAreaOnConsole();
+        return InputAreaInConsole();
     }
 
     /** @param {string} str*/
     static output(str) {
+        console.log(str);
         printToConsole(str);
     }
 

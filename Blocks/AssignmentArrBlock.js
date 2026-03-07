@@ -1,6 +1,3 @@
-const defaultValue = 0;
-const defaultIndex = 0;
-
 class AssignmentArrBlock extends Block {
     constructor(domElement) {
         super(domElement);
@@ -27,14 +24,16 @@ class AssignmentArrBlock extends Block {
 
     _perform() {
         if (this.arrIndex == null) {
+            console.log("нет индекса");
             this.setIndex(Console.input());
         }
         if (this.arrValue == null) {
+            console.log("нет значения");
             this.setValue(Console.input());
         }
 
-        let arrIndex = this.arrIndex ? this.arrIndex : defaultIndex;
-        let arrValue = this.arrValue ? this.arrValue : defaultValue;
+        let arrIndex = this.arrIndex ? this.arrIndex : 0;
+        let arrValue = this.arrValue ? this.arrValue : 0;
 
         for (const name of this.arrNames) {
             let arr = Block.arrays.get(name);

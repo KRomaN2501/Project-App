@@ -18,7 +18,7 @@ class PrintArrBlock extends Block {
 
     _perform() {
         for (const name of this.arrNames) {
-            if (index >= 1 && index < Block.arrays.get(name).length) Console.output(Block.arrays.get(name)[index]);
+            if (this.index >= 1 && this.index < Block.arrays.get(name).length) Console.output(Block.arrays.get(name)[this.index]);
         }
     }
 }

@@ -1,4 +1,4 @@
-let blocksInStack = [];
+п»їlet blocksInStack = [];
 let activeBlock = null;
 let offsetX, offsetY;
 let isDragging = false;
@@ -52,26 +52,26 @@ function drop(ev) {
     newBlock.style.position = 'absolute';
 
     switch (draggedElement.id) {
-        // начало конец
+        // пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
         case 'block-0': case 'block-1000':
-            blockLogic = new Block(newBlock);
+            blockLogic = new Block(newBlock, true);
             break;
 
-        // переменные и массивы
+        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
         case 'block-1':
             blockLogic = new CreateVarBlock(newBlock);
             break;
         case 'block-2':
             blockLogic = new AssignmentVarBlock(newBlock);
             break;
-        case 'block-3': 
+        case 'block-3':
             blockLogic = new CreateArrBlock(newBlock);
             break;
-        case 'block-4': 
+        case 'block-4':
             blockLogic = new AssignmentArrBlock(newBlock);
             break;
 
-        // условяи циклы 
+        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ 
         case 'block-5':
             blockLogic = new ConditionalBlock(newBlock);
             break;
@@ -81,7 +81,7 @@ function drop(ev) {
         case 'block-6': case 'block-10':
             blockLogic = new CyclicBlock(newBlock);
             break;
-        // выводы
+        // пїЅпїЅпїЅпїЅпїЅпїЅ
         case 'block-8':
             blockLogic = new PrintVarBlock(newBlock);
             break;
@@ -90,8 +90,10 @@ function drop(ev) {
             break;
 
         default:
-            blockLogic = new Block(newBlock); 
+            blockLogic = new Block(newBlock);
     }
+
+    InputAreaInBlocks(blockLogic, newBlock)
 
     blockLogic.type = draggedElement.id;
 
@@ -202,7 +204,7 @@ function onMouseUp(e) {
                 b.remove();
             });
 
-            console.log("Цепочка блоков удалена");
+            console.log("пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ");
         } else {
             blocksInStack.forEach(b => {
                 b.classList.remove('dragging');
@@ -356,7 +358,7 @@ function snapToBlock(block) {
                 updateContainerSize(target);
                 rebuildInnerConnections(target);
 
-                console.log("Блок вставлен внутрь контейнера");
+                console.log("пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ");
                 snapped = true;
                 return;
             }
@@ -384,7 +386,7 @@ function snapToBlock(block) {
 
             if (targetObj && currentObj) {
                 targetObj.setNext(currentObj);
-                console.log("Связь установлена: " + target.id + " -> " + block.id);
+                console.log("пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ: " + target.id + " -> " + block.id);
             }
 
             snapped = true;

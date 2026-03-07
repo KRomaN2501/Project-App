@@ -10,11 +10,13 @@ class Block {
     static startBlock = null;
 
     constructor(domElement, start) {
-        if (!startBlock && start) startBlock = this;
+        if (!Block.startBlock && start) {
+            Block.startBlock = this;
+        }
         this.nextBlock = null;
         this.domElement = domElement;
-        block.index = Block.allBlocks.length;
-        Block.allBlocks.push(block);
+        this.index = Block.allBlocks.length;
+        Block.allBlocks.push(this);
     }
 
     /** @param {Block} block */

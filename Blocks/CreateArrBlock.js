@@ -14,6 +14,6 @@ class CreateArrBlock extends Block {
     }
 
     _perform() {
-        this.arrNames.forEach(name => Block.arrays.set(name, []));
+        this.arrNames.forEach(name => Block.arrays.set(name, new Array()));
     }
 }

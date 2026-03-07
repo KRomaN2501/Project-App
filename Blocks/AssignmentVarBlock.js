@@ -1,5 +1,3 @@
-const defaultValue = 0;
-
 class AssignmentVarBlock extends Block {
     constructor(domElement) {
         super(domElement);
@@ -15,13 +13,13 @@ class AssignmentVarBlock extends Block {
 
     /** @param {string} value */
     setValue(value) {
-        this.varValue = Convert.convertToNumber(value); //вернуть null, если невозможно
+        this.varValue = Convert.convertToNumber(value, Block.variables, Block.arrays); //вернуть null, если невозможно
     }
 
     _perform() {
         if (this.varValue == null) {
             this.setValue(Console.input());
         }
-        this.varNames.forEach(name => Block.variables.set(name, this.varValue ? this.varValue : defaultValue));
+        this.varNames.forEach(name => Block.variables.set(name, this.varValue ? this.varValue : 0));
     }
 }

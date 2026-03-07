@@ -12,7 +12,7 @@ class CreateVarBlock extends Block {
         Block.potentialVariables = Block.potentialVariables.filter(item => !this.varNames.has(item))
         let names = Convert.convertVarNames(str, false);  //Вернуть пустое множество, если невозможно
         this.varNames = names;
-        this.varNames.forEach(name => Block.potentialVariables.push(name))
+        this.varNames.forEach(name => Block.potentialVariables.push(name));
     }
 
     _perform() {

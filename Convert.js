@@ -9,9 +9,9 @@ class Convert {
 
     static convertToNumber(str, dict_vars, arrays) {
 
-    const rpn_arr = Convert.transformation_to_RPN_and_bool(str);
-    const result = Convert.count_RPN_and_bool(rpn_arr, dict_vars, arrays);
-    return result;
+        const rpn_arr = Convert.transformation_to_RPN_and_bool(str);
+        const result = Convert.count_RPN_and_bool(rpn_arr, dict_vars, arrays);
+        return result;
     }
 
     /**
@@ -22,10 +22,10 @@ class Convert {
      */
     static convertToBool(str, dict_vars, arrays) {
 
-    const rpn_arr = Convert.transformation_to_RPN_and_bool(str);
-    const result = Convert.count_RPN_and_bool(rpn_arr, dict_vars, arrays);
+        const rpn_arr = Convert.transformation_to_RPN_and_bool(str);
+        const result = Convert.count_RPN_and_bool(rpn_arr, dict_vars, arrays);
 
-    return result === 1;
+        return result === 1;
     }
 
     // Сама реализация convertToNumber и converToBool
@@ -70,31 +70,31 @@ class Convert {
                 continue;
             }
 
-            if (c === "+" || c === "-" || c === "*" || c === "/" || c=== "%" || c === "(" || c === ")" || c === "[" || c === "]") {
+            if (c === "+" || c === "-" || c === "*" || c === "/" || c === "%" || c === "(" || c === ")" || c === "[" || c === "]") {
                 correct_cout.push(c);
                 i++;
                 continue;
             }
-            
-            if(c === "&" && i+1 < str_.length && str_[i+1] === "&"){
+
+            if (c === "&" && i + 1 < str_.length && str_[i + 1] === "&") {
                 correct_cout.push("&&");
-                i+=2;
-                continue;
-            }
-            
-            if(c === "|" && i+1 < str_.length && str_[i+1] === "|"){
-                correct_cout.push("||");
-                i+=2;
+                i += 2;
                 continue;
             }
 
-            if((c === ">" || c === "<" || c === "!" || c === "=") && i+1 < str_.length && str_[i+1] === "="){
+            if (c === "|" && i + 1 < str_.length && str_[i + 1] === "|") {
+                correct_cout.push("||");
+                i += 2;
+                continue;
+            }
+
+            if ((c === ">" || c === "<" || c === "!" || c === "=") && i + 1 < str_.length && str_[i + 1] === "=") {
                 correct_cout.push(c + "=");
-                i+=2;
+                i += 2;
                 continue
             }
-            
-            if(c === ">" || c === "<" || c === "!"){
+
+            if (c === ">" || c === "<" || c === "!") {
                 correct_cout.push(c);
                 i++;
                 continue;
@@ -109,16 +109,16 @@ class Convert {
         const rigth_str = Convert.transformation(str_);
         const out = [];
         const stack_op = [];
-        const priority = { "||" : 1, "&&" : 2, "!=": 3, "==": 3, ">=": 4, ">": 4, "<=": 4, "<": 4, "+":5, "-": 5, "*": 6, "/": 7, "%": 7, "!": 8, "[]":9 };
+        const priority = { "||": 1, "&&": 2, "!=": 3, "==": 3, ">=": 4, ">": 4, "<=": 4, "<": 4, "+": 5, "-": 5, "*": 6, "/": 7, "%": 7, "!": 8, "[]": 9 };
 
         function isOperator(a) {
             return (a === "+" || a === "-" || a === "/" || a === "%" || a === "*" ||
-                    a === ">" || a === "<" || a === ">=" || a === "<=" ||
-                    a === "==" || a === "!=" || a === "!" ||
-                    a === "&&" || a === "||");
+                a === ">" || a === "<" || a === ">=" || a === "<=" ||
+                a === "==" || a === "!=" || a === "!" ||
+                a === "&&" || a === "||");
         }
-        
-        function isDenial(a){
+
+        function isDenial(a) {
             return a === "!";
         }
 
@@ -151,7 +151,7 @@ class Convert {
                 while (
                     stack_op.length > 0 &&
                     isOperator(stack_op[stack_op.length - 1]) &&
-                    (priority[stack_op[stack_op.length - 1]] >= priority[c] || (c!= "!" && priority[stack_op[stack_op.length - 1]] == priority[c]))
+                    (priority[stack_op[stack_op.length - 1]] >= priority[c] || (c != "!" && priority[stack_op[stack_op.length - 1]] == priority[c]))
                 ) {
                     out.push(stack_op.pop());
                 }
@@ -175,15 +175,15 @@ class Convert {
             if (c === "[") {
                 stack_op.push(c);
                 continue;
-            }  
+            }
 
             if (c === "]") {
-            while (stack_op.length > 0 && stack_op[stack_op.length - 1] !== "[") {
-                out.push(stack_op.pop());
-            }
-            stack_op.pop(); 
-            out.push("[]"); 
-            continue;
+                while (stack_op.length > 0 && stack_op[stack_op.length - 1] !== "[") {
+                    out.push(stack_op.pop());
+                }
+                stack_op.pop();
+                out.push("[]");
+                continue;
             }
 
         }
@@ -193,14 +193,14 @@ class Convert {
         return out;
     }
 
-    static count_RPN_and_bool(rpn_arr, dict_vars) {
+    static count_RPN_and_bool(rpn_arr, dict_vars, arrays) {
         const stack_num = [];
 
         function isOperator(a) {
             return (a === "+" || a === "-" || a === "/" || a === "%" || a === "*" ||
-                    a === ">" || a === "<" || a === ">=" || a === "<=" ||
-                    a === "==" || a === "!=" || a === "!" ||
-                    a === "&&" || a === "||");
+                a === ">" || a === "<" || a === ">=" || a === "<=" ||
+                a === "==" || a === "!=" || a === "!" ||
+                a === "&&" || a === "||");
         }
 
         function isNumber(a) {
@@ -218,18 +218,18 @@ class Convert {
                 continue;
             }
 
-            if(value === "true"){
+            if (value === "true") {
                 stack_num.push(1);
                 continue;
             }
 
-            if(value === "false"){
+            if (value === "false") {
                 stack_num.push(0);
                 continue;
             }
 
             if (!isOperator(value)) {
-                
+
                 if (dict_vars && dict_vars.has && dict_vars.has(value)) {
                     stack_num.push(dict_vars.get(value));
                     continue;
@@ -244,19 +244,19 @@ class Convert {
                 continue;
             }
 
-            if(value === "!"){
+            if (value === "!") {
                 const v = stack_num.pop();
-                if(v){
+                if (v) {
                     stack_num.push(0);
                     continue;
                 }
-                else{
+                else {
                     stack_num.push(1);
                     continue;
                 }
             }
 
-            if(value === "[]"){
+            if (value === "[]") {
                 if (stack_num.length < 2) {
                     return null;
                 }
@@ -264,9 +264,9 @@ class Convert {
                 const arr_name = stack_num.pop();
                 const arr = arrays.get(arr_name);
                 if (!arr || !Array.isArray(arr)) return null;
-                else if( index < 0 || arr.length <= index) return null;
+                else if (index < 0 || arr.length <= index) return null;
                 else stack_num.push(arr[index]);
-                    
+
             }
 
             const second_number = stack_num.pop();
@@ -278,14 +278,14 @@ class Convert {
             else if (value === "/") stack_num.push(Math.trunc(first_number / second_number));
             else if (value === "%") stack_num.push(first_number % second_number);
 
-            else if(value === ">") stack_num.push(first_number > second_number ? 1 : 0);
-            else if(value === ">=") stack_num.push(first_number >= second_number ? 1 : 0);
-            else if(value === "<") stack_num.push(first_number < second_number ? 1 : 0);
-            else if(value === "<=") stack_num.push(first_number <= second_number ? 1 : 0);
-            else if(value === "==") stack_num.push(first_number === second_number ? 1 : 0);
-            else if(value === "!=") stack_num.push(first_number !== second_number ? 1 : 0);
-            else if(value === "&&") stack_num.push((first_number === 1 && second_number === 1) ? 1 : 0);
-            else if(value === "||") stack_num.push((first_number === 1  || second_number === 1) ? 1 : 0);
+            else if (value === ">") stack_num.push(first_number > second_number ? 1 : 0);
+            else if (value === ">=") stack_num.push(first_number >= second_number ? 1 : 0);
+            else if (value === "<") stack_num.push(first_number < second_number ? 1 : 0);
+            else if (value === "<=") stack_num.push(first_number <= second_number ? 1 : 0);
+            else if (value === "==") stack_num.push(first_number === second_number ? 1 : 0);
+            else if (value === "!=") stack_num.push(first_number !== second_number ? 1 : 0);
+            else if (value === "&&") stack_num.push((first_number === 1 && second_number === 1) ? 1 : 0);
+            else if (value === "||") stack_num.push((first_number === 1 || second_number === 1) ? 1 : 0);
         }
 
         return stack_num[0];
@@ -298,7 +298,7 @@ class Convert {
      * @returns {Set}
      */
     static convertNewVarNames(str) {
-        let names = new Set (str.split(',').map(s => s.trim()).filter(name => name !== ''));
+        let names = new Set(str.split(',').map(s => s.trim()).filter(name => name !== ''));
 
         if (names.size === 0) {
             return new Set();
@@ -311,7 +311,7 @@ class Convert {
             if (Block.potentialVariables.includes(name)) {
                 return new Set();
             }
-        }   
+        }
 
         return names;
     }
@@ -323,9 +323,10 @@ class Convert {
      */
     static convertVarNames(str) {
         let names = new Set(str.split(',').map(s => s.trim()).filter(name => name !== ''));
+        return names;
 
         if (names.size === 0) return new Set();
-        
+
         for (const name of names) {
             if (!Convert.isVariable(name)) {
                 return new Set();
@@ -333,7 +334,7 @@ class Convert {
             if (!Block.potentialVariables.includes(name)) {
                 return new Set();
             }
-        
+
         }
         return names;
     }
@@ -342,7 +343,7 @@ class Convert {
         let names = new Set(str.split(',').map(s => s.trim()).filter(name => name !== ''));
 
         if (names.size === 0) return new Set();
-        
+
         for (const name of names) {
             if (!Convert.isVariable(name)) {
                 return new Set();
@@ -350,11 +351,11 @@ class Convert {
             if (!Block.potentialArrays.includes(name)) {
                 return new Set();
             }
-        
+
         }
         return names;
     }
-    
+
 
     /**
      * @param {string} str
@@ -378,7 +379,7 @@ class Convert {
             if (t === ")") balance--;
             if (balance < 0) return null;
         }
-        if(balance !== 0) return null;
+        if (balance !== 0) return null;
 
         const rpn = Convert.transformation_to_RPN_and_bool(str);
 
@@ -387,13 +388,13 @@ class Convert {
         }
 
         for (let i = 0; i < tokens.length; i++) {
-        const t = tokens[i];
+            const t = tokens[i];
             if (Convert.isVariable(t)) {
                 if (i + 1 < tokens.length && tokens[i + 1] === "[") {
                     if (!Block.potentialArrays.includes(t)) {
                         return null;
                     }
-                } 
+                }
                 else {
                     if (!Block.potentialVariables.includes(t)) {
                         return null;
@@ -409,7 +410,7 @@ class Convert {
         if (a.length === 0) return false;
         const symbol0 = a[0];
         if (!((symbol0 >= "a" && symbol0 <= "z") || (symbol0 >= "A" && symbol0 <= "Z") || symbol0 === "_")) return false;
-        for (let i = 1; i < a.length; i++) {    
+        for (let i = 1; i < a.length; i++) {
             const symbol = a[i];
             if (!((symbol >= "a" && symbol <= "z") || (symbol >= "A" && symbol <= "Z") || symbol === "_" || (symbol >= "0" && symbol <= "9"))) return false;
         }
