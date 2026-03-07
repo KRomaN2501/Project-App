@@ -1,4 +1,4 @@
-ï»¿let blocksInStack = [];
+let blocksInStack = [];
 let activeBlock = null;
 let offsetX, offsetY;
 let isDragging = false;
@@ -28,7 +28,6 @@ function drop(ev) {
     newBlock.setAttribute('draggable', 'false');
 
     if (!draggedElement) return;
-    //let newBlockType = null;
 
     if (draggedElement.id === 'block-5' || draggedElement.id === 'block-6' ||
         draggedElement.id === 'block-7' || draggedElement.id === 'block-10' ||
@@ -53,9 +52,45 @@ function drop(ev) {
     newBlock.style.position = 'absolute';
 
     switch (draggedElement.id) {
-        case 'block-1':
-            new CreateVarBlock(newBlock);
+        // íà÷àëî êîíåö
+        case 'block-0': case 'block-1000':
+            blockLogic = new Block(newBlock);
             break;
+
+        // ïåğåìåííûå è ìàññèâû
+        case 'block-1':
+            blockLogic = new CreateVarBlock(newBlock);
+            break;
+        case 'block-2':
+            blockLogic = new AssignmentVarBlock(newBlock);
+            break;
+        case 'block-3': 
+            blockLogic = new CreateArrBlock(newBlock);
+            break;
+        case 'block-4': 
+            blockLogic = new AssignmentArrBlock(newBlock);
+            break;
+
+        // óñëîâÿè öèêëû 
+        case 'block-5':
+            blockLogic = new ConditionalBlock(newBlock);
+            break;
+        case 'block-7':
+            blockLogic = new ConditionalBlock_Else(newBlock);
+            break;
+        case 'block-6': case 'block-10':
+            blockLogic = new CyclicBlock(newBlock);
+            break;
+        // âûâîäû
+        case 'block-8':
+            blockLogic = new PrintVarBlock(newBlock);
+            break;
+        case 'block-9':
+            blockLogic = new PrintArrBlock(newBlock);
+            break;
+
+        default:
+            blockLogic = new Block(newBlock); 
     }
 
     blockLogic.type = draggedElement.id;
@@ -167,7 +202,7 @@ function onMouseUp(e) {
                 b.remove();
             });
 
-            console.log("Ğ¦ĞµĞ¿Ğ¾Ñ‡ĞºĞ° Ğ±Ğ»Ğ¾ĞºĞ¾Ğ² ÑƒĞ´Ğ°Ğ»ĞµĞ½Ğ°");
+            console.log("Öåïî÷êà áëîêîâ óäàëåíà");
         } else {
             blocksInStack.forEach(b => {
                 b.classList.remove('dragging');
@@ -321,7 +356,7 @@ function snapToBlock(block) {
                 updateContainerSize(target);
                 rebuildInnerConnections(target);
 
-                console.log("Ğ‘Ğ»Ğ¾Ğº Ğ²ÑÑ‚Ğ°Ğ²Ğ»ĞµĞ½ Ğ²Ğ½ÑƒÑ‚Ñ€ÑŒ ĞºĞ¾Ğ½Ñ‚ĞµĞ¹Ğ½ĞµÑ€Ğ°");
+                console.log("Áëîê âñòàâëåí âíóòğü êîíòåéíåğà");
                 snapped = true;
                 return;
             }
@@ -349,7 +384,7 @@ function snapToBlock(block) {
 
             if (targetObj && currentObj) {
                 targetObj.setNext(currentObj);
-                console.log("Ğ¡Ğ²ÑĞ·ÑŒ ÑƒÑÑ‚Ğ°Ğ½Ğ¾Ğ²Ğ»ĞµĞ½Ğ°: " + target.id + " -> " + block.id);
+                console.log("Ñâÿçü óñòàíîâëåíà: " + target.id + " -> " + block.id);
             }
 
             snapped = true;
