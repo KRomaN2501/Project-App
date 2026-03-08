@@ -7,7 +7,7 @@ class Convert {
      * @returns {number}
      */
 
-    static convertToNumber(str, dict_vars, arrays) {
+    static convertToNumber(str, dict_vars, arrays, min, max) { //min и max включительно
 
         const rpn_arr = Convert.transformation_to_RPN_and_bool(str);
         const result = Convert.count_RPN_and_bool(rpn_arr, dict_vars, arrays);
@@ -323,7 +323,6 @@ class Convert {
      */
     static convertVarNames(str) {
         let names = new Set(str.split(',').map(s => s.trim()).filter(name => name !== ''));
-        return names;
 
         if (names.size === 0) return new Set();
 
@@ -415,5 +414,9 @@ class Convert {
             if (!((symbol >= "a" && symbol <= "z") || (symbol >= "A" && symbol <= "Z") || symbol === "_" || (symbol >= "0" && symbol <= "9"))) return false;
         }
         return true;
+    }
+
+    static canConvertToNumber(str, dict_vars, arrays) {
+        return str;
     }
 }

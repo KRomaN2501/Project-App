@@ -7,13 +7,11 @@ class PrintVarBlock extends Block {
 
     /** @param {string} str */
     setNames(str) {
-        this.varNames = Convert.convertVarNames(str, false);  //Вернуть пустое множество, если невозможно
-        console.log(this.varNames);
+        this.varNames = Convert.convertVarNames(str, true);  //Вернуть пустое множество, если невозможно
     }
 
     _perform() {
         for (const name of this.varNames) {
-            console.log("ВЫВЕСТИ ЗНАЧЕНИЕ");
             Console.output(Block.variables.get(name));
         }
     }

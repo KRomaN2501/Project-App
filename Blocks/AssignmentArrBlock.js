@@ -14,35 +14,32 @@ class AssignmentArrBlock extends Block {
 
     /** @param {string} index */
     setIndex(index) {
-        this.arrIndex = Convert.convertToNumber(index); //вернуть null, если невозможно
+        this.arrIndex = Convert.canConvertToNumber(index, Block.variables, Block.arrays);
     }
 
     /** @param {string} value */
     setValue(value) {
-        this.arrValue = Convert.convertToNumber(value); //вернуть null, если невозможно
+        this.arrValue = Convert.canConvertToNumber(value, Block.variables, Block.arrays);
     }
 
     _perform() {
         if (this.arrIndex == null) {
-            console.log("нет индекса");
             this.setIndex(Console.input());
         }
         if (this.arrValue == null) {
-            console.log("нет значения");
             this.setValue(Console.input());
         }
 
-        let arrIndex = this.arrIndex ? this.arrIndex : 0;
-        let arrValue = this.arrValue ? this.arrValue : 0;
+        let maxIndex = 1e8;
+        for (const name of this.arrNames) {
+            maxIndex = Math.min(maxIndex, Block.arrays.get(name).length - 1);
+        }
+
+        let arrIndex = this.arrIndex ? Convert.convertToNumber(this.arrIndex, Block.variables, Block.arrays, 0, maxIndex) : 0;
+        let arrValue = this.arrValue ? Convert.convertToNumber(this.arrValue, Block.variables, Block.arrays) : 0;
 
         for (const name of this.arrNames) {
-            let arr = Block.arrays.get(name);
-
-            if (arrIndex < 1 || arrIndex >= arr.length) {
-                arr.push(arrValue);
-            } else {
-                arr[arrIndex] = arrValue;
-            }
+            Block.arrays.get(name)[arrIndex] = arrValue;
         }
     }
 }

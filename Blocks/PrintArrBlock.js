@@ -8,17 +8,17 @@ class PrintArrBlock extends Block {
 
     /** @param {string} str */
     setNames(str) {
-        this.arrNames = Convert.convertVarNames(str, false);  //Вернуть пустое множество, если невозможно
+        this.arrNames = Convert.convertVarNames(str, true);  //Вернуть пустое множество, если невозможно
     }
 
     /** @param {string} index */
     setIndex(index) {
-        this.arrIndex = Convert.convertToNumber(index); //вернуть null, если невозможно
+        this.arrIndex = Convert.canConvertToNumber(index, Block.variables, Block.arrays, 0); //вернуть null, если невозможно
     }
 
     _perform() {
         for (const name of this.arrNames) {
-            if (this.index >= 1 && this.index < Block.arrays.get(name).length) Console.output(Block.arrays.get(name)[this.index]);
+            if (this.arrIndex && this.arrIndex < Block.arrays.get(name).length) Console.output(Block.arrays.get(name)[this.arrIndex]);
         }
     }
 }

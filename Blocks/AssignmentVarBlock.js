@@ -13,13 +13,13 @@ class AssignmentVarBlock extends Block {
 
     /** @param {string} value */
     setValue(value) {
-        this.varValue = Convert.convertToNumber(value, Block.variables, Block.arrays); //вернуть null, если невозможно
+        this.varValue = Convert.canConvertToNumber(value, Block.variables, Block.arrays); //вернуть null, если невозможно, иначе ту же строку
     }
 
     _perform() {
         if (this.varValue == null) {
             this.setValue(Console.input());
         }
-        this.varNames.forEach(name => Block.variables.set(name, this.varValue ? this.varValue : 0));
+        this.varNames.forEach(name => Block.variables.set(name, this.varValue ? Convert.convertToNumber(this.varValue, Block.variables, Block.arrays) : 0));
     }
 }

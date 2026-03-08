@@ -29,6 +29,10 @@ class Block {
     }
 
     delete() {
+        if (Block.startBlock == this) {
+            Block.startBlock = null;
+        }
+
         const index = this.index;
 
         Block.allBlocks.splice(index, 1);
