@@ -47,7 +47,6 @@ function InputAreaInBlocks(logic, domElement) {
         });
     });
 }
-//�����
 
 
 
@@ -68,7 +67,6 @@ function InputAreaInConsole() {
         }
     });
 }
-//����� 
 
 
 
@@ -87,5 +85,16 @@ function clearOutput() {
 
     if (outputField) {
         outputField.value = "";
+    }
+}
+
+function updateBlockInput(logic, index, newText) {
+    const blockVisual = logic.domElement; 
+    const inputs = blockVisual.querySelectorAll('.block-input');
+
+    if (inputs[index]) {
+        inputs[index].value = newText;
+        inputs[index].dispatchEvent(new Event('change'));
+        console.log('Обновлено поле ввода на блоке');
     }
 }
