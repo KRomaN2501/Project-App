@@ -419,4 +419,8 @@ class Convert {
     static canConvertToNumber(str, dict_vars, arrays) {
         return str;
     }
+
+    static canConvertToCondition(str, dict_vars, arrays) {
+        return str;
+    }
 }
