@@ -9,17 +9,26 @@ class AssignmentArrBlock extends Block {
     /** @param {string} str */
     setNames(str) {
         let names = Convert.convertArrNames(str, true); //Вернуть пустое множество, если невозможно
+        if (names.size == 0) {
+            updateBlockInputError(this, 0, "");
+        }
         this.arrNames = names;
     }
 
     /** @param {string} index */
     setIndex(index) {
         this.arrIndex = Convert.canConvertToNumber(index, Block.variables, Block.arrays);
+        if (this.arrIndex == null) {
+            updateBlockInputError(this, 0, "");
+        }
     }
 
     /** @param {string} value */
     setValue(value) {
         this.arrValue = Convert.canConvertToNumber(value, Block.variables, Block.arrays);
+        if (this.arrIndex == null) {
+            updateBlockInputError(this, 0, "");
+        }
     }
 
     _perform() {

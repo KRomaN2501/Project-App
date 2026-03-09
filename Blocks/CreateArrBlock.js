@@ -9,9 +9,10 @@ class CreateArrBlock extends Block {
     /** @param {string} str */
     setNames(str) {
         Block.potentialArrays = Block.potentialArrays.filter(item => !this.arrNames.has(item))
-        //let names = Convert.convertArrNames(str, false);  //Вернуть пустое множество, если невозможно
-        let names = new Set(); //временно
-        names.add(str); // временно
+        let names = Convert.convertArrNames(str, false);  //Вернуть пустое множество, если невозможно
+        if (names.size == 0) {
+            updateBlockInputError(this, 0, "");
+        }
         this.arrNames = names;
         this.arrNames.forEach(name => Block.potentialArrays.push(name))
     }
@@ -19,6 +20,9 @@ class CreateArrBlock extends Block {
     /** @param {string} num */
     setSize(num) {
         this.size = Convert.canConvertToNumber(num, Block.variables, Block.arrays);
+        if (this.size == null) {
+            updateBlockInputError(this, 0, "");
+        }
     }
 
     _perform() {

@@ -2,6 +2,11 @@ function InputAreaInBlocks(logic, domElement) {
     const inputs = domElement.querySelectorAll('.block-input');
 
     inputs.forEach((input, index) => {
+
+        input.addEventListener('focus', () => {
+            input.style.color = '';
+        });
+
         input.addEventListener('change', () => {
             const text = input.value;
 
@@ -88,13 +93,12 @@ function clearOutput() {
     }
 }
 
-function updateBlockInput(logic, index, newText) {
-    const blockVisual = logic.domElement; 
+function updateBlockInputError(logic, index) {
+    const blockVisual = logic.domElement;
     const inputs = blockVisual.querySelectorAll('.block-input');
 
     if (inputs[index]) {
-        inputs[index].value = newText;
-        inputs[index].dispatchEvent(new Event('change'));
-        console.log('Обновлено поле ввода на блоке');
+        inputs[index].style.color = 'red';
+        Console.output("Ошибка");
     }
 }

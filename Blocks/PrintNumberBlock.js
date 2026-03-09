@@ -8,6 +8,9 @@ class PrintNumberBlock extends Block {
     /** @param {string} num */
     setNumber(num) {
         this.number = Convert.canConvertToNumber(num, Block.variables, Block.arrays);
+        if (this.number == null) {
+            updateBlockInputError(this, 0, "");
+        }
     }
 
     _perform() {

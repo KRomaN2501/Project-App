@@ -8,6 +8,9 @@ class PrintVarBlock extends Block {
     /** @param {string} str */
     setNames(str) {
         this.varNames = Convert.convertVarNames(str, true);  //Вернуть пустое множество, если невозможно
+        if (this.varNames.size == 0) {
+            updateBlockInputError(this, 0, "");
+        }
     }
 
     _perform() {
