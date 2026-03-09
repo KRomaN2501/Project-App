@@ -88,6 +88,9 @@ function drop(ev) {
         case 'block-9':
             blockLogic = new PrintArrBlock(newBlock);
             break;
+        case 'block-13':
+            blockLogic = new PrintNumberBlock(newBlock);
+            break;
 
         default:
             blockLogic = new Block(newBlock);
