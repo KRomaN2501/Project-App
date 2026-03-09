@@ -14,7 +14,7 @@ class ConditionalBlock extends BlockContainer {
         let truthCondition = Convert.convertToBool(this.condition);
         if (truthCondition == null) truthCondition = false;
         if (truthCondition) {
-            this.innerBlock.activate();
+            if (this.innerBlock) this.innerBlock.activate();
         }
         if (this.nextBlock instanceof ConditionalBlock_Else) this.nextBlock.setIsActivate(!truthCondition);
     }

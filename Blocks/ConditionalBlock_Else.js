@@ -11,6 +11,6 @@ class ConditionalBlock_Else extends BlockContainer {
     }
 
     _perform() {
-        if (this.isActivate) this.innerBlock.activate();
+        if (this.isActivate ? this.isActivate : false) this.innerBlock.activate();
     }
 }

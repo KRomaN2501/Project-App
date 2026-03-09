@@ -4,11 +4,19 @@ class Block {
     static variables = new Map();
     static potentialVariables = [];
 
-    constructor(domElement) {
-        this.nextBlock = null
+    static arrays = new Map();
+    static potentialArrays = [];
+
+    static startBlock = null;
+
+    constructor(domElement, start) {
+        if (!Block.startBlock && start) {
+            Block.startBlock = this;
+        }
+        this.nextBlock = null;
         this.domElement = domElement;
-        block.index = Block.allBlocks.length;
-        Block.allBlocks.push(block);
+        this.index = Block.allBlocks.length;
+        Block.allBlocks.push(this);
     }
 
     /** @param {Block} block */
@@ -21,6 +29,10 @@ class Block {
     }
 
     delete() {
+        if (Block.startBlock == this) {
+            Block.startBlock = null;
+        }
+
         const index = this.index;
 
         Block.allBlocks.splice(index, 1);

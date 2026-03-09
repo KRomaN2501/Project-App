@@ -28,7 +28,6 @@ function drop(ev) {
     newBlock.setAttribute('draggable', 'false');
 
     if (!draggedElement) return;
-    //let newBlockType = null;
 
     if (draggedElement.id === 'block-5' || draggedElement.id === 'block-6' ||
         draggedElement.id === 'block-7' || draggedElement.id === 'block-10' ||
@@ -53,9 +52,48 @@ function drop(ev) {
     newBlock.style.position = 'absolute';
 
     switch (draggedElement.id) {
+        // ������ �����
+        case 'block-0': case 'block-1000':
+            blockLogic = new Block(newBlock, true);
+            break;
+
+        // ���������� � �������
         case 'block-1':
-            new CreateVarBlock(newBlock);
+            blockLogic = new CreateVarBlock(newBlock);
+            break;
+        case 'block-2':
+            blockLogic = new AssignmentVarBlock(newBlock);
+            break;
+        case 'block-3':
+            blockLogic = new CreateArrBlock(newBlock);
+            break;
+        case 'block-4':
+            blockLogic = new AssignmentArrBlock(newBlock);
+            break;
+
+        // ������� ����� 
+        case 'block-5':
+            blockLogic = new ConditionalBlock(newBlock);
+            break;
+        case 'block-7':
+            blockLogic = new ConditionalBlock_Else(newBlock);
+            break;
+        case 'block-6': case 'block-10':
+            blockLogic = new CyclicBlock(newBlock);
+            break;
+        // ������
+        case 'block-8':
+            blockLogic = new PrintVarBlock(newBlock);
+            break;
+        case 'block-9':
+            blockLogic = new PrintArrBlock(newBlock);
+            break;
+
+        default:
+            blockLogic = new Block(newBlock);
     }
+
+    InputAreaInBlocks(blockLogic, newBlock)
 
     blockLogic.type = draggedElement.id;
 
@@ -166,7 +204,7 @@ function onMouseUp(e) {
                 b.remove();
             });
 
-            console.log("Цепочка блоков удалена");
+            console.log("������� ������ �������");
         } else {
             blocksInStack.forEach(b => {
                 b.classList.remove('dragging');
@@ -320,7 +358,7 @@ function snapToBlock(block) {
                 updateContainerSize(target);
                 rebuildInnerConnections(target);
 
-                console.log("Блок вставлен внутрь контейнера");
+                console.log("���� �������� ������ ����������");
                 snapped = true;
                 return;
             }
@@ -348,7 +386,7 @@ function snapToBlock(block) {
 
             if (targetObj && currentObj) {
                 targetObj.setNext(currentObj);
-                console.log("Связь установлена: " + target.id + " -> " + block.id);
+                console.log("����� �����������: " + target.id + " -> " + block.id);
             }
 
             snapped = true;

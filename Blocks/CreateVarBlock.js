@@ -9,12 +9,20 @@ class CreateVarBlock extends Block {
 
     /** @param {string} str */
     setNames(str) {
-        let names = Convert.convertNewVarNames(str);  //Вернуть пустое множество, если невозможно
+        Block.potentialVariables = Block.potentialVariables.filter(item => !this.varNames.has(item))
+        //let names = Convert.convertVarNames(str, false);  //Вернуть пустое множество, если невозможно
+        let names = new Set(); //временно
+        names.add(str); // временно
         this.varNames = names;
-        this.varNames.forEach(name => Block.potentialVariables.push(name))
+        this.varNames.forEach(name => Block.potentialVariables.push(name));
     }
 
     _perform() {
         this.varNames.forEach(name => Block.variables.set(name, defaultValue));
+    }
+
+    delete() {
+        Block.potentialVariables = Block.potentialVariables.filter(item => !this.varNames.has(item));
+        super.delete();
     }
 }
