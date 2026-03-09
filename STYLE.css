@@ -298,7 +298,8 @@ input[type="text"] {
     border-top: 2px dashed #C6B7CC;
     font-family: "Press Start 2P", system-ui;
     font-size: 12px;
-    color: #C6B7CC;
+    /* color: #C6B7CC; */
+    color: black;
     margin-bottom: 10px;
     border-radius: 8px;
     display: flex;
@@ -316,6 +317,7 @@ input[type="text"] {
 }
 #output-field {
     cursor: default;
+    color: black;
 }
 
 /* раскрашиваю блоки в разные цвета */
@@ -452,12 +454,20 @@ input[type="text"] {
 .block[id="block-9"], .block[data-block-type="block-9"] {
     background-color: #D1EFBD !important;
 }
-
+/* 
     .block[data-block-type="block-9"] input {
         text-align: center;
-    }
+    } */
 
 
+    .block[id="block-13"], .block[data-block-type="block-13"] {
+    background-color: #D1EFBD !important;
+}
+
+#code-area .block[data-block-type="block-13"] .block-input {
+    border: 1px solid rgba(0,0,0,0.1);
+    background: white;
+}
 /*
 #code-area .block[data-block-type="block-6"] .inner-container,
 #code-area .block[data-block-type="block-10"] .inner-container,
