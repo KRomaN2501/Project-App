@@ -11,6 +11,7 @@ class CreateVarBlock extends Block {
     setNames(str) {
         Block.potentialVariables = Block.potentialVariables.filter(item => !this.varNames.has(item))
         //let names = Convert.convertVarNames(str, false);  //Вернуть пустое множество, если невозможно
+
         let names = new Set(); //временно
         names.add(str); // временно
         this.varNames = names;

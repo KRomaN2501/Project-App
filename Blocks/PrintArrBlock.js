@@ -8,7 +8,7 @@ class PrintArrBlock extends Block {
 
     /** @param {string} str */
     setNames(str) {
-        this.arrNames = Convert.convertVarNames(str, true);  //Вернуть пустое множество, если невозможно
+        this.arrNames = Convert.convertArrNames(str, true);  //Вернуть пустое множество, если невозможно
     }
 
     /** @param {string} index */

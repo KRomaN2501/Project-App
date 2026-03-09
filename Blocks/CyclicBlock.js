@@ -7,11 +7,11 @@ class CyclicBlock extends BlockContainer {
 
     /** @param {string} condition */
     setCondition(condition) {
-        this.condition = Convert.convertCondition(condition); //вернуть null если невозможно, иначе это же условие
+        this.condition = Convert.convertCondition(condition, Block.variables, Block.arrays); //вернуть null если невозможно, иначе это же условие
     }
 
     _perform() {
-        while (Convert.convertToBool(this.condition) != null ? Convert.convertToBool(this.condition) : false) {
+        while ((Convert.convertToBool(this.condition, Block.variables, Block.arrays) != null) ? Convert.convertToBool(this.condition, Block.variables, Block.arrays) : false) {
             this.innerBlock.activate();
         }
     }

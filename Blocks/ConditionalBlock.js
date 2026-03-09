@@ -7,11 +7,11 @@ class ConditionalBlock extends BlockContainer {
 
     /** @param {string} condition */
     setCondition(condition) {
-        this.condition = Convert.convertCondition(condition); //вернуть null если невозможно, иначе это же условие
+        this.condition = Convert.convertCondition(condition, Block.variables, Block.arrays); //вернуть null если невозможно, иначе это же условие
     }
 
     _perform() {
-        let truthCondition = Convert.convertToBool(this.condition);
+        let truthCondition = Convert.convertToBool(this.condition, Block.variables, Block.arrays);
         if (truthCondition == null) truthCondition = false;
         if (truthCondition) {
             if (this.innerBlock) this.innerBlock.activate();
