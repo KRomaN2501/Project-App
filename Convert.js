@@ -7,11 +7,12 @@ class Convert {
      * @returns {number}
      */
 
-    static convertToNumber(str, dict_vars, arrays, min, max) { //min и max включительно
-
+    static convertToNumber(str, dict_vars, arrays, min = null, max = null) { //min и max включительно
         const rpn_arr = Convert.transformation_to_RPN_and_bool(str);
         const result = Convert.count_RPN_and_bool(rpn_arr, dict_vars, arrays);
-        return result;
+        if(min === null && max === null) return result;
+        else if (result >= min && result <= max) return result;
+        else return null;
     }
 
     /**
@@ -293,62 +294,46 @@ class Convert {
 
     //Реализация проверок
 
-    /**
-     * @param {string} str
-     * @returns {Set}
-     */
-    static convertNewVarNames(str) {
-        let names = new Set(str.split(',').map(s => s.trim()).filter(name => name !== ''));
-
-        if (names.size === 0) {
-            return new Set();
-        }
-
-        for (const name of names) {
-            if (!Convert.isVariable(name)) {
-                return new Set();
-            }
-            if (Block.potentialVariables.includes(name)) {
-                return new Set();
-            }
-        }
-
-        return names;
-    }
 
 
     /**
      * @param {string} str
      * @returns {Set}
      */
-    static convertVarNames(str) {
+    static convertVarNames(str, check_bool) {
         let names = new Set(str.split(',').map(s => s.trim()).filter(name => name !== ''));
-
         if (names.size === 0) return new Set();
 
         for (const name of names) {
             if (!Convert.isVariable(name)) {
                 return new Set();
             }
-            if (!Block.potentialVariables.includes(name)) {
-                return new Set();
+            const boool = Block.potentialVariables.includes(name);
+            if(check_bool) {
+                if(!boool) return new Set();
+            }
+            else{
+                if(boool) return new Set();
             }
 
         }
         return names;
     }
 
-    static convertArrNames(str) {
+    static convertArrNames(str, check_bool) {
         let names = new Set(str.split(',').map(s => s.trim()).filter(name => name !== ''));
-
         if (names.size === 0) return new Set();
 
         for (const name of names) {
             if (!Convert.isVariable(name)) {
                 return new Set();
             }
-            if (!Block.potentialArrays.includes(name)) {
-                return new Set();
+            const boool = Block.potentialArrays.includes(name);
+            if(check_bool) {
+                if(!boool) return new Set();
+            }
+            else{
+                if(boool) return new Set();
             }
 
         }
