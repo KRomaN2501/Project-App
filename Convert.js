@@ -110,7 +110,7 @@ class Convert {
         const rigth_str = Convert.transformation(str_);
         const out = [];
         const stack_op = [];
-        const priority = { "||": 1, "&&": 2, "!=": 3, "==": 3, ">=": 4, ">": 4, "<=": 4, "<": 4, "+": 5, "-": 5, "*": 6, "/": 7, "%": 7, "!": 8, "[]": 9 };
+        const priority = { "||": 1, "&&": 2, "!=": 3, "==": 3, ">=": 4, ">": 4, "<=": 4, "<": 4, "+": 5, "-": 5, "*": 6, "/": 6, "%": 6, "!": 7, "[]": 8 };
 
         function isOperator(a) {
             return (a === "+" || a === "-" || a === "/" || a === "%" || a === "*" ||
@@ -201,7 +201,7 @@ class Convert {
             return (a === "+" || a === "-" || a === "/" || a === "%" || a === "*" ||
                 a === ">" || a === "<" || a === ">=" || a === "<=" ||
                 a === "==" || a === "!=" || a === "!" ||
-                a === "&&" || a === "||");
+                a === "&&" || a === "||" || a === "[]");
         }
 
         function isNumber(a) {
@@ -213,6 +213,19 @@ class Convert {
         }
 
         for (const value of rpn_arr) {
+
+                if (value === "[]") {
+                if (stack_num.length < 2) {
+                     return null;
+                }
+                const index = Number(stack_num.pop());
+                const arr_name = stack_num.pop();
+                const arr = arrays.get(arr_name);
+                if (!Array.isArray(arr)) return null;
+                else if (index < 0 || arr.length <= index) return null;
+                stack_num.push(arr[index] );
+                continue;
+            }
 
             if (isNumber(value)) {
                 stack_num.push(parseInt(value, 10));
@@ -229,22 +242,6 @@ class Convert {
                 continue;
             }
 
-            if (!isOperator(value)) {
-
-                if (dict_vars && dict_vars.has && dict_vars.has(value)) {
-                    stack_num.push(dict_vars.get(value));
-                    continue;
-                }
-
-                if (arrays && arrays.has && arrays.has(value)) {
-                    stack_num.push(arrays.get(value));
-                    continue;
-                }
-
-                stack_num.push(0);
-                continue;
-            }
-
             if (value === "!") {
                 const v = stack_num.pop();
                 if (v) {
@@ -257,17 +254,17 @@ class Convert {
                 }
             }
 
-            if (value === "[]") {
-                if (stack_num.length < 2) {
-                    return null;
+            if (!isOperator(value))  {
+                if (arrays && arrays.has && arrays.has(value)) {
+                    stack_num.push(value);
+                    continue;
                 }
-                const index = stack_num.pop();
-                const arr_name = stack_num.pop();
-                const arr = arrays.get(arr_name);
-                if (!arr || !Array.isArray(arr)) return null;
-                else if (index < 0 || arr.length <= index) return null;
-                else stack_num.push(arr[index]);
-
+                if (dict_vars && dict_vars.has && dict_vars.has(value)) {
+                    stack_num.push(dict_vars.get(value));
+                    continue;
+                }
+                stack_num.push(0);
+                continue;
             }
 
             const second_number = stack_num.pop();
@@ -276,9 +273,14 @@ class Convert {
             if (value === "+") stack_num.push(first_number + second_number);
             else if (value === "-") stack_num.push(first_number - second_number);
             else if (value === "*") stack_num.push(first_number * second_number);
-            else if (value === "/") stack_num.push(Math.trunc(first_number / second_number));
-            else if (value === "%") stack_num.push(first_number % second_number);
-
+            else if (value === "/") {
+                if (second_number === 0) return null;
+                stack_num.push(Math.trunc(first_number / second_number));
+            }
+            else if (value === "%") {
+                if (second_number === 0) return null;
+                stack_num.push(first_number % second_number);
+            }
             else if (value === ">") stack_num.push(first_number > second_number ? 1 : 0);
             else if (value === ">=") stack_num.push(first_number >= second_number ? 1 : 0);
             else if (value === "<") stack_num.push(first_number < second_number ? 1 : 0);
