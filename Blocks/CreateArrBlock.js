@@ -26,7 +26,7 @@ class CreateArrBlock extends Block {
     }
 
     _perform() {
-        if (this.size) this.arrNames.forEach(name => Block.arrays.set(name, new Array(Convert.convertToNumber(this.size, Block.variables, Block.arrays, 1, 100)).fill(0)));
+        if (this.size) this.arrNames.forEach(name => Block.arrays.set(name, new Array(Convert.convertToNumber(this.size, Block.variables, Block.arrays, 1, 1e8)).fill(0)));
     }
 
     delete() {
