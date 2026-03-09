@@ -35,11 +35,11 @@ class AssignmentArrBlock extends Block {
             maxIndex = Math.min(maxIndex, Block.arrays.get(name).length - 1);
         }
 
-        let arrIndex = this.arrIndex ? Convert.convertToNumber(this.arrIndex, Block.variables, Block.arrays, 0, maxIndex) : 0;
-        let arrValue = this.arrValue ? Convert.convertToNumber(this.arrValue, Block.variables, Block.arrays) : 0;
+        let arrIndexNumber = this.arrIndex ? Convert.convertToNumber(this.arrIndex, Block.variables, Block.arrays, 0, maxIndex) : 0;
+        let arrValueNumber = this.arrValue ? Convert.convertToNumber(this.arrValue, Block.variables, Block.arrays) : 0;
 
         for (const name of this.arrNames) {
-            Block.arrays.get(name)[arrIndex] = arrValue;
+            Block.arrays.get(name)[arrIndexNumber] = arrValueNumber;
         }
     }
 }

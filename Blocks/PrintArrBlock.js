@@ -18,7 +18,12 @@ class PrintArrBlock extends Block {
 
     _perform() {
         for (const name of this.arrNames) {
-            if (this.arrIndex && this.arrIndex < Block.arrays.get(name).length) Console.output(Block.arrays.get(name)[this.arrIndex]);
+            let maxIndex = 1e8;
+            for (const name of this.arrNames) {
+                maxIndex = Math.min(maxIndex, Block.arrays.get(name).length - 1);
+            }
+            let arrIndexNumber = this.arrIndex ? Convert.convertToNumber(this.arrIndex, Block.variables, Block.arrays, 0, maxIndex) : 0;
+            Console.output(Block.arrays.get(name)[arrIndexNumber]);
         }
     }
 }
