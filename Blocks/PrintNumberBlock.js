@@ -14,6 +14,6 @@ class PrintNumberBlock extends Block {
     }
 
     _perform() {
-        if (this.number) Console.output(Convert.convertToNumber(this.number));
+        if (this.number) Console.output(Convert.convertToNumber(this.number, Block.variables, Block.arrays));
     }
 }
