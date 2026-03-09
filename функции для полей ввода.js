@@ -39,7 +39,11 @@ function InputAreaInBlocks(logic, domElement) {
                 logic.setCondition(text);
             }
 
-            if (logic instanceof PrintVarBlock) {
+            else if (logic instanceof PrintVarBlock) {
+                logic.setNames(text);
+            }
+
+            else if (logic instanceof PrintNumberBlock) {
                 logic.setNames(text);
             }
 
