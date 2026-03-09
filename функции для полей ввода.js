@@ -44,7 +44,7 @@ function InputAreaInBlocks(logic, domElement) {
             }
 
             else if (logic instanceof PrintNumberBlock) {
-                logic.setNames(text);
+                logic.setNumber(text);
             }
 
             else if (logic instanceof PrintArrBlock) {
