@@ -10,7 +10,7 @@ class Convert {
     static convertToNumber(str, dict_vars, arrays, min = null, max = null) { //min и max включительно
         const rpn_arr = Convert.transformation_to_RPN_and_bool(str);
         const result = Convert.count_RPN_and_bool(rpn_arr, dict_vars, arrays);
-        if(min === null && max === null) return result;
+        if (min === null && max === null) return result;
         else if (result >= min && result <= max) return result;
         else return null;
     }
@@ -214,16 +214,16 @@ class Convert {
 
         for (const value of rpn_arr) {
 
-                if (value === "[]") {
+            if (value === "[]") {
                 if (stack_num.length < 2) {
-                     return null;
+                    return null;
                 }
                 const index = Number(stack_num.pop());
                 const arr_name = stack_num.pop();
                 const arr = arrays.get(arr_name);
                 if (!Array.isArray(arr)) return null;
                 else if (index < 0 || arr.length <= index) return null;
-                stack_num.push(arr[index] );
+                stack_num.push(arr[index]);
                 continue;
             }
 
@@ -254,7 +254,7 @@ class Convert {
                 }
             }
 
-            if (!isOperator(value))  {
+            if (!isOperator(value)) {
                 if (arrays && arrays.has && arrays.has(value)) {
                     stack_num.push(value);
                     continue;
@@ -311,11 +311,11 @@ class Convert {
                 return new Set();
             }
             const boool = Block.potentialVariables.includes(name);
-            if(check_bool) {
-                if(!boool) return new Set();
+            if (check_bool) {
+                if (!boool) return new Set();
             }
-            else{
-                if(boool) return new Set();
+            else {
+                if (boool) return new Set();
             }
 
         }
@@ -331,11 +331,11 @@ class Convert {
                 return new Set();
             }
             const boool = Block.potentialArrays.includes(name);
-            if(check_bool) {
-                if(!boool) return new Set();
+            if (check_bool) {
+                if (!boool) return new Set();
             }
-            else{
-                if(boool) return new Set();
+            else {
+                if (boool) return new Set();
             }
 
         }
@@ -403,11 +403,22 @@ class Convert {
         return true;
     }
 
-    static canConvertToNumber(str, dict_vars, arrays) {
-        return str;
+    static convertToVarNames(str, dict_vars, included) {
+        return new Set();
     }
-
-    static canConvertToCondition(str, dict_vars, arrays) {
-        return str;
+    static convertToArrNames(str, arrays, included) {
+        return new Set();
+    }
+    static canConvertToArrNames(str, arrays, included) {
+        return true;
+    }
+    static canConvertToVarNames(str, dict_vars, included) {
+        return true;
+    }
+    static canConvertToNumber(str, dict_vars, arrays, min, max) {
+        return true;
+    }
+    static canConvertToBool(str, dict_vars, arrays) {
+        return true;
     }
 }

@@ -7,13 +7,13 @@ class PrintNumberBlock extends Block {
 
     /** @param {string} num */
     setNumber(num) {
-        this.number = Convert.canConvertToNumber(num, Block.variables, Block.arrays);
-        if (this.number == null) {
+        this.number = str;
+        if (!Convert.canConvertToNumber(num, Block.variables, Block.arrays)) {
             updateBlockInputError(this, 0, "");
         }
     }
 
     _perform() {
-        if (this.number) Console.output(Convert.convertToNumber(this.number, Block.variables, Block.arrays));
+        Console.output(Convert.convertToNumber(this.number, Block.variables, Block.arrays));
     }
 }

@@ -4,22 +4,26 @@ class CreateVarBlock extends Block {
 
     constructor(domElement) {
         super(domElement);
-        this.varNames = new Set();
+        this.varNames = null;
     }
 
     /** @param {string} str */
     setNames(str) {
-        Block.potentialVariables = Block.potentialVariables.filter(item => !this.varNames.has(item))
-        let names = Convert.convertVarNames(str, false);  //Вернуть пустое множество, если невозможно
-        if (names.size == 0) {
+        let varNamesSet = Convert.convertToVarNames(this.varNames, Block.variables, true);
+        Block.potentialVariables = Block.potentialVariables.filter(item => !varNamesSet.has(item));
+
+        this.varNames = str;
+        if (!Convert.canConvertToVarNames(str, Block.variables, false)) {
             updateBlockInputError(this, 0, "");
         }
-        this.varNames = names;
+
+        varNamesSet = Convert.convertToVarNames(this.arrNames, Block.variables, false);
         this.varNames.forEach(name => Block.potentialVariables.push(name));
     }
 
     _perform() {
-        this.varNames.forEach(name => Block.variables.set(name, defaultValue));
+        let varNamesSet = Convert.convertToVarNames(this.varNames, Block.variables, true);
+        varNamesSet.forEach(name => Block.variables.set(name, defaultValue));
     }
 
     delete() {
