@@ -411,18 +411,18 @@ class Convert {
             if (!Convert.isVariable(name)) {
                 return new Set();
             }
-            const boool = dict_vars.includes(name);
-            if (included) {
-                if (!boool) return new Set();
-            }
-            else {
-                if (boool) return new Set();
-            }
+            // const boool = dict_vars.includes(name);
+            // if (included) {
+            //     if (!boool) return new Set();
+            // }
+            // else {
+            //     if (boool) return new Set();
+            // }
 
         }
         return names;
     }
-    static convertToArrNames(str, arrays, included) {
+    static convertToArrNames(str) {
         let names = new Set(str.split(',').map(s => s.trim()).filter(name => name !== ''));
         if (names.size === 0) return new Set();
 
@@ -430,13 +430,13 @@ class Convert {
             if (!Convert.isVariable(name)) {
                 return new Set();
             }
-            const boool = arrays.includes(name);
-            if (included) {
-                if (!boool) return new Set();
-            }
-            else {
-                if (boool) return new Set();
-            }
+            // const boool = arrays.includes(name);
+            // if (included) {
+            //     if (!boool) return new Set();
+            // }
+            // else {
+            //     if (boool) return new Set();
+            // }
 
         }
         return names;

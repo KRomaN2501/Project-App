@@ -4,30 +4,37 @@ class CreateVarBlock extends Block {
 
     constructor(domElement) {
         super(domElement);
-        this.varNames = null;
+        this.varNames = "";
     }
 
     /** @param {string} str */
     setNames(str) {
-        let varNamesSet = Convert.convertToVarNames(this.varNames, Block.variables, true);
+        let varNamesSet = Convert.convertToVarNames(this.varNames);
         Block.potentialVariables = Block.potentialVariables.filter(item => !varNamesSet.has(item));
 
         this.varNames = str;
-        if (!Convert.canConvertToVarNames(str, Block.variables, false)) {
+        if (!Convert.canConvertToVarNames(str, Block.potentialVariables, false)) {
             updateBlockInputError(this, 0, "");
         }
 
-        varNamesSet = Convert.convertToVarNames(this.arrNames, Block.variables, false);
-        this.varNames.forEach(name => Block.potentialVariables.push(name));
+        varNamesSet = Convert.convertToVarNames(this.varNames);
+        varNamesSet.forEach(name => Block.potentialVariables.push(name));
     }
 
     _perform() {
-        let varNamesSet = Convert.convertToVarNames(this.varNames, Block.variables, true);
+        if (!Convert.canConvertToVarNames(this.varNames, [...Block.variables.values()], false)) {
+            Console.output("Ошибка");
+            return;
+        }
+        let varNamesSet = Convert.convertToVarNames(this.varNames);
         varNamesSet.forEach(name => Block.variables.set(name, defaultValue));
     }
 
     delete() {
-        Block.potentialVariables = Block.potentialVariables.filter(item => !this.varNames.has(item));
+        if (Convert.canConvertToVarNames(this.varNames, [...Block.variables.values()], false)) {
+            let varNamesSet = Convert.convertToVarNames(this.varNames);
+            Block.potentialVariables = Block.potentialVariables.filter(item => !varNamesSet.has(item));
+        }
         super.delete();
     }
 }

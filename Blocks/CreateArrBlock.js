@@ -2,40 +2,46 @@ class CreateArrBlock extends Block {
 
     constructor(domElement) {
         super(domElement);
-        this.arrNames = null;
+        this.arrNames = "";
         this.size = null;
     }
 
     /** @param {string} str */
     setNames(str) {
-        let arrNamesSet = Convert.convertToArrNames(this.arrNames, Block.arrays, false);
+        let arrNamesSet = Convert.convertToArrNames(this.arrNames);
         Block.potentialArrays = Block.potentialArrays.filter(item => !arrNamesSet.has(item));
 
         this.arrNames = str;
-        if (!Convert.canConvertToArrNames(str, Block.arrays, false)) {
+        if (!Convert.canConvertToArrNames(str, Block.potentialArrays, false)) {
             updateBlockInputError(this, 0, "");
         }
 
-        arrNamesSet = Convert.convertToArrNames(this.arrNames, Block.arrays, false);
-        this.arrNames.forEach(name => Block.potentialArrays.push(name));
+        arrNamesSet = Convert.convertToArrNames(this.arrNames);
+        arrNamesSet.forEach(name => Block.potentialArrays.push(name));
     }
 
     /** @param {string} size */
     setSize(size) {
         this.size = size;
-        if (!Convert.canConvertToNumber(size, Block.variables, Block.arrays, 1)) {
+        if (!Convert.canConvertToNumber(size, Block.potentialArrays, Block.arrays, 1)) {
             updateBlockInputError(this, 1, "");
         }
     }
 
     _perform() {
-        let arrNamesSet = Convert.convertToArrNames(this.arrNames, Block.arrays, false);
+        if (!Convert.canConvertToArrNames(this.varNames, [...Block.arrays.values()], false)) {
+            Console.output("Ошибка");
+            return;
+        }
+        let arrNamesSet = Convert.convertToArrNames(this.arrNames);
         arrNamesSet.forEach(name => Block.arrays.set(name, new Array(Convert.convertToNumber(this.size, Block.variables, Block.arrays, 1, 1e8)).fill(0)));
     }
 
     delete() {
-        let arrNamesSet = Convert.convertToArrNames(this.arrNames, Block.arrays, false);
-        Block.potentialArrays = Block.potentialArrays.filter(item => !arrNamesSet.has(item));
+        if (Convert.canConvertToArrNames(this.varNames, [...Block.arrays.values()], false)) {
+            let arrNamesSet = Convert.convertToArrNames(this.arrNames);
+            Block.potentialArrays = Block.potentialArrays.filter(item => !arrNamesSet.has(item));
+        }
         super.delete();
     }
 }

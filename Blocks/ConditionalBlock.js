@@ -8,13 +8,17 @@ class ConditionalBlock extends BlockContainer {
     /** @param {string} condition */
     setCondition(condition) {
         this.condition = condition;
-        if (!Convert.canConvertToBool(condition, Block.variables, Block.arrays)) {
+        if (!Convert.canConvertToBool(condition, Block.potentialVariables, Block.potentialArrays)) {
             updateBlockInputError(this, 0, "");
         }
     }
 
     _perform() {
-        let conditionBool = Convert.convertToBool(this.condition, Block.variables, Block.arrays);
+        if (!Convert.canConvertToBool(this.condition, Block.variables, Block.arrays)) {
+            Console.output("Ошибка");
+            return;
+        }
+        let conditionBool = Convert.convertToBool(this.condition);
         if (conditionBool) {
             if (this.innerBlock) this.innerBlock.activate();
         }
