@@ -404,10 +404,42 @@ class Convert {
     }
 
     static convertToVarNames(str, dict_vars, included) {
-        return new Set();
+        let names = new Set(str.split(',').map(s => s.trim()).filter(name => name !== ''));
+        if (names.size === 0) return new Set();
+
+        for (const name of names) {
+            if (!Convert.isVariable(name)) {
+                return new Set();
+            }
+            const boool = dict_vars.includes(name);
+            if (included) {
+                if (!boool) return new Set();
+            }
+            else {
+                if (boool) return new Set();
+            }
+
+        }
+        return names;
     }
     static convertToArrNames(str, arrays, included) {
-        return new Set();
+        let names = new Set(str.split(',').map(s => s.trim()).filter(name => name !== ''));
+        if (names.size === 0) return new Set();
+
+        for (const name of names) {
+            if (!Convert.isVariable(name)) {
+                return new Set();
+            }
+            const boool = arrays.includes(name);
+            if (included) {
+                if (!boool) return new Set();
+            }
+            else {
+                if (boool) return new Set();
+            }
+
+        }
+        return names;
     }
     static canConvertToArrNames(str, arrays, included) {
         return true;
