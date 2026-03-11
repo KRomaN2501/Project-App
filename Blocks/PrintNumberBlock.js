@@ -7,7 +7,7 @@ class PrintNumberBlock extends Block {
 
     /** @param {string} num */
     setNumber(num) {
-        this.number = str;
+        this.number = num;
         if (!Convert.canConvertToNumber(num, Block.potentialVariables, Block.potentialArrays)) {
             updateBlockInputError(this, 0, "");
         }

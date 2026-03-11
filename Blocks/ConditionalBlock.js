@@ -18,7 +18,7 @@ class ConditionalBlock extends BlockContainer {
             Console.output("Ошибка");
             return;
         }
-        let conditionBool = Convert.convertToBool(this.condition);
+        let conditionBool = Convert.convertToBool(this.condition, Block.variables, Block.arrays);
         if (conditionBool) {
             if (this.innerBlock) this.innerBlock.activate();
         }
