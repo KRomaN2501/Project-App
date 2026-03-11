@@ -22,7 +22,7 @@ class AssignmentVarBlock extends Block {
     }
 
     _perform() {
-        if (!Convert.canConvertToVarNames(this.varNames, [...Block.variables.values()], true)) {
+        if (!Convert.canConvertToVarNames(this.varNames, [...Block.variables.keys()], true)) {
             Console.output("Ошибка");
             return;
         }

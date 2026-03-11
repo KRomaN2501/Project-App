@@ -22,7 +22,7 @@ class CreateVarBlock extends Block {
     }
 
     _perform() {
-        if (!Convert.canConvertToVarNames(this.varNames, [...Block.variables.values()], false)) {
+        if (!Convert.canConvertToVarNames(this.varNames, [...Block.variables.keys()], false)) {
             Console.output("Ошибка");
             return;
         }
@@ -31,7 +31,7 @@ class CreateVarBlock extends Block {
     }
 
     delete() {
-        if (Convert.canConvertToVarNames(this.varNames, [...Block.variables.values()], false)) {
+        if (Convert.canConvertToVarNames(this.varNames, [...Block.variables.keys()], false)) {
             let varNamesSet = Convert.convertToVarNames(this.varNames);
             Block.potentialVariables = Block.potentialVariables.filter(item => !varNamesSet.has(item));
         }

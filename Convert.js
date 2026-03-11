@@ -263,7 +263,6 @@ class Convert {
                     stack_num.push(dict_vars.get(value));
                     continue;
                 }
-                stack_num.push(0);
                 continue;
             }
 
@@ -442,15 +441,94 @@ class Convert {
         return names;
     }
     static canConvertToArrNames(str, arrays, included) {
-        return true;
+        if(!str || typeof str !== "string") return false;
+        const names = str.split(',').map(s => s.trim()).filter(n => n !== '');
+
+        if (names.length === 0) return false;
+
+        for (const name of names) {
+            if (!Convert.isVariable(name)) return false;
+
+            if (Array.isArray(arrays)) {
+                const B_exists = arrays.includes(name);
+                if (included && !B_exists) return false;
+                if (!included && B_exists) return false;
+            }
+     }
+    return true;
     }
+
     static canConvertToVarNames(str, dict_vars, included) {
+        if(!str || typeof str !== "string") return false;
+        const names = str.split(',').map(s => s.trim()).filter(n => n !== '');
+
+        if (names.length === 0) return false;
+
+        for (const name of names) {
+            if (!Convert.isVariable(name)) return false;
+
+            if (Array.isArray(dict_vars)) {
+                const B_exists = dict_vars.includes(name);
+                if (included && !B_exists) return false;
+                if (!included && B_exists) return false;
+            }
+        }
         return true;
     }
+
     static canConvertToNumber(str, dict_vars, arrays, min, max) {
-        return true;
+        if (!str || typeof str !== "string") return false;
+        try{
+            const tokens = Convert.transformation(str);
+            if (!tokens || tokens.length === 0) return false;
+
+            let balance = 0;
+            for (const t of tokens) {
+                if (t === "(") balance++;
+                if (t === ")") balance--;
+                if (balance < 0) return null;
+            }
+            if (balance !== 0) return null;
+
+            const rpn = Convert.transformation_to_RPN_and_bool(str);
+            if (!rpn || rpn.length === 0) return false;
+
+            const result = Convert.count_RPN_and_bool(rpn, dict_vars, arrays);
+            if (result === null || result === undefined || typeof result !== "number" || Number.isNaN(result)) return false;
+
+            if(min !== null && result < min) return false;
+            if(max !== null && result > max) return false;
+            
+            return true;
+        }
+        catch{
+            return false;
+        }
     }
     static canConvertToBool(str, dict_vars, arrays) {
-        return true;
+        if (!str || typeof str !== "string") return false;
+        try{
+            const tokens = Convert.transformation(str);
+            if (!tokens || tokens.length === 0) return false;
+
+            let balance = 0;
+            for (const t of tokens) {
+                if (t === "(") balance++;
+                if (t === ")") balance--;
+                if (balance < 0) return null;
+            }
+            if (balance !== 0) return null;
+
+            const rpn = Convert.transformation_to_RPN_and_bool(str);
+            if (!rpn || rpn.length === 0) return false;
+
+            const result = Convert.count_RPN_and_bool(rpn, dict_vars, arrays);
+            if(result !== 0 && result !== 1) return false;
+            
+            return true;
     }
+    catch{
+        return false;
+    }
+}
 }
