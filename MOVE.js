@@ -82,6 +82,9 @@ function drop(ev) {
         case 'block-6': case 'block-10':
             blockLogic = new CyclicBlock(newBlock);
             break;
+        case 'block-11': 
+            blockLogic = new CyclicWithCounterBlock(newBlock);
+        break;    
         // ������
         case 'block-8':
             blockLogic = new PrintVarBlock(newBlock);
@@ -187,7 +190,9 @@ function onMouseMove(e) {
 
     let newLeft = e.clientX - rect.left - offsetX + codeArea.scrollLeft;
     let newTop = e.clientY - rect.top - offsetY + codeArea.scrollTop;
-
+    if (newTop < 0) {
+        newTop = 0;
+    }
     const deltaX = newLeft - activeBlock.offsetLeft;
     const deltaY = newTop - activeBlock.offsetTop;
 
