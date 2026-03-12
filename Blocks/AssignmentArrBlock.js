@@ -31,7 +31,7 @@ class AssignmentArrBlock extends Block {
     }
 
     _perform() {
-        if (!Convert.canConvertToArrNames(this.arrNames, [...Block.arrays.keys()]), true) {
+        if (!Convert.canConvertToArrNames(this.arrNames, [...Block.arrays.keys()], true)) {
             Console.output("Ошибка 1");
             return;
         }
@@ -43,7 +43,7 @@ class AssignmentArrBlock extends Block {
             maxIndex = Math.min(maxIndex, Block.arrays.get(name).length - 1);
         }
 
-        if (!Convert.canConvertToNumber(this.arrIndex, [...Block.variables.keys()], [...Block.arrays.keys()]), 0, maxIndex) {
+        if (!Convert.canConvertToNumber(this.arrIndex, [...Block.variables.keys()], [...Block.arrays.keys()], 0, maxIndex)) {
             Console.output("Ошибка 2");
             return;
         }

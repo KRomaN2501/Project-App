@@ -35,7 +35,7 @@ class PrintArrBlock extends Block {
             maxIndex = Math.min(maxIndex, Block.arrays.get(name).length - 1);
         }
 
-        if (!Convert.canConvertToNumber(this.arrIndex, [...Block.variables.keys()], [...Block.arrays.keys()]), 0, maxIndex) {
+        if (!Convert.canConvertToNumber(this.arrIndex, [...Block.variables.keys()], [...Block.arrays.keys()], 0, maxIndex)) {
             Console.output("Ошибка 7");
             return;
         }
