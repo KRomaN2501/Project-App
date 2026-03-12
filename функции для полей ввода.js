@@ -1,10 +1,20 @@
+/**
+ * @param {Object} logic 
+ * @param {HTMLElement} domElement
+ */
 function InputAreaInBlocks(logic, domElement) {
     const inputs = domElement.querySelectorAll('.block-input');
 
     inputs.forEach((input, index) => {
+
+        input.addEventListener('focus', () => {
+            input.classList.remove('error');
+        });
+
         input.addEventListener('change', () => {
             const text = input.value;
 
+       
             if (logic instanceof CreateVarBlock) {
                 logic.setNames(text);
             }
@@ -14,7 +24,6 @@ function InputAreaInBlocks(logic, domElement) {
                 else if (index === 1)
                     logic.setValue(text);
             }
-
             else if (logic instanceof CreateArrBlock) {
                 if (index === 0)
                     logic.setNames(text);
@@ -28,20 +37,16 @@ function InputAreaInBlocks(logic, domElement) {
                     logic.setIndex(text);
                 else if (index === 2)
                     logic.setValue(text);
-
             }
             else if (logic.setCondition) {
                 logic.setCondition(text);
             }
-
             else if (logic instanceof PrintVarBlock) {
                 logic.setNames(text);
             }
-
             else if (logic instanceof PrintNumberBlock) {
-                logic.setNames(text);
+                logic.setNumber(text);
             }
-
             else if (logic instanceof PrintArrBlock) {
                 if (index === 0)
                     logic.setNames(text);
@@ -51,7 +56,6 @@ function InputAreaInBlocks(logic, domElement) {
         });
     });
 }
-
 
 
 function InputAreaInConsole() {
@@ -64,16 +68,15 @@ function InputAreaInConsole() {
             if (!e.shiftKey) {
                 e.preventDefault();
                 const currentText = inputField.value;
-
                 return currentText;
-
             }
         }
     });
 }
 
-
-
+/**
+ * @param {string} txt 
+ */
 function printToConsole(txt) {
     const outputField = document.getElementById('output-field');
 
@@ -92,13 +95,16 @@ function clearOutput() {
     }
 }
 
-function updateBlockInput(logic, index, newText) {
-    const blockVisual = logic.domElement; 
+/**
+ * @param {Object} logic 
+ * @param {number} index 
+ */
+function updateBlockInputError(logic, index) {
+    const blockVisual = logic.domElement;
     const inputs = blockVisual.querySelectorAll('.block-input');
 
     if (inputs[index]) {
-        inputs[index].value = newText;
-        inputs[index].dispatchEvent(new Event('change'));
-        console.log('Обновлено поле ввода на блоке');
+        inputs[index].classList.add('error');
+        Console.output("Ошибка");
     }
 }
