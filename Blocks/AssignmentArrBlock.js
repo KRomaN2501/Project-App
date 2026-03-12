@@ -1,44 +1,51 @@
 class AssignmentArrBlock extends Block {
     constructor(domElement) {
         super(domElement);
-        this.arrNames = new Set;
+        this.arrNames = "";
         this.arrIndex = null;
         this.arrValue = null;
     }
 
     /** @param {string} str */
     setNames(str) {
-        let names = Convert.convertArrNames(str, true); //Вернуть пустое множество, если невозможно
-        this.arrNames = names;
+        this.arrNames = str;
+        if (!Convert.canConvertToArrNames(str, Block.potentialArrays, true)) {
+            updateBlockInputError(this, 0, "");
+        }
     }
 
     /** @param {string} index */
     setIndex(index) {
-        this.arrIndex = Convert.canConvertToNumber(index, Block.variables, Block.arrays);
+        this.arrIndex = index;
+        if (!Convert.canConvertToNumber(index, Block.potentialArrays, 0)) {
+            updateBlockInputError(this, 1, "");
+        }
     }
 
     /** @param {string} value */
     setValue(value) {
-        this.arrValue = Convert.canConvertToNumber(value, Block.variables, Block.arrays);
+        this.arrValue = value;
+        if (!Convert.canConvertToNumber(value, Block.potentialVariables, Block.potentialArrays)) {
+            updateBlockInputError(this, 2, "");
+        }
     }
 
     _perform() {
-        if (this.arrIndex == null) {
-            this.setIndex(Console.input());
+        if (!Convert.canConvertToArrNames(this.varNames, [...Block.arrays.values()], true)) {
+            Console.output("Ошибка");
+            return;
         }
-        if (this.arrValue == null) {
-            this.setValue(Console.input());
-        }
+        let arrNamesSet = Convert.convertToArrNames(this.arrNames);
 
         let maxIndex = 1e8;
-        for (const name of this.arrNames) {
+        for (const name of arrNamesSet) {
             maxIndex = Math.min(maxIndex, Block.arrays.get(name).length - 1);
         }
+        let arrIndexNumber = Convert.convertToNumber(this.arrIndex, Block.variables, Block.arrays, 0, maxIndex);
 
-        let arrIndexNumber = this.arrIndex ? Convert.convertToNumber(this.arrIndex, Block.variables, Block.arrays, 0, maxIndex) : 0;
-        let arrValueNumber = this.arrValue ? Convert.convertToNumber(this.arrValue, Block.variables, Block.arrays) : 0;
+        let arrValueNumber = Convert.convertToNumber(this.arrValue, Block.variables, Block.arrays);
 
-        for (const name of this.arrNames) {
+        for (const name of arrNamesSet) {
             Block.arrays.get(name)[arrIndexNumber] = arrValueNumber;
         }
     }

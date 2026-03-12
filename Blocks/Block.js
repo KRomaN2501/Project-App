@@ -3,7 +3,6 @@ class Block {
 
     static variables = new Map();
     static potentialVariables = [];
-
     static arrays = new Map();
     static potentialArrays = [];
 
