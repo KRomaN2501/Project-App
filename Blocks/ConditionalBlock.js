@@ -14,7 +14,7 @@ class ConditionalBlock extends BlockContainer {
     }
 
     _perform() {
-        if (!Convert.canConvertToBool(this.condition, Block.variables, Block.arrays)) {
+        if (!Convert.canConvertToBool(this.condition, [...Block.variables.keys()], [...Block.arrays.keys()])) {
             Console.output("Ошибка");
             return;
         }

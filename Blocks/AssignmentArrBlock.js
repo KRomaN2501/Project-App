@@ -17,7 +17,7 @@ class AssignmentArrBlock extends Block {
     /** @param {string} index */
     setIndex(index) {
         this.arrIndex = index;
-        if (!Convert.canConvertToNumber(index, Block.potentialArrays, 0)) {
+        if (!Convert.canConvertToNumber(index, Block.potentialVariables, Block.potentialArrays, 0)) {
             updateBlockInputError(this, 1, "");
         }
     }
@@ -31,17 +31,33 @@ class AssignmentArrBlock extends Block {
     }
 
     _perform() {
-        if (!Convert.canConvertToArrNames(this.arrNames, [...Block.arrays.keys()], true)) {
+        if (!Convert.canConvertToArrNames(this.arrNames, [...Block.arrays.keys()])) {
             Console.output("Ошибка");
             return;
         }
+
         let arrNamesSet = Convert.convertToArrNames(this.arrNames);
 
         let maxIndex = 1e8;
         for (const name of arrNamesSet) {
             maxIndex = Math.min(maxIndex, Block.arrays.get(name).length - 1);
         }
-        let arrIndexNumber = Convert.convertToNumber(this.arrIndex, Block.variables, Block.arrays, 0, maxIndex);
+
+        if (!Convert.canConvertToNumber(this.varIndex, [...Block.variables.keys()], [...Block.arrays.keys()]), 0, maxIndex) {
+            Console.output("Ошибка");
+            return;
+        }
+
+        if (!Convert.canConvertToNumber(this.index, [...Block.variables.keys()], [...Block.arrays.keys()]), 0) {
+            Console.output("Ошибка");
+            return;
+        }
+        if (!Convert.canConvertToNumber(this.value, [...Block.variables.keys()], [...Block.arrays.keys()])) {
+            Console.output("Ошибка");
+            return;
+        }
+
+        let arrIndexNumber = Convert.convertToNumber(this.arrIndex, Block.variables, Block.arrays);
 
         let arrValueNumber = Convert.convertToNumber(this.arrValue, Block.variables, Block.arrays);
 

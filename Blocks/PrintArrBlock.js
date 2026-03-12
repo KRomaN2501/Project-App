@@ -23,17 +23,24 @@ class PrintArrBlock extends Block {
     }
 
     _perform() {
-        if (!Convert.canConvertToArrNames(this.arrNames, [...Block.arrays.keys()], true)) {
+        if (!Convert.canConvertToArrNames(this.varNames, [...Block.arrays.keys()], true)) {
             Console.output("Ошибка");
             return;
         }
+
         let arrNamesSet = Convert.convertToArrNames(this.arrNames);
 
         let maxIndex = 1e8;
         for (const name of arrNamesSet) {
             maxIndex = Math.min(maxIndex, Block.arrays.get(name).length - 1);
         }
-        let arrIndexNumber = Convert.convertToNumber(this.arrIndex, Block.variables, Block.arrays, 0, maxIndex);
+
+        if (!Convert.canConvertToNumber(this.varIndex, [...Block.variables.keys()], [...Block.arrays.keys()]), 0, maxIndex) {
+            Console.output("Ошибка");
+            return;
+        }
+
+        let arrIndexNumber = Convert.convertToNumber(this.arrIndex, Block.variables, Block.arrays);
 
         arrNamesSet.forEach(name => Console.output(Block.arrays.get(name)[arrIndexNumber]));
     }

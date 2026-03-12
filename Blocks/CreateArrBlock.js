@@ -23,18 +23,22 @@ class CreateArrBlock extends Block {
     /** @param {string} size */
     setSize(size) {
         this.size = size;
-        if (!Convert.canConvertToNumber(size, Block.potentialArrays, Block.arrays, 1)) {
+        if (!Convert.canConvertToNumber(size, Block.potentialVariables, Block.potentialArrays, 1)) {
             updateBlockInputError(this, 1, "");
         }
     }
 
     _perform() {
-        if (!Convert.canConvertToArrNames(this.arrNames, [...Block.arrays.keys()], false)) {
+        if (!Convert.canConvertToArrNames(this.varNames, [...Block.arrays.keys()], false)) {
+            Console.output("Ошибка");
+            return;
+        }
+        if (!Convert.canConvertToNumber(this.size, [...Block.variables.keys()], [...Block.arrays.keys()], 1)) {
             Console.output("Ошибка");
             return;
         }
         let arrNamesSet = Convert.convertToArrNames(this.arrNames);
-        arrNamesSet.forEach(name => Block.arrays.set(name, new Array(Convert.convertToNumber(this.size, Block.variables, Block.arrays, 1, 1e8)).fill(0)));
+        arrNamesSet.forEach(name => Block.arrays.set(name, new Array(Convert.convertToNumber(this.size, Block.variables, Block.arrays)).fill(0)));
     }
 
     delete() {
