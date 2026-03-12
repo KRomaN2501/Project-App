@@ -54,10 +54,11 @@ function drop(ev) {
 
     switch (draggedElement.id) {
         // ������ �����
-        case 'block-0': case 'block-1000':
+        case 'block-0': 
             blockLogic = new Block(newBlock, true);
             break;
-
+        case 'block-1000':
+            blockLogic = new EndBlock(newBlock);
         // ���������� � �������
         case 'block-1':
             blockLogic = new CreateVarBlock(newBlock);
