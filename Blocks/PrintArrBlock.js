@@ -17,13 +17,13 @@ class PrintArrBlock extends Block {
     /** @param {string} index */
     setIndex(index) {
         this.arrIndex = index;
-        if (!Convert.canConvertToNumber(index, Block.potentialArrays, 0)) {
+        if (!Convert.canConvertToNumber(index, Block.potentialVariables, Block.potentialArrays, 0)) {
             updateBlockInputError(this, 1, "");
         }
     }
 
     _perform() {
-        if (!Convert.canConvertToArrNames(this.varNames, [...Block.arrays.values()], true)) {
+        if (!Convert.canConvertToArrNames(this.arrNames, [...Block.arrays.keys()], true)) {
             Console.output("Ошибка");
             return;
         }

@@ -110,7 +110,7 @@ class Convert {
         const rigth_str = Convert.transformation(str_);
         const out = [];
         const stack_op = [];
-        const priority = { "||": 1, "&&": 2, "!=": 3, "==": 3, ">=": 4, ">": 4, "<=": 4, "<": 4, "+": 5, "-": 5, "*": 6, "/": 6, "%": 6, "!": 7, "[]": 8 };
+        const priority = { "||": 1, "&&": 2, "!=": 3, "==": 3, ">=": 4, ">": 4, "<=": 4, "<": 4, "+": 5, "-": 5, "*": 6, "/": 6, "%": 6, "!": 7 };
 
         function isOperator(a) {
             return (a === "+" || a === "-" || a === "/" || a === "%" || a === "*" ||
@@ -201,7 +201,7 @@ class Convert {
             return (a === "+" || a === "-" || a === "/" || a === "%" || a === "*" ||
                 a === ">" || a === "<" || a === ">=" || a === "<=" ||
                 a === "==" || a === "!=" || a === "!" ||
-                a === "&&" || a === "||" || a === "[]");
+                a === "&&" || a === "||");
         }
 
         function isNumber(a) {
@@ -296,101 +296,6 @@ class Convert {
     //Реализация проверок
 
 
-
-    /**
-     * @param {string} str
-     * @returns {Set}
-     */
-    static convertVarNames(str, check_bool) {
-        let names = new Set(str.split(',').map(s => s.trim()).filter(name => name !== ''));
-        if (names.size === 0) return new Set();
-
-        for (const name of names) {
-            if (!Convert.isVariable(name)) {
-                return new Set();
-            }
-            const boool = Block.potentialVariables.includes(name);
-            if (check_bool) {
-                if (!boool) return new Set();
-            }
-            else {
-                if (boool) return new Set();
-            }
-
-        }
-        return names;
-    }
-
-    static convertArrNames(str, check_bool) {
-        let names = new Set(str.split(',').map(s => s.trim()).filter(name => name !== ''));
-        if (names.size === 0) return new Set();
-
-        for (const name of names) {
-            if (!Convert.isVariable(name)) {
-                return new Set();
-            }
-            const boool = Block.potentialArrays.includes(name);
-            if (check_bool) {
-                if (!boool) return new Set();
-            }
-            else {
-                if (boool) return new Set();
-            }
-
-        }
-        return names;
-    }
-
-
-    /**
-     * @param {string} str
-     * @returns {string}
-     */
-    static convertCondition(str) {
-
-        if (!str || typeof str !== "string" || str.trim() === "") {
-            return null;
-        }
-
-        const tokens = Convert.transformation(str);
-
-        if (!tokens || tokens.length === 0) {
-            return null;
-        }
-
-        let balance = 0;
-        for (const t of tokens) {
-            if (t === "(") balance++;
-            if (t === ")") balance--;
-            if (balance < 0) return null;
-        }
-        if (balance !== 0) return null;
-
-        const rpn = Convert.transformation_to_RPN_and_bool(str);
-
-        if (!rpn || rpn.length === 0) {
-            return null;
-        }
-
-        for (let i = 0; i < tokens.length; i++) {
-            const t = tokens[i];
-            if (Convert.isVariable(t)) {
-                if (i + 1 < tokens.length && tokens[i + 1] === "[") {
-                    if (!Block.potentialArrays.includes(t)) {
-                        return null;
-                    }
-                }
-                else {
-                    if (!Block.potentialVariables.includes(t)) {
-                        return null;
-                    }
-                }
-            }
-        }
-
-        return tokens.join(" ");
-    }
-
     static isVariable(a) {
         if (a.length === 0) return false;
         const symbol0 = a[0];
@@ -442,24 +347,29 @@ class Convert {
     }
     static canConvertToArrNames(str, arrays, included) {
         if(!str || typeof str !== "string") return false;
+        arrays = this.normalizeObj(arrays);
         const names = str.split(',').map(s => s.trim()).filter(n => n !== '');
 
         if (names.length === 0) return false;
 
         for (const name of names) {
             if (!Convert.isVariable(name)) return false;
-
-            if (Array.isArray(arrays)) {
-                const B_exists = arrays.includes(name);
-                if (included && !B_exists) return false;
-                if (!included && B_exists) return false;
-            }
+                if (arrays instanceof Map) {
+                    const B_exists = arrays.has(name);
+                    if (included && !B_exists) return false;
+                    if (!included && B_exists) return false;
+                } else if (Array.isArray(arrays)) {
+                    const B_exists = arrays.includes(name);
+                    if (included && !B_exists) return false;
+                    if (!included && B_exists) return false;
+                }
      }
     return true;
     }
 
     static canConvertToVarNames(str, dict_vars, included) {
         if(!str || typeof str !== "string") return false;
+        dict_vars = this.normalizeObj(dict_vars);
         const names = str.split(',').map(s => s.trim()).filter(n => n !== '');
 
         if (names.length === 0) return false;
@@ -467,20 +377,29 @@ class Convert {
         for (const name of names) {
             if (!Convert.isVariable(name)) return false;
 
-            if (Array.isArray(dict_vars)) {
-                const B_exists = dict_vars.includes(name);
-                if (included && !B_exists) return false;
-                if (!included && B_exists) return false;
-            }
+                if (dict_vars instanceof Map) {
+                    const B_exists = dict_vars.has(name);
+                    if (included && !B_exists) return false;
+                    if (!included && B_exists) return false;
+                } else if (Array.isArray(dict_vars)) {
+                    const B_exists = dict_vars.includes(name);
+                    if (included && !B_exists) return false;
+                    if (!included && B_exists) return false;
+                }
         }
         return true;
     }
 
     static canConvertToNumber(str, dict_vars, arrays, min, max) {
         if (!str || typeof str !== "string") return false;
+
+        dict_vars = Convert.normalizeObj(dict_vars);
+        arrays = Convert.normalizeObj(arrays);
+
         try{
             const tokens = Convert.transformation(str);
             if (!tokens || tokens.length === 0) return false;
+            if(!Convert.checkVariables(tokens, dict_vars, arrays)) return false;
 
             let balance = 0;
             for (const t of tokens) {
@@ -507,9 +426,14 @@ class Convert {
     }
     static canConvertToBool(str, dict_vars, arrays) {
         if (!str || typeof str !== "string") return false;
+
+        dict_vars = Convert.normalizeObj(dict_vars);
+        arrays = Convert.normalizeObj(arrays);
+
         try{
             const tokens = Convert.transformation(str);
             if (!tokens || tokens.length === 0) return false;
+            if(!Convert.checkVariables(tokens, dict_vars, arrays)) return false;
 
             let balance = 0;
             for (const t of tokens) {
@@ -531,4 +455,44 @@ class Convert {
         return false;
     }
 }
+
+static checkVariables(tokens, dict_vars, arrays){
+    if(dict_vars instanceof Map){
+        const dict_vars = new Set(dict_vars.keys())
+    }
+    else {
+        const dict_vars = new Set(Object.keys(dict_vars || {}));
+    }
+
+    if(arrays instanceof Map){
+        const arr_vars = new Set(arrays.keys())
+    }
+    else {
+        const arr_vars = new Set(Object.keys(arrays || {}));
+    }
+
+    for(const t of tokens){
+        if(Convert.isVariable(t)){  
+            if(!dict_vars.has(t) && !arr_vars.has(t)){
+                return false;
+            }
+        }
+    }
+
+    return true;
+}
+
+static normalizeObj(Obj){
+    if(!Obj) return {};
+
+    if(Array.isArray(Obj)){
+        const map = {};
+        for(const v of Obj){
+            map[v] = 0;
+        }
+        return map;
+    }
+    return Obj;
+}
+
 }

@@ -31,7 +31,7 @@ class AssignmentArrBlock extends Block {
     }
 
     _perform() {
-        if (!Convert.canConvertToArrNames(this.varNames, [...Block.arrays.values()], true)) {
+        if (!Convert.canConvertToArrNames(this.arrNames, [...Block.arrays.keys()], true)) {
             Console.output("Ошибка");
             return;
         }
