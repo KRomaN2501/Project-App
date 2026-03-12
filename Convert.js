@@ -10,7 +10,7 @@ class Convert {
     static convertToNumber(str, dict_vars, arrays, min = null, max = null) { //min и max включительно
         const rpn_arr = Convert.transformation_to_RPN_and_bool(str);
         const result = Convert.count_RPN_and_bool(rpn_arr, dict_vars, arrays);
-        if (min === null && max === null) return result;
+        if(min === null && max === null) return result;
         else if (result >= min && result <= max) return result;
         else return null;
     }
