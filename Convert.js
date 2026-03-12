@@ -307,7 +307,7 @@ class Convert {
         return true;
     }
 
-    static convertToVarNames(str, dict_vars, included) {
+    static convertToVarNames(str) {
         let names = new Set(str.split(',').map(s => s.trim()).filter(name => name !== ''));
         if (names.size === 0) return new Set();
 
@@ -394,20 +394,28 @@ class Convert {
         if (!str || typeof str !== "string") return false;
 
         dict_vars = Convert.normalizeObj(dict_vars);
+        console.log(dict_vars);
         arrays = Convert.normalizeObj(arrays);
+        console.log(arrays);
 
         try {
             const tokens = Convert.transformation(str);
-            if (!tokens || tokens.length === 0) return false;
-            if (!Convert.checkVariables(tokens, dict_vars, arrays)) return false;
-
+            console.log(tokens)
+            if (!tokens || tokens.length === 0) {
+                console.log("ошибка there"); 
+                return false;
+            }
+            if (!Convert.checkVariables(tokens, dict_vars, arrays)) {
+                console.log("ошибка тут");
+                return false; 
+                }
             let balance = 0;
             for (const t of tokens) {
                 if (t === "(") balance++;
                 if (t === ")") balance--;
-                if (balance < 0) return null;
+                if (balance < 0) return false;
             }
-            if (balance !== 0) return null;
+            if (balance !== 0) return false;
 
             const rpn = Convert.transformation_to_RPN_and_bool(str);
             if (!rpn || rpn.length === 0) return false;
@@ -457,23 +465,24 @@ class Convert {
     }
 
     static checkVariables(tokens, dict_vars, arrays) {
+        let dictSet;
+        let arrSet;
+
         if (dict_vars instanceof Map) {
-            const dict_vars = new Set(dict_vars.keys())
-        }
-        else {
-            const dict_vars = new Set(Object.keys(dict_vars || {}));
+            dictSet = new Set(dict_vars.keys());
+        } else {
+            dictSet = new Set(Object.keys(dict_vars || {}));
         }
 
         if (arrays instanceof Map) {
-            const arr_vars = new Set(arrays.keys())
-        }
-        else {
-            const arr_vars = new Set(Object.keys(arrays || {}));
+            arrSet = new Set(arrays.keys());
+        } else {
+            arrSet = new Set(Object.keys(arrays || {}));
         }
 
         for (const t of tokens) {
             if (Convert.isVariable(t)) {
-                if (!dict_vars.has(t) && !arr_vars.has(t)) {
+                if (!dictSet.has(t) && !arrSet.has(t)) {
                     return false;
                 }
             }
@@ -482,17 +491,29 @@ class Convert {
         return true;
     }
 
-    static normalizeObj(Obj) {
-        if (!Obj) return {};
+static normalizeObj(Obj) {
+    if (!Obj) return new Map();
 
-        if (Array.isArray(Obj)) {
-            const map = {};
-            for (const v of Obj) {
-                map[v] = 0;
-            }
-            return map;
+    if (Array.isArray(Obj)) {
+        const map = new Map();
+        for (const v of Obj) {
+            map.set(v, 0);
         }
+        return map;
+    }
+
+    if (Obj instanceof Map) {
         return Obj;
     }
+
+    if (typeof Obj === "object") {
+        const map = new Map();
+        for (const key of Object.keys(Obj)) {
+            map.set(key, Obj[key]);
+        }
+        return map;
+    }
+    return new Map();
+}
 
 }
