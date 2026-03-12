@@ -29,7 +29,11 @@ class CreateArrBlock extends Block {
     }
 
     _perform() {
-        if (!Convert.canConvertToArrNames(this.varNames, [...Block.arrays.values()], false)) {
+        if (!Convert.canConvertToArrNames(this.varNames, [...Block.arrays.keys()], false)) {
+            Console.output("Ошибка");
+            return;
+        }
+        if (!Convert.canConvertToNumber(this.size, [...Block.variables.keys()], [...Block.arrays.keys()])) {
             Console.output("Ошибка");
             return;
         }
@@ -38,7 +42,7 @@ class CreateArrBlock extends Block {
     }
 
     delete() {
-        if (Convert.canConvertToArrNames(this.varNames, [...Block.arrays.values()], false)) {
+        if (Convert.canConvertToArrNames(this.varNames, [...Block.arrays.keys()], false)) {
             let arrNamesSet = Convert.convertToArrNames(this.arrNames);
             Block.potentialArrays = Block.potentialArrays.filter(item => !arrNamesSet.has(item));
         }

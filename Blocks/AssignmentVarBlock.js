@@ -26,6 +26,10 @@ class AssignmentVarBlock extends Block {
             Console.output("Ошибка");
             return;
         }
+        if (!Convert.canConvertToNumber(this.value, [...Block.variables.keys()], [...Block.arrays.keys()])) {
+            Console.output("Ошибка");
+            return;
+        }
         let varNamesSet = Convert.convertToVarNames(this.varNames);
         varNamesSet.forEach(name => Block.variables.set(name, Convert.convertToNumber(this.varValue, Block.variables, Block.arrays)));
     }

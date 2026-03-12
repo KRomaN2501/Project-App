@@ -441,7 +441,7 @@ class Convert {
         return names;
     }
     static canConvertToArrNames(str, arrays, included) {
-        if(!str || typeof str !== "string") return false;
+        if (!str || typeof str !== "string") return false;
         const names = str.split(',').map(s => s.trim()).filter(n => n !== '');
 
         if (names.length === 0) return false;
@@ -454,12 +454,12 @@ class Convert {
                 if (included && !B_exists) return false;
                 if (!included && B_exists) return false;
             }
-     }
-    return true;
+        }
+        return true;
     }
 
     static canConvertToVarNames(str, dict_vars, included) {
-        if(!str || typeof str !== "string") return false;
+        if (!str || typeof str !== "string") return false;
         const names = str.split(',').map(s => s.trim()).filter(n => n !== '');
 
         if (names.length === 0) return false;
@@ -478,7 +478,7 @@ class Convert {
 
     static canConvertToNumber(str, dict_vars, arrays, min, max) {
         if (!str || typeof str !== "string") return false;
-        try{
+        try {
             const tokens = Convert.transformation(str);
             if (!tokens || tokens.length === 0) return false;
 
@@ -496,18 +496,18 @@ class Convert {
             const result = Convert.count_RPN_and_bool(rpn, dict_vars, arrays);
             if (result === null || result === undefined || typeof result !== "number" || Number.isNaN(result)) return false;
 
-            if(min !== null && result < min) return false;
-            if(max !== null && result > max) return false;
-            
+            if (min !== null && result < min) return false;
+            if (max !== null && result > max) return false;
+
             return true;
         }
-        catch{
+        catch {
             return false;
         }
     }
     static canConvertToBool(str, dict_vars, arrays) {
         if (!str || typeof str !== "string") return false;
-        try{
+        try {
             const tokens = Convert.transformation(str);
             if (!tokens || tokens.length === 0) return false;
 
@@ -523,12 +523,12 @@ class Convert {
             if (!rpn || rpn.length === 0) return false;
 
             const result = Convert.count_RPN_and_bool(rpn, dict_vars, arrays);
-            if(result !== 0 && result !== 1) return false;
-            
+            if (result !== 0 && result !== 1) return false;
+
             return true;
+        }
+        catch {
+            return false;
+        }
     }
-    catch{
-        return false;
-    }
-}
 }

@@ -17,7 +17,7 @@ class AssignmentArrBlock extends Block {
     /** @param {string} index */
     setIndex(index) {
         this.arrIndex = index;
-        if (!Convert.canConvertToNumber(index, Block.potentialArrays, 0)) {
+        if (!Convert.canConvertToNumber(index, Block.potentialVariables, Block.potentialArrays, 0)) {
             updateBlockInputError(this, 1, "");
         }
     }
@@ -31,7 +31,15 @@ class AssignmentArrBlock extends Block {
     }
 
     _perform() {
-        if (!Convert.canConvertToArrNames(this.varNames, [...Block.arrays.values()], true)) {
+        if (!Convert.canConvertToArrNames(this.arrNames, [...Block.arrays.keys()])) {
+            Console.output("Ошибка");
+            return;
+        }
+        if (!Convert.canConvertToNumber(this.index, [...Block.variables.keys()], [...Block.arrays.keys()])) {
+            Console.output("Ошибка");
+            return;
+        }
+        if (!Convert.canConvertToNumber(this.value, [...Block.variables.keys()], [...Block.arrays.keys()])) {
             Console.output("Ошибка");
             return;
         }
