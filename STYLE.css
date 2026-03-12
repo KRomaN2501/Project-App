@@ -1,4 +1,7 @@
-﻿.h2 {
+﻿
+
+
+.h2 {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -269,6 +272,12 @@ input[type="text"] {
     border-radius: 5px;
 }
 
+.input-width-xs { width: 40px !important; }
+.input-width-s  { width: 50px !important; }
+.input-width-m  { width: 60px !important; }
+.input-width-l  { width: 150px !important; }
+
+
 /* кнопка старт */
 .start-button {
     font-family: "Press Start 2P", system-ui;
@@ -450,6 +459,12 @@ input[type="text"] {
     border: 1px solid rgba(0,0,0,0.1);
     background: white;
 }
+
+.block-input.error {
+    color: red !important;
+    border: 1px solid red;
+}
+
 /*массив*/
 .block[id="block-9"], .block[data-block-type="block-9"] {
     background-color: #D1EFBD !important;
