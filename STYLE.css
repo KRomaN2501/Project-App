@@ -1,7 +1,4 @@
-﻿
-
-
-.h2 {
+﻿.h2 {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -9,14 +6,17 @@
     padding: 10px 0;
 }
 
-.press-start-2p-regular {
+.press-start-2p-regular,
+body,
+.start-button,
+.field,
+.tab-btn {
     font-family: "Press Start 2P", system-ui;
     font-weight: 400;
     font-style: normal;
 }
 
 body {
-    font-family: "Press Start 2P", system-ui;
     background: linear-gradient(135deg, #062045, #A76E9C);
     min-height: 100vh;
     padding: 20px;
@@ -31,57 +31,44 @@ body {
     height: calc(100vh - 40px);
 }
 
-/* плажка с блоками */
+/* САЙДБАР */
 .sidebar {
     width: 400px;
     background: white;
     border-radius: 15px;
     padding: 20px;
     overflow-y: auto;
-    display: flex; 
-    flex-direction: column; 
-    height: 100%; 
+    display: flex;
+    flex-direction: column;
+    height: 100%;
     box-sizing: border-box;
 }
 
-    .sidebar ul {
-        list-style: none;
-        padding: 0;
-        margin: 0;
-        flex-shrink: 0;
-    }
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    flex-shrink: 0;
+}
 
-    .sidebar .block {
-        position: relative;
-        margin-bottom: 15px;
-        cursor: grab;
-/*        background: #f0f0f0;*/
-        border: 2px solid #C6B7CC;
-        border-radius: 8px;
-        padding: 15px;
-        user-select: none;
-        transition: all 0.3s ease;
-        font-weight: 500;
-        color: black;
-        padding-right: 40px;
-    }
-        .sidebar .block::after {
-            background-color: white !important;
-        }
+.sidebar.drag-over {
+    background-color: #ffe6e6 !important;
+    border: 2px dashed #ff4d4d;
+}
 
-        .sidebar .block:hover {
-            /*    background-color: #FCF6F5FF !important;*/
-            filter: brightness(1.05);
-            cursor: grab;
-            transform: translateX(6px);
-        }
+/* ОБЩИЕ СТИЛИ ДЛЯ ВСЕХ БЛОКОВ */
+.block {
+    position: relative;
+    border: 2px solid #C6B7CC;
+    border-radius: 8px;
+    padding: 15px;
+    user-select: none;
+    font-weight: 500;
+    color: black;
+    box-sizing: border-box;
+}
 
-    .sidebar.drag-over {
-        background-color: #ffe6e6 !important;
-        border: 2px dashed #ff4d4d;
-    }
-
-/* соединяшки для блоков */
+/* СОЕДИНЯШКИ */
 .block::before {
     content: "";
     position: absolute;
@@ -93,43 +80,143 @@ body {
     border: 2px solid #C6B7CC;
     border-bottom: none;
     border-radius: 5px 5px 0 0;
-    z-index: 2;
-}
-
-#block-0::before {
-    display: none;
-}
-.block::before {
-    z-index: 10; 
-}
-.block-start::before {
-    display: none !important;
-}
-
-.block-end::after {
-    display: none !important;
+    z-index: 10;
 }
 
 .block::after {
     content: "";
     position: absolute;
-    bottom: -11px; 
+    bottom: -11px;
     right: 20px;
     width: 30px;
     height: 10px;
-    background: white; 
+    background: white;
     border: 2px solid #C6B7CC;
     border-top: none;
     border-radius: 0 0 5px 5px;
     z-index: 1;
 }
 
+/* БЛОКИ В САЙДБАРЕ */
+.sidebar .block {
+    margin-bottom: 15px;
+    cursor: grab;
+    padding-right: 40px;
+    transition: all 0.3s ease;
+}
 
+.sidebar .block:hover {
+    filter: brightness(1.05);
+    transform: translateX(6px);
+}
 
+.sidebar .block::after {
+    background-color: white !important;
+}
 
+/* БЛОКИ В РАБОЧЕЙ ОБЛАСТИ */
+#workspace .block,
+#code-area .block {
+    position: absolute !important;
+    width: 350px !important;
+    min-width: 350px !important;
+    margin: 0;
+    cursor: move;
+    z-index: 100;
+    background: #f0f0f0;
+    display: flex !important;
+    flex-direction: column;
+    gap: 8px;
+    box-shadow: none;
+}
 
+#workspace .block::after,
+#code-area .block::after {
+    background: #f8f8f8 !important;
+}
 
-/* рабочая область*/
+#code-area .block:hover {
+    filter: brightness(1.05);
+    border-color: #CDCCF7 !important;
+}
+
+/* ВЛОЖЕННЫЕ БЛОКИ */
+.inner-container {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    min-height: 50px;
+    height: auto !important;
+}
+
+.inner-container .block {
+    position: relative !important;
+    left: 0 !important;
+    top: 0 !important;
+    margin-bottom: 5px !important;
+    width: calc(100% - 10px) !important;
+    min-width: 0 !important;
+    z-index: 10;
+}
+
+#code-area .inner-container .block {
+    position: relative !important;
+}
+
+/*  КОНТЕЙНЕРЫ ВНУТРИ БЛОКОВ */
+#code-area .block .inner-container {
+    border: 1px dashed rgba(0,0,0,0.1);
+    margin-top: 10px;
+    background: rgba(255,255,255,0.2);
+    border-radius: 4px;
+}
+
+/* ПОЛЯ ВВОДА */
+.block-input {
+    display: block; 
+    width: 100% !important; 
+    margin-top: 5px; 
+    box-sizing: border-box;
+}
+
+#code-area .block-input,
+#workspace .block-input {
+    display: block !important;
+}
+
+.input-field-block {
+    width: 100px;
+    height: 40px;
+    background: #f0f0f0;
+    border: 2px solid #C6B7CC;
+    border-radius: 8px;
+    padding: 10px;
+    font-size: 10px;
+}
+
+input[type="text"],
+.input-field-block input {
+    font-family: "Press Start 2P", system-ui !important;
+    width: 100%;
+    height: 100%;
+    border: none;
+    font-size: 10px;
+    padding: 5px;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+.input-width-xs { width: 40px !important; }
+.input-width-s  { width: 50px !important; }
+.input-width-m  { width: 60px !important; }
+.input-width-l  { width: 150px !important; }
+
+.block-input.error {
+    color: red !important;
+    border: 1px solid red;
+}
+
+/* РАБОЧАЯ ОБЛАСТЬ */
 #workspace {
     flex: 1;
     background: white;
@@ -140,55 +227,6 @@ body {
     position: relative;
     overflow: hidden;
 }
-    #workspace .block {
-        position: absolute;
-        margin: 0;
-        cursor: move;
-        z-index: 100;
-        background: #f0f0f0;
-        border: 2px solid #C6B7CC;
-        border-radius: 8px;
-        padding: 15px;
-        user-select: none;
-        font-weight: 500;
-        color: black;
-        box-shadow: none;
-        box-sizing: border-box;
-        width: 350px; 
-        box-sizing: border-box; 
-        display: flex; 
-        flex-direction: column;
-        gap: 8px;
-    }
-    #workspace .block::after {
-        background: #f8f8f8;
-    }
-    #workspace .block-input {
-        width: 100% !important;
-        box-sizing: border-box;
-    }
-    #code-area .block,
-    #workspace .block {
-        position: absolute !important; 
-        width: 350px !important;
-        min-width: 350px !important; 
-        box-sizing: border-box !important;
-        display: flex !important;
-        flex-direction: column;
-        gap: 5px;
-        padding: 15px !important;
-    }
-
-    #code-area .block-input,
-    #workspace .block-input {
-        width: 100% !important;
-        box-sizing: border-box !important;
-        display: block !important;
-    }
-
-
-
-/* зона для блоков внутри рабочей области */
 
 #code-area {
     flex: 1;
@@ -202,88 +240,10 @@ body {
     overflow-x: auto;
 }
 
-    #code-area .block {
-        position: absolute !important; 
-        width: 350px !important;
-        min-width: 350px;
-        max-width: 350px;
-        box-sizing: border-box;
-        display: flex;
-        flex-direction: column;
-        gap: 8px;
-        padding: 15px;
-        margin: 0;
-        cursor: move;
-        z-index: 100;
-    }
-        #code-area .block::after {
-            background-color: #f8f8f8 !important;
-        }
-
-        #code-area .block:hover {
-            filter: brightness(1.05);
-            border-color: #CDCCF7 !important;
-        }
-
-        #code-area .block::before, #code-area .block::after {
-            right: 20px !important;
-        }
-
-        #code-area .block .block-input {
-            width: 100% !important;
-            box-sizing: border-box !important;
-            margin-top: 5px;
-        }
-    #code-area .inner-container .block {
-        position: relative !important;
-        left: 0 !important;
-        top: 0 !important;
-        margin-bottom: 5px !important; 
-        width: calc(100% - 10px) !important;
-        min-width: 0 !important;
-        z-index: 10;
-    }
-
-.dragging {
-    opacity: 0.5;
-    transform: scale(0.95);
-    z-index: 2000 !important;
-    opacity: 0.8; 
-}
-/* поля для ввода */
-.input-field-block {
-    width: 100px;
-    height: 40px;
-    background: #f0f0f0;
-    border: 2px solid #C6B7CC;
-    border-radius: 8px;
-    padding: 10px;
-    font-size: 10px;
-    font-family: "Press Start 2P", system-ui;
-}
-
-input[type="text"] {
-    font-family: "Press Start 2P", system-ui;
-    width: 100%;
-    height: 100%;
-    border: none;
-    font-size: 10px;
-    padding: 5px;
-    border-radius: 5px;
-}
-
-.input-width-xs { width: 40px !important; }
-.input-width-s  { width: 50px !important; }
-.input-width-m  { width: 60px !important; }
-.input-width-l  { width: 150px !important; }
-
-
-/* кнопка старт */
+/* КНОПКА СТАРТ */
 .start-button {
-    font-family: "Press Start 2P", system-ui;
     padding: 10px 24px;
     font-size: 16px;
-    /*    background-color: #9F99D1;*/ 
     background-color: #CDCCF7;
     color: black;
     border-radius: 5px;
@@ -294,10 +254,11 @@ input[type="text"] {
     letter-spacing: 1px;
 }
 
-    .start-button:hover {
-        background-color: #F7D9E0;
-    }
+.start-button:hover {
+    background-color: #F7D9E0;
+}
 
+/* ПОЛЕ ВЫВОДА */
 .field {
     width: 100%;
     height: 120px;
@@ -305,9 +266,7 @@ input[type="text"] {
     margin-top: auto;
     padding-top: 20px;
     border-top: 2px dashed #C6B7CC;
-    font-family: "Press Start 2P", system-ui;
     font-size: 12px;
-    /* color: #C6B7CC; */
     color: black;
     margin-bottom: 10px;
     border-radius: 8px;
@@ -318,216 +277,19 @@ input[type="text"] {
     resize: vertical;
     box-sizing: border-box;
 }
+
 .text-container {
-    margin-top: auto; 
+    margin-top: auto;
     padding-top: 20px;
     border-top: 2px dashed #C6B7CC;
-    flex-shrink: 0; 
+    flex-shrink: 0;
 }
+
 #output-field {
     cursor: default;
-    color: black;
 }
 
-/* раскрашиваю блоки в разные цвета */
-/* Начало конец */
-.block[id="block-0"], .block[data-block-type="block-0"],
-.block[id="block-1000"], .block[data-block-type="block-1000"] {
-    background-color: #CDCCF7 !important;
-}
-
-/* Переменные */
-.block[id="block-1"], .block[data-block-type="block-1"],
-.block[id="block-2"], .block[data-block-type="block-2"] {
-    background-color: #BBDFFF !important;
-}
-
-/* Массивы */
-.block[id="block-3"], .block[data-block-type="block-3"],
-.block[id="block-4"], .block[data-block-type="block-4"] {
-    background-color: #F7D1D7 !important;
-}
-
-/* Условия и циклы */
-.block[id="block-5"], .block[data-block-type="block-5"] { 
-    background-color: #F8E6A0 !important;
-/*    background-color: #FFFBDB !important;*/
-}
-
-/*.block[id="block-10"], .block[data-block-type="block-10"],
-.block[id="block-11"], .block[data-block-type="block-11"] {
-    background-color: #F8E6A0 !important; 
-    min-height: 100px !important;
-    padding-bottom: 40px !important;
-}
-*/
-
-.block[data-block-type="block-6"], .block[id="block-6"],
-.block[data-block-type="block-10"], .block[id="block-10"],
-.block[data-block-type="block-11"], .block[id="block-11"] {
-    /*    background-color: #FFD09B !important;*/
-/*    background-color: #FBCEB1 !important;*/
-    background-color: #FDD9B5 !important;
-}
-
-#code-area .block[data-block-type="block-6"] .inner-container,
-#code-area .block[data-block-type="block-10"] .inner-container,
-#code-area .block[data-block-type="block-11"] .inner-container {
-    border: 1px dashed rgba(0,0,0,0.1);
-    margin-top: 10px;
-    background: rgba(255,255,255,0.2);
-    border-radius: 4px;
-}
-
-
-.block[data-block-type="block-11"] .block-input {
-    display: inline-block !important;
-    width: auto !important;
-    min-width: 30px;
-}
-
-/*функции*/
-.block[data-block-type="block-20"], .block[id="block-20"],
-.block[data-block-type="block-21"], .block[id="block-21"] {
-    background-color: #BACCE6 !important; 
-}
-
-#code-area .block[data-block-type="block-20"] {
-    min-height: 120px !important;
-    padding-bottom: 40px !important;
-}
-
-    #code-area .block[data-block-type="block-20"] .inner-container {
-        border: 1px dashed rgba(0,0,0,0.1);
-        margin-top: 10px;
-        background: rgba(255,255,255,0.2);
-        border-radius: 4px;
-    }
-
-.sidebar .block[data-block-type="block-20"] {
-    min-height: 0 !important;
-    padding-bottom: 15px !important;
-}
-.block[id="block-7"], .block[data-block-type="block-7"] {
-    background-color: #F8E6A0 !important;
-}
-
-
-.block[data-block-type="block-7"] {
-    min-height: 80px !important;
-    padding-bottom: 30px !important;
-}
-
-#code-area .block[data-block-type="block-7"] .inner-container {
-    border: 1px dashed rgba(0,0,0,0.1);
-    margin-top: 10px;
-    background: rgba(255,255,255,0.2);
-    border-radius: 4px;
-}
-
-.block[id="block-12"], .block[data-block-type="block-12"] {
-    background-color: #F8E6A0 !important; 
-    min-height: 40px !important;
-    padding-bottom: 20px !important;
-}
-
-.block[data-block-type="block-12"] {
-    border-left: 5px solid #E6B400;
-}
-
-#code-area .block[data-block-type="block-5"] .inner-container {
-    border: 1px dashed rgba(0,0,0,0.1);
-    margin-top: 10px;
-    background: rgba(255,255,255,0.2);
-    border-radius: 4px;
-}
-
-#code-area .block[data-block-type="block-12"] .inner-container {
-    border: 1px dashed rgba(0,0,0,0.1);
-    margin-top: 10px;
-    background: rgba(255,255,255,0.2);
-    border-radius: 4px;
-}
-
-/*вывод*/
-/*переменная*/
-.block[id="block-8"], .block[data-block-type="block-8"] {
-    background-color: #D1EFBD !important;
-}
-
-#code-area .block[data-block-type="block-8"] .block-input {
-    border: 1px solid rgba(0,0,0,0.1);
-    background: white;
-}
-
-.block-input.error {
-    color: red !important;
-    border: 1px solid red;
-}
-
-/*массив*/
-.block[id="block-9"], .block[data-block-type="block-9"] {
-    background-color: #D1EFBD !important;
-}
-/* 
-    .block[data-block-type="block-9"] input {
-        text-align: center;
-    } */
-
-
-    .block[id="block-13"], .block[data-block-type="block-13"] {
-    background-color: #D1EFBD !important;
-}
-
-#code-area .block[data-block-type="block-13"] .block-input {
-    border: 1px solid rgba(0,0,0,0.1);
-    background: white;
-}
-/*
-#code-area .block[data-block-type="block-6"] .inner-container,
-#code-area .block[data-block-type="block-10"] .inner-container,
-#code-area .block[data-block-type="block-11"] .inner-container {
-    border: 1px dashed rgba(0,0,0,0.1);
-    margin-top: 10px;
-    background: rgba(255,255,255,0.2);
-    border-radius: 4px;
-}*/
-/*#code-area .block[data-block-type="block-10"] .inner-container {
-    border: 1px dashed rgba(0,0,0,0.1);
-    margin-top: 10px;
-    background: rgba(255,255,255,0.2);
-    border-radius: 4px;
-}*/
-/*
-#code-area .block[data-block-type="block-11"] .inner-container {
-    border: 1px dashed rgba(0,0,0,0.1);
-    margin-top: 10px;
-    background: rgba(255,255,255,0.2);
-    border-radius: 4px;
-}
-*/
-.block-if {
-    min-height: 100px !important;
-    padding-bottom: 40px !important; 
-}
-/*контейнер для запихивания блоков друг в друга */
-.inner-container {
-    display: flex;
-    flex-direction: column;
-    padding: 10px;
-    min-height: 50px;
-    height: auto !important;
-}
-    .inner-container .block {
-        position: relative !important;
-        left: 0 !important;
-        top: 0 !important;
-        margin-bottom: 5px !important;
-        width: calc(100% - 10px) !important; 
-        min-width: 0 !important;
-    }
-
-/* менюшка блоков в сайдбаре */
+/* ТАБЫ */
 .tabs-menu {
     display: flex;
     gap: 5px;
@@ -536,8 +298,7 @@ input[type="text"] {
 }
 
 .tab-btn {
-    font-family: "Press Start 2P", cursive;
-    font-size: 8px; 
+    font-size: 8px;
     padding: 8px;
     cursor: pointer;
     background: #f0f0f0;
@@ -546,19 +307,19 @@ input[type="text"] {
     transition: 0.3s;
 }
 
-    .tab-btn.active {
-        background: #CDCCF7;
-        border-color: #A76E9C;
-    }
+.tab-btn.active {
+    background: #CDCCF7;
+    border-color: #A76E9C;
+}
 
 .tab-content {
     display: none;
     flex-grow: 1;
 }
 
-    .tab-content.active {
-        display: block;
-    }
+.tab-content.active {
+    display: block;
+}
 
 .blocks-list {
     list-style: none;
@@ -566,3 +327,111 @@ input[type="text"] {
     margin: 0;
 }
 
+
+.dragging {
+    opacity: 0.5;
+    transform: scale(0.95);
+    z-index: 2000 !important;
+}
+
+/**/
+#block-0::before,
+.block-start::before {
+    display: none !important;
+}
+
+.block-end::after {
+    display: none !important;
+}
+
+.block[data-block-type="block-11"] .block-input {
+    display: inline-block !important;
+    width: auto !important;
+    min-width: 30px;
+}
+
+.block[data-block-type="block-12"] {
+    border-left: 5px solid #E6B400;
+}
+
+#code-area .block[data-block-type="block-8"] .block-input,
+#code-area .block[data-block-type="block-13"] .block-input {
+    border: 1px solid rgba(0,0,0,0.1);
+    background: white;
+}
+
+/* РАЗМЕРЫ БЛОКОВ */
+.block[data-block-type="block-7"] {
+    min-height: 80px !important;
+    padding-bottom: 30px !important;
+}
+
+.block[data-block-type="block-10"],
+.block[data-block-type="block-11"],
+.block-if {
+    min-height: 100px !important;
+    padding-bottom: 40px !important;
+}
+
+.block[data-block-type="block-12"] {
+    min-height: 40px !important;
+    padding-bottom: 20px !important;
+}
+
+#code-area .block[data-block-type="block-20"] {
+    min-height: 120px !important;
+    padding-bottom: 40px !important;
+}
+
+.sidebar .block[data-block-type="block-20"] {
+    min-height: 0 !important;
+    padding-bottom: 15px !important;
+}
+
+/* ЦВЕТА БЛОКОВ (группировка по цветам) */
+.block[data-block-type="block-0"],
+.block[data-block-type="block-1000"] {
+    background-color: #CDCCF7 !important;
+}
+
+.block[data-block-type="block-1"],
+.block[data-block-type="block-2"] {
+    background-color: #BBDFFF !important;
+}
+
+.block[data-block-type="block-3"],
+.block[data-block-type="block-4"] {
+    background-color: #F7D1D7 !important;
+}
+
+.block[data-block-type="block-5"],
+.block[data-block-type="block-7"],
+.block[data-block-type="block-12"] {
+    background-color: #F8E6A0 !important;
+}
+
+.block[data-block-type="block-6"],
+.block[data-block-type="block-10"],
+.block[data-block-type="block-11"] {
+    background-color: #FDD9B5 !important;
+}
+
+.block[data-block-type="block-20"],
+.block[data-block-type="block-21"] {
+    background-color: #BACCE6 !important;
+}
+
+.block[data-block-type="block-8"],
+.block[data-block-type="block-9"],
+.block[data-block-type="block-13"] {
+    background-color: #D1EFBD !important;
+}
+
+/* поддержка старых ID для обратной совместимости */
+[id="block-0"], [id="block-1000"] { background-color: #CDCCF7 !important; }
+[id="block-1"], [id="block-2"] { background-color: #BBDFFF !important; }
+[id="block-3"], [id="block-4"] { background-color: #F7D1D7 !important; }
+[id="block-5"], [id="block-7"], [id="block-12"] { background-color: #F8E6A0 !important; }
+[id="block-6"], [id="block-10"], [id="block-11"] { background-color: #FDD9B5 !important; }
+[id="block-20"], [id="block-21"] { background-color: #BACCE6 !important; }
+[id="block-8"], [id="block-9"], [id="block-13"] { background-color: #D1EFBD !important; }
