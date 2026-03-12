@@ -29,12 +29,12 @@ class CreateArrBlock extends Block {
     }
 
     _perform() {
-        if (!Convert.canConvertToArrNames(this.varNames, [...Block.arrays.keys()], false)) {
-            Console.output("Ошибка");
+        if (!Convert.canConvertToArrNames(this.arrNames, [...Block.arrays.keys()], false)) {
+            Console.output("Ошибка 4");
             return;
         }
         if (!Convert.canConvertToNumber(this.size, [...Block.variables.keys()], [...Block.arrays.keys()], 1)) {
-            Console.output("Ошибка");
+            Console.output("Ошибка 5");
             return;
         }
         let arrNamesSet = Convert.convertToArrNames(this.arrNames);

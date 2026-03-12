@@ -23,8 +23,8 @@ class PrintArrBlock extends Block {
     }
 
     _perform() {
-        if (!Convert.canConvertToArrNames(this.varNames, [...Block.arrays.keys()], true)) {
-            Console.output("Ошибка");
+        if (!Convert.canConvertToArrNames(this.arrNames, [...Block.arrays.keys()], true)) {
+            Console.output("Ошибка 6");
             return;
         }
 
@@ -35,8 +35,8 @@ class PrintArrBlock extends Block {
             maxIndex = Math.min(maxIndex, Block.arrays.get(name).length - 1);
         }
 
-        if (!Convert.canConvertToNumber(this.varIndex, [...Block.variables.keys()], [...Block.arrays.keys()]), 0, maxIndex) {
-            Console.output("Ошибка");
+        if (!Convert.canConvertToNumber(this.arrIndex, [...Block.variables.keys()], [...Block.arrays.keys()]), 0, maxIndex) {
+            Console.output("Ошибка 7");
             return;
         }
 

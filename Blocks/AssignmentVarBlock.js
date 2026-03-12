@@ -26,7 +26,7 @@ class AssignmentVarBlock extends Block {
             Console.output("Ошибка");
             return;
         }
-        if (!Convert.canConvertToNumber(this.value, [...Block.variables.keys()], [...Block.arrays.keys()])) {
+        if (!Convert.canConvertToNumber(this.varValue, [...Block.variables.keys()], [...Block.arrays.keys()])) {
             Console.output("Ошибка");
             return;
         }
