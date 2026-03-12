@@ -487,7 +487,6 @@ class Convert {
                 }
             }
         }
-
         return true;
     }
 

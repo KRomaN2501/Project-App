@@ -35,7 +35,20 @@ class AssignmentArrBlock extends Block {
             Console.output("Ошибка");
             return;
         }
-        if (!Convert.canConvertToNumber(this.index, [...Block.variables.keys()], [...Block.arrays.keys()])) {
+
+        let arrNamesSet = Convert.convertToArrNames(this.arrNames);
+
+        let maxIndex = 1e8;
+        for (const name of arrNamesSet) {
+            maxIndex = Math.min(maxIndex, Block.arrays.get(name).length - 1);
+        }
+
+        if (!Convert.canConvertToNumber(this.varIndex, [...Block.variables.keys()], [...Block.arrays.keys()]), 0, maxIndex) {
+            Console.output("Ошибка");
+            return;
+        }
+
+        if (!Convert.canConvertToNumber(this.index, [...Block.variables.keys()], [...Block.arrays.keys()]), 0) {
             Console.output("Ошибка");
             return;
         }
@@ -43,13 +56,8 @@ class AssignmentArrBlock extends Block {
             Console.output("Ошибка");
             return;
         }
-        let arrNamesSet = Convert.convertToArrNames(this.arrNames);
 
-        let maxIndex = 1e8;
-        for (const name of arrNamesSet) {
-            maxIndex = Math.min(maxIndex, Block.arrays.get(name).length - 1);
-        }
-        let arrIndexNumber = Convert.convertToNumber(this.arrIndex, Block.variables, Block.arrays, 0, maxIndex);
+        let arrIndexNumber = Convert.convertToNumber(this.arrIndex, Block.variables, Block.arrays);
 
         let arrValueNumber = Convert.convertToNumber(this.arrValue, Block.variables, Block.arrays);
 
