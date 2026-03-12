@@ -19,7 +19,7 @@ class CyclicWithCounterBlock extends BlockContainer {
     setCondition(condition) {
         this.condition = condition;
         if (!Convert.canConvertToBool(condition, Block.potentialVariables, Block.potentialArrays)) {
-            updateBlockInputError(this, 0, "");
+            updateBlockInputError(this, 1, "");
         }
     }
 
@@ -27,7 +27,7 @@ class CyclicWithCounterBlock extends BlockContainer {
     setValue(value) {
         this.varValue = value;
         if (!Convert.canConvertToNumber(value, Block.potentialVariables, Block.potentialArrays)) {
-            updateBlockInputError(this, 1, "");
+            updateBlockInputError(this, 2, "");
         }
     }
 

@@ -457,28 +457,13 @@ class Convert {
     }
 
     static checkVariables(tokens, dict_vars, arrays) {
-        if (dict_vars instanceof Map) {
-            const dict_vars = new Set(dict_vars.keys())
-        }
-        else {
-            const dict_vars = new Set(Object.keys(dict_vars || {}));
-        }
-
-        if (arrays instanceof Map) {
-            const arr_vars = new Set(arrays.keys())
-        }
-        else {
-            const arr_vars = new Set(Object.keys(arrays || {}));
-        }
-
+        const dictKeys = dict_vars instanceof Map ? new Set(dict_vars.keys()) : new Set(Object.keys(dict_vars || {}));
+        const arrKeys = arrays instanceof Map ? new Set(arrays.keys()) : new Set(Object.keys(arrays || {}));
         for (const t of tokens) {
-            if (Convert.isVariable(t)) {
-                if (!dict_vars.has(t) && !arr_vars.has(t)) {
-                    return false;
-                }
+            if (Convert.isVariable(t) && !dictKeys.has(t) && !arrKeys.has(t)) {
+                return false;
             }
         }
-
         return true;
     }
 
