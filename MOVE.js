@@ -2,6 +2,7 @@
 let activeBlock = null;
 let offsetX, offsetY;
 let isDragging = false;
+let selectedBlock = null;
 
 function allowDrop(ev) {
     ev.preventDefault();
@@ -111,8 +112,15 @@ document.querySelectorAll('.sidebar .block').forEach(block => {
 document.addEventListener('mousedown', (e) => {
     const targetBlock = e.target.closest('#code-area .block');
 
-    if (!targetBlock || e.target.tagName === 'INPUT') return;
+    if (selectedBlock) {
+        selectedBlock.style.outline = ""; 
+    }
 
+    if (!targetBlock || e.target.tagName === 'INPUT') {
+        selectedBlock = null;
+        return;
+    }
+    selectedBlock = targetBlock;
     const parentInner = targetBlock.closest('.inner-container');
     if (parentInner) {
         const codeArea = document.getElementById('code-area');
@@ -190,6 +198,7 @@ function onMouseMove(e) {
 }
 
 function onMouseUp(e) {
+    if (!isDragging || !activeBlock) return;
     if (activeBlock) {
         const sidebar = document.querySelector('.sidebar');
         const sRect = sidebar.getBoundingClientRect();
@@ -308,8 +317,9 @@ function updateContainerSize(containerBlock) {
     const blocks = Array.from(inner.querySelectorAll('.block'));
 
     if (blocks.length === 0) {
-        inner.style.height = '40px';
-        inner.style.padding = '0';
+      
+        inner.style.height = '50px'; 
+        inner.style.padding = '10px';
         return;
     }
     let totalHeight = 0;
@@ -403,3 +413,29 @@ function snapToBlock(block) {
         rebuildInnerConnections(parentBlock);
     }
 }
+
+document.addEventListener('keydown', (e) => {
+    if ((e.key === 'Delete' || e.key === 'Backspace') && 
+        selectedBlock && 
+        e.target.tagName !== 'INPUT' && 
+        e.target.tagName !== 'TEXTAREA') {
+
+        const blockObj = Block.allBlocks.find(obj => obj.domElement === selectedBlock);
+        
+        if (blockObj) {
+            const parentInner = selectedBlock.closest('.inner-container');
+            const parentBlock = parentInner ? parentInner.closest('.block-if') : null;
+
+            blockObj.delete(); 
+
+            selectedBlock.remove();
+            selectedBlock = null;
+
+            if (parentBlock) {
+                updateContainerSize(parentBlock);
+                rebuildInnerConnections(parentBlock);
+            }
+        }
+    }
+});
+

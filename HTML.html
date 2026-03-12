@@ -40,29 +40,24 @@
                 <ul class="blocks-list">
                     <li class="block" draggable="true" id="block-5">
                         Если
-                        <input type="text" class="block-input" placeholder="Условие" value="условие">
+                        <input type="text" class="block-input input-width-l" placeholder="Условие" value="условие">
                     </li>
                     <li class="block" draggable="true" id="block-12">
                         Иначе если
-                        <input type="text" class="block-input" placeholder="Условие" value="условие">
+                        <input type="text" class="block-input input-width-l" placeholder="Условие" value="условие">
                     </li>
                     <li class="block" draggable="true" id="block-7">
                         Иначе
                     </li>
                     <li class="block" draggable="true" id="block-6">
                         Выполнять пока
-                        <input type="text" class="block-input" placeholder="выполнять пока" value="условие">
-                    </li>
-                    <li class="block" draggable="true" id="block-10">
-                        Повторить
-                        <input type="text" class="block-input input-width-s" value="10"> раз
+                        <input type="text" class="block-input input-width-l" placeholder="выполнять пока" value="условие">
                     </li>
 
                     <li class="block" draggable="true" id="block-11">
-                        Повторить для <input type="text" class="block-input input-width-xs" value="i">
-                        от <input type="text" class="block-input input-width-xs" value="1">
-                        до <input type="text" class="block-input input-width-xs" value="10">
-                        шаг <input type="text" class="block-input input-width-xs" value="1">
+                        Повторить для <input type="text" class="block-input input-width-l" value="переменная">
+                        <input type="text" class="block-input input-width-l" placeholder="выполнять" value="условие">
+                        <input type="text" class="block-input input-width-l"  value="обновление переменной">
                     </li>
                 </ul>
             </div>
@@ -98,12 +93,12 @@
                 <ul id="block-list-output">
                     <li class="block" draggable="true" id="block-8">
                         Вывести значение переменной
-                        <input type="text" class="block-input" placeholder="имя переменной" value="имя переменной">
+                        <input type="text" class="block-input input-width-l" placeholder="имя переменной" value="имя переменной">
                     </li>
                     <li class="block" draggable="true" id="block-9">
                         Вывести эл-т массива
-                        <input type="text" class="block-input" placeholder="массив" value="имя массива">
-                        <input type="text" class="block-input" placeholder="индекс" value="индекс">
+                        <input type="text" class="block-input input-width-l" placeholder="массив" value="имя массива">
+                        <input type="text" class="block-input input-width-l" placeholder="индекс" value="индекс">
                     </li>
                     <li class="block" draggable="true" id="block-13">
                         Общий вывод
@@ -114,11 +109,13 @@
             <div id="tab-functions" class="tab-content">
                 <ul id="block-list">
                     <li class="block" draggable="true" id="block-20">
-                        Функция: <input type="text" class="block-input input-width-l"  value="имя_функции">
+                        Функция: 
+                        <input type="text" class="block-input input-width-l"  value="имя функции">
+                        <input type="text" class="block-input input-width-l"  value="переменные">
                     </li>
 
                     <li class="block" draggable="true" id="block-21">
-                        Выполнить: <input type="text" class="block-input input-width-l"  value="имя_функции">
+                        Выполнить: <input type="text" class="block-input input-width-l"  value="имя функции">
                     </li>
                 </ul>
             </div>
