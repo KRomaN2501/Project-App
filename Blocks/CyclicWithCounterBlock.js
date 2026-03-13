@@ -32,22 +32,24 @@ class CyclicWithCounterBlock extends BlockContainer {
     }
 
     _perform() {
-    if (!Convert.canConvertToVarNames(this.varNames, Block.variables, true)) {
-        Console.output("Ошибка в именах переменных");
-        return;
-    }
-
-    while (Convert.convertToBool(this.condition, Block.variables, Block.arrays)) {
-        if (this.innerBlock) {
-            this.innerBlock.activate();
+        if (!Convert.canConvertToVarNames(this.varNames, Block.variables, true)) {
+            Console.output("Ошибка");
+            return;
         }
-        
-        let newValue = Convert.convertToNumber(this.varValue, Block.variables, Block.arrays);
-        let varNamesSet = Convert.convertToVarNames(this.varNames);
-        
-        varNamesSet.forEach(name => {
-            Block.variables.set(name, newValue);
-        });
+        if (!Convert.canConvertToBool(this.condition, Block.variables, Block.arrays)) {
+            Console.output("Ошибка");
+            return;
+        }
+        if (!Convert.canConvertToNumber(this.varValue, Block.variables, Block.arrays)) {
+            Console.output("Ошибка");
+            return;
+        }
+
+        while (Convert.convertToBool(this.condition, Block.variables, Block.arrays)) {
+            if (this.innerBlock) this.innerBlock.activate();
+            let varNamesSet = Convert.convertToVarNames(this.varNames);
+            varNamesSet.forEach(name => Block.variables.set(name, Convert.convertToNumber(this.varValue, Block.variables, Block.arrays)));
+            console.log("конец цикла");
+        }
     }
-}
 }
