@@ -68,7 +68,7 @@ function InputAreaInBlocks(logic, domElement) {
                 else if (index === 1)
                     logic.setArgs(text);
             }
-            else if (logic instanceof CallFuncBlock) {
+            else if (logic instanceof CallFunctionBlock) {
                 if (index === 0)
                     logic.setTargetName(text);
                 else if (index === 1)
