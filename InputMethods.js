@@ -42,7 +42,7 @@ function InputAreaInBlocks(logic, domElement) {
                 if (index === 0)
                     logic.setNames(text);
                 else if (index === 1)
-                    logic.setcondition(text);
+                    logic.setCondition(text);
                 else if (index === 2)
                     logic.setValue(text);
             }
