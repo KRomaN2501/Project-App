@@ -32,23 +32,25 @@ class CyclicWithCounterBlock extends BlockContainer {
     }
 
     _perform() {
-        if (!Convert.canConvertToVarNames(this.varNames, Block.variables, true)) {
-            Console.output("Ошибка");
-            return;
-        }
-        if (!Convert.canConvertToBool(this.condition, Block.variables, Block.arrays)) {
-            Console.output("Ошибка");
-            return;
-        }
-        if (!Convert.canConvertToNumber(this.varValue, Block.variables, Block.arrays)) {
-            Console.output("Ошибка");
-            return;
-        }
-
-        while (Convert.convertToBool(this.condition, Block.variables, Block.arrays)) {
-            if (this.innerBlock) this.innerBlock.activate();
-            let varNamesSet = Convert.convertToVarNames(this.varNames);
-            varNamesSet.forEach(name => Block.variables.set(name, Convert.convertToNumber(this.varValue, Block.variables, Block.arrays)));
-        }
+    if (!Convert.canConvertToVarNames(this.varNames, Block.variables, true)) {
+        Console.output("Ошибка в именах переменных");
+        return;
     }
+    
+    // Выполняем цикл, пока условие истинно
+    while (Convert.convertToBool(this.condition, Block.variables, Block.arrays)) {
+        // Выполняем вложенные блоки
+        if (this.innerBlock) {
+            this.innerBlock.activate();
+        }
+        
+        // Обновляем значение переменной (шаг цикла)
+        let newValue = Convert.convertToNumber(this.varValue, Block.variables, Block.arrays);
+        let varNamesSet = Convert.convertToVarNames(this.varNames);
+        
+        varNamesSet.forEach(name => {
+            Block.variables.set(name, newValue);
+        });
+    }
+}
 }

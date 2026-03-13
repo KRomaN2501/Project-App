@@ -52,9 +52,11 @@ class Block {
     }
 
     activate() {
-        this._perform();
+    this._perform();
+    if (!(this instanceof BlockContainer)) {
         this.runNext();
     }
+}
 
     runNext() {
         if (this.nextBlock) {
