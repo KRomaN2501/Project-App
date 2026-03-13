@@ -115,7 +115,7 @@
                         <input type="text" class="block-input input-width-l" placeholder="индекс" value="индекс">
                     </li>
                     <li class="block" draggable="true" id="block-13">
-                        Общий вывод
+                        Вывод числа
                         <input type="text" class="block-input" placeholder="имя переменной" value="имя переменной">
                     </li>
                 </ul>
@@ -158,7 +158,9 @@
                     <span id="theme-text">Темная тема</span>
                 </div>
                 
+                
                 <button class="start-button" id="startButton">Запустить ▶</button>
+                <button class="clear-button" id="clearWorkspaceButton">Очистить 🗑</button>
             </div>
             <div class="code-area" id="code-area" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
 
@@ -185,6 +187,7 @@
         <script src="Blocks//CyclicWithCounterBlock.js"></script>
         <script src="Blocks//EndBlock.js"></script>
         <script src="DarkMode.js"></script>
+        <script src="ClearButton.js"></script>
 </body>
 
 </html>

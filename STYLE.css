@@ -241,7 +241,9 @@ input[type="text"],
 }
 
 /* КНОПКА СТАРТ */
-.start-button {
+.start-button,
+.clear-button {
+    font-family: "Press Start 2P", system-ui;
     padding: 10px 24px;
     font-size: 16px;
     background-color: #CDCCF7;
@@ -254,10 +256,17 @@ input[type="text"],
     letter-spacing: 1px;
 }
 
-.start-button:hover {
+.start-button:hover,
+.clear-button:hover {
     background-color: #F7D9E0;
+    transform: scale(1.05);
 }
 
+.start-button:active,
+.clear-button:active {
+    transform: scale(0.95); 
+    transition: transform 0.1s; 
+}
 /* ПОЛЕ ВЫВОДА */
 .field {
     width: 100%;
@@ -310,8 +319,11 @@ input[type="text"],
 .tab-btn.active {
     background: #CDCCF7;
     border-color: #A76E9C;
+    transform: scale(0.975);
 }
-
+.tab-btn:hover {
+    transform: scale(1.025);
+}
 .tab-content {
     display: none;
     flex-grow: 1;
@@ -513,7 +525,7 @@ body.dark-mode .tab-btn {
     left: 4px; 
     bottom: 2px; 
     background-color: white; 
-    transition: .4s;
+    transition: 0.4s;
 }
 
 
