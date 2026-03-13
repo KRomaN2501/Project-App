@@ -23,7 +23,11 @@ class CreateArrBlock extends Block {
     /** @param {string} size */
     setSize(size) {
         this.size = size;
-        if (!Convert.canConvertToNumber(size, Block.potentialVariables, Block.potentialArrays, 1)) {
+        if (!Convert.canConvertToNumber(size, Block.potentialVariables, Block.potentialArrays)) {
+            updateBlockInputError(this, 1, "");
+        }
+        let sizeNumber = Convert.convertToNumber(size);
+        if (sizeNumber != null && sizeNumber < 1) {
             updateBlockInputError(this, 1, "");
         }
     }
