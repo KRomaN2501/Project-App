@@ -14,7 +14,7 @@ class PrintNumberBlock extends Block {
     }
 
     _perform() {
-        if (!Convert.canConvertToNumber(this.number, [...Block.variables.keys()], [...Block.arrays.keys()])) {
+        if (!Convert.canConvertToNumber(this.number, Block.variables, Block.arrays)) {
             Console.output("Ошибка");
             return;
         }

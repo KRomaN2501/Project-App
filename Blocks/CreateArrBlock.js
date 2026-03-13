@@ -23,7 +23,11 @@ class CreateArrBlock extends Block {
     /** @param {string} size */
     setSize(size) {
         this.size = size;
-        if (!Convert.canConvertToNumber(size, Block.potentialVariables, Block.potentialArrays, 1)) {
+        if (!Convert.canConvertToNumber(size, Block.potentialVariables, Block.potentialArrays)) {
+            updateBlockInputError(this, 1, "");
+        }
+        let sizeNumber = Convert.convertToNumber(size);
+        if (sizeNumber != null && sizeNumber < 1) {
             updateBlockInputError(this, 1, "");
         }
     }
@@ -33,7 +37,7 @@ class CreateArrBlock extends Block {
             Console.output("Ошибка 4");
             return;
         }
-        if (!Convert.canConvertToNumber(this.size, [...Block.variables.keys()], [...Block.arrays.keys()], 1)) {
+        if (!Convert.canConvertToNumber(this.size, Block.variables, Block.arrays, 1)) {
             Console.output("Ошибка 5");
             return;
         }

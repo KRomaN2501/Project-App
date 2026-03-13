@@ -8,6 +8,8 @@ class Convert {
      */
 
     static convertToNumber(str, dict_vars, arrays, min = null, max = null) { //min и max включительно
+        dict_vars = Convert.normalizeObj(dict_vars);
+        arrays = Convert.normalizeObj(arrays);
         const rpn_arr = Convert.transformation_to_RPN_and_bool(str);
         const result = Convert.count_RPN_and_bool(rpn_arr, dict_vars, arrays);
         if (min === null && max === null) return result;
@@ -22,7 +24,8 @@ class Convert {
      * @returns {boolean}
      */
     static convertToBool(str, dict_vars, arrays) {
-
+        dict_vars = Convert.normalizeObj(dict_vars);
+        arrays = Convert.normalizeObj(arrays);
         const rpn_arr = Convert.transformation_to_RPN_and_bool(str);
         const result = Convert.count_RPN_and_bool(rpn_arr, dict_vars, arrays);
 
@@ -89,7 +92,19 @@ class Convert {
                 continue;
             }
 
-            if ((c === ">" || c === "<" || c === "!" || c === "=") && i + 1 < str_.length && str_[i + 1] === "=") {
+            if (c === "="  && i + 2 < str_.length && str_[i + 1] === "=" && str_[i+2] === "=") {
+                correct_cout.push("===");
+                i += 3;
+                continue
+            }
+
+            if (c === "!"  && i + 2 < str_.length && str_[i + 1] === "=" && str_[i+2] === "=") {
+                correct_cout.push("!==");
+                i += 3;
+                continue
+            }
+    
+            if ((c === ">" || c === "<" ) && i + 1 < str_.length && str_[i + 1] === "=") {
                 correct_cout.push(c + "=");
                 i += 2;
                 continue
@@ -110,12 +125,12 @@ class Convert {
         const rigth_str = Convert.transformation(str_);
         const out = [];
         const stack_op = [];
-        const priority = { "||": 1, "&&": 2, "!=": 3, "==": 3, ">=": 4, ">": 4, "<=": 4, "<": 4, "+": 5, "-": 5, "*": 6, "/": 6, "%": 6, "!": 7 };
+        const priority = { "||": 1, "&&": 2, "!==": 3, "===": 3, ">=": 4, ">": 4, "<=": 4, "<": 4, "+": 5, "-": 5, "*": 6, "/": 6, "%": 6, "!": 7 };
 
         function isOperator(a) {
             return (a === "+" || a === "-" || a === "/" || a === "%" || a === "*" ||
                 a === ">" || a === "<" || a === ">=" || a === "<=" ||
-                a === "==" || a === "!=" || a === "!" ||
+                a === "===" || a === "!==" || a === "!" ||
                 a === "&&" || a === "||");
         }
 
@@ -200,7 +215,7 @@ class Convert {
         function isOperator(a) {
             return (a === "+" || a === "-" || a === "/" || a === "%" || a === "*" ||
                 a === ">" || a === "<" || a === ">=" || a === "<=" ||
-                a === "==" || a === "!=" || a === "!" ||
+                a === "===" || a === "!==" || a === "!" ||
                 a === "&&" || a === "||");
         }
 
@@ -255,15 +270,15 @@ class Convert {
             }
 
             if (!isOperator(value)) {
-                if (arrays && arrays.has && arrays.has(value)) {
+                if (arrays.has(value)) {
                     stack_num.push(value);
                     continue;
                 }
-                if (dict_vars && dict_vars.has && dict_vars.has(value)) {
+                if (dict_vars.has(value)) {
                     stack_num.push(dict_vars.get(value));
                     continue;
                 }
-                continue;
+                return null;
             }
 
             const second_number = stack_num.pop();
@@ -284,8 +299,8 @@ class Convert {
             else if (value === ">=") stack_num.push(first_number >= second_number ? 1 : 0);
             else if (value === "<") stack_num.push(first_number < second_number ? 1 : 0);
             else if (value === "<=") stack_num.push(first_number <= second_number ? 1 : 0);
-            else if (value === "==") stack_num.push(first_number === second_number ? 1 : 0);
-            else if (value === "!=") stack_num.push(first_number !== second_number ? 1 : 0);
+            else if (value === "===") stack_num.push(first_number === second_number ? 1 : 0);
+            else if (value === "!==") stack_num.push(first_number !== second_number ? 1 : 0);
             else if (value === "&&") stack_num.push((first_number === 1 && second_number === 1) ? 1 : 0);
             else if (value === "||") stack_num.push((first_number === 1 || second_number === 1) ? 1 : 0);
         }
@@ -390,7 +405,7 @@ class Convert {
         return true;
     }
 
-    static canConvertToNumber(str, dict_vars, arrays, min, max) {
+    static canConvertToNumber(str, dict_vars, arrays, min = null, max = null) {
         if (!str || typeof str !== "string") return false;
 
         dict_vars = Convert.normalizeObj(dict_vars);

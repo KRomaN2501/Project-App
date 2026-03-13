@@ -14,7 +14,7 @@ class PrintVarBlock extends Block {
     }
 
     _perform() {
-        if (!Convert.canConvertToVarNames(this.varNames, [...Block.variables.keys()], true)) {
+        if (!Convert.canConvertToVarNames(this.varNames, Block.variables, true)) {
             Console.output("Ошибка");
             return;
         }
