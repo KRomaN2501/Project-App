@@ -17,7 +17,11 @@ class PrintArrBlock extends Block {
     /** @param {string} index */
     setIndex(index) {
         this.arrIndex = index;
-        if (!Convert.canConvertToNumber(index, Block.potentialVariables, Block.potentialArrays, 0)) {
+        if (!Convert.canConvertToNumber(index, Block.potentialVariables, Block.potentialArrays)) {
+            updateBlockInputError(this, 1, "");
+        }
+        let indexNumber = Convert.convertToNumber(index);
+        if (indexNumber != null && indexNumber < 0) {
             updateBlockInputError(this, 1, "");
         }
     }
