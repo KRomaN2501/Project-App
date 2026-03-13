@@ -37,7 +37,7 @@ class CreateArrBlock extends Block {
             Console.output("Ошибка 4");
             return;
         }
-        if (!Convert.canConvertToNumber(this.size, [...Block.variables.keys()], [...Block.arrays.keys()], 1)) {
+        if (!Convert.canConvertToNumber(this.size, Block.variables, Block.arrays, 1)) {
             Console.output("Ошибка 5");
             return;
         }
