@@ -38,9 +38,18 @@ function InputAreaInBlocks(logic, domElement) {
                 else if (index === 2)
                     logic.setValue(text);
             }
+            else if (logic instanceof CyclicWithCounterBlock){
+                if (index === 0)
+                    logic.setNames(text);
+                else if (index === 1)
+                    logic.setcondition(text);
+                else if (index === 2)
+                    logic.setValue(text);
+            }
             else if (logic.setCondition) {
                 logic.setCondition(text);
             }
+            
             else if (logic instanceof PrintVarBlock) {
                 logic.setNames(text);
             }

@@ -204,7 +204,11 @@ function onMouseMove(e) {
 }
 
 function onMouseUp(e) {
-    if (!isDragging || !activeBlock) return;
+    if (!isDragging || !activeBlock) {
+        isDragging = false;
+        activeBlock = null;
+        return; 
+    }
     if (activeBlock) {
         const sidebar = document.querySelector('.sidebar');
         const sRect = sidebar.getBoundingClientRect();
