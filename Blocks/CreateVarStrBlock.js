@@ -10,19 +10,19 @@ class CreateVarStrBlock extends Block {
     /** @param {string} str */
     setNames(str) {
         let varStrNamesSet = Convert.convertToVarNames(this.varStrNames);
-        Block.potentialVariables = Block.potentialVariables.filter(item => !varStrNamesSet.has(item));
+        Block.potentialVariablesString = Block.potentialVariablesString.filter(item => !varStrNamesSet.has(item));
 
         this.varStrNames = str;
-        if (!Convert.canConvertToVarNames(str, Block.potentialVariables, false)) {
+        if (!Convert.canConvertToVarNames(str, Block.potentialVariablesString, false, Block.potentialVariables)) {
             updateBlockInputError(this, 0, "");
         }
 
         varStrNamesSet = Convert.convertToVarNames(this.varStrNames);
-        varStrNamesSet.forEach(name => Block.potentialVariables.push(name));
+        varStrNamesSet.forEach(name => Block.potentialVariablesString.push(name));
     }
 
     _perform() {
-        if (!Convert.canConvertToVarNames(this.varStrNames, Block.variablesString, false)) {
+        if (!Convert.canConvertToVarNames(this.varStrNames, Block.variablesString, false, Block.variables)) {
             Console.output("Ошибка");
             return;
         }
@@ -33,7 +33,7 @@ class CreateVarStrBlock extends Block {
     delete() {
         if (Convert.canConvertToVarNames(this.varStrNames, Block.variablesString, true)) {
             let varStrNamesSet = Convert.convertToVarNames(this.varStrNames);
-            Block.potentialVariables = Block.potentialVariables.filter(item => !varStrNamesSet.has(item));
+            Block.potentialVariablesString = Block.potentialVariablesString.filter(item => !varStrNamesSet.has(item));
         }
         super.delete();
     }

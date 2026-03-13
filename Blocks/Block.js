@@ -6,6 +6,7 @@ class Block {
     static arrays = new Map();
     static potentialArrays = [];
     static variablesString = new Map();
+    static potentialVariablesString = [];
 
     static startBlock = null;
 

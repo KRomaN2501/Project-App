@@ -8,7 +8,7 @@ class AssignmentVarStrBlock extends Block {
     /** @param {string} str */
     setNames(str) {
         this.varStrNames = str;
-        if (!Convert.canConvertToVarNames(str, Block.potentialVariables, true)) {
+        if (!Convert.canConvertToVarNames(str, Block.potentialVariablesString, true)) {
             updateBlockInputError(this, 0, "");
         }
     }
