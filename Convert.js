@@ -92,7 +92,19 @@ class Convert {
                 continue;
             }
 
-            if ((c === ">" || c === "<" || c === "!" || c === "=") && i + 1 < str_.length && str_[i + 1] === "=") {
+            if (c === "="  && i + 2 < str_.length && str_[i + 1] === "=" && str_[i+2] === "=") {
+                correct_cout.push("===");
+                i += 3;
+                continue
+            }
+
+            if (c === "!"  && i + 2 < str_.length && str_[i + 1] === "=" && str_[i+2] === "=") {
+                correct_cout.push("!==");
+                i += 3;
+                continue
+            }
+    
+            if ((c === ">" || c === "<" ) && i + 1 < str_.length && str_[i + 1] === "=") {
                 correct_cout.push(c + "=");
                 i += 2;
                 continue
@@ -113,12 +125,12 @@ class Convert {
         const rigth_str = Convert.transformation(str_);
         const out = [];
         const stack_op = [];
-        const priority = { "||": 1, "&&": 2, "!=": 3, "==": 3, ">=": 4, ">": 4, "<=": 4, "<": 4, "+": 5, "-": 5, "*": 6, "/": 6, "%": 6, "!": 7 };
+        const priority = { "||": 1, "&&": 2, "!==": 3, "===": 3, ">=": 4, ">": 4, "<=": 4, "<": 4, "+": 5, "-": 5, "*": 6, "/": 6, "%": 6, "!": 7 };
 
         function isOperator(a) {
             return (a === "+" || a === "-" || a === "/" || a === "%" || a === "*" ||
                 a === ">" || a === "<" || a === ">=" || a === "<=" ||
-                a === "==" || a === "!=" || a === "!" ||
+                a === "===" || a === "!==" || a === "!" ||
                 a === "&&" || a === "||");
         }
 
@@ -203,7 +215,7 @@ class Convert {
         function isOperator(a) {
             return (a === "+" || a === "-" || a === "/" || a === "%" || a === "*" ||
                 a === ">" || a === "<" || a === ">=" || a === "<=" ||
-                a === "==" || a === "!=" || a === "!" ||
+                a === "===" || a === "!==" || a === "!" ||
                 a === "&&" || a === "||");
         }
 
@@ -287,8 +299,8 @@ class Convert {
             else if (value === ">=") stack_num.push(first_number >= second_number ? 1 : 0);
             else if (value === "<") stack_num.push(first_number < second_number ? 1 : 0);
             else if (value === "<=") stack_num.push(first_number <= second_number ? 1 : 0);
-            else if (value === "==") stack_num.push(first_number === second_number ? 1 : 0);
-            else if (value === "!=") stack_num.push(first_number !== second_number ? 1 : 0);
+            else if (value === "===") stack_num.push(first_number === second_number ? 1 : 0);
+            else if (value === "!==") stack_num.push(first_number !== second_number ? 1 : 0);
             else if (value === "&&") stack_num.push((first_number === 1 && second_number === 1) ? 1 : 0);
             else if (value === "||") stack_num.push((first_number === 1 || second_number === 1) ? 1 : 0);
         }
