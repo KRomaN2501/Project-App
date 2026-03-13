@@ -209,7 +209,7 @@ input[type="text"],
 .input-width-xs { width: 40px !important; }
 .input-width-s  { width: 50px !important; }
 .input-width-m  { width: 60px !important; }
-.input-width-l  { width: 150px !important; }
+.input-width-l  { width: 230px !important; }
 
 .block-input.error {
     color: red !important;
@@ -435,3 +435,5 @@ input[type="text"],
 [id="block-6"], [id="block-10"], [id="block-11"] { background-color: #FDD9B5 !important; }
 [id="block-20"], [id="block-21"] { background-color: #BACCE6 !important; }
 [id="block-8"], [id="block-9"], [id="block-13"] { background-color: #D1EFBD !important; }
+
+

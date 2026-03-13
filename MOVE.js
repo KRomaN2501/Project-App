@@ -288,12 +288,14 @@ function rebuildInnerConnections(containerBlock) {
     const inner = containerBlock.querySelector('.inner-container');
     if (!inner) return;
 
-    const blocks = Array.from(inner.querySelectorAll('.block'));
+    const blocks = Array.from(inner.children).filter(el => el.classList.contains('block'));
+    
     const containerObj = Block.allBlocks.find(obj => obj.domElement === containerBlock);
 
     if (!containerObj) return;
 
     containerObj.innerBlock = null;
+    
     blocks.forEach(block => {
         const blockObj = Block.allBlocks.find(obj => obj.domElement === block);
         if (blockObj) {
