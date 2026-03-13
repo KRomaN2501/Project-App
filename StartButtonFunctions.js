@@ -4,6 +4,7 @@ startButton.addEventListener('click', () => {
     Block.variables = new Map();
     Block.arrays = new Map();
     clearOutput();
+    clearInput();
     if (Block.startBlock != null) {
         Block.startBlock.activate();
     }

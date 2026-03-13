@@ -16,7 +16,7 @@ class FunctionBlock extends BlockContainer {
         if (this.funcName !== "") {
             FunctionBlock.allFunctions.set(this.funcName, this);
         } else {
-            updateBlockInputError(this, 0); 
+            updateBlockInputError(this, 0);
         }
     }
 
@@ -28,7 +28,7 @@ class FunctionBlock extends BlockContainer {
     _perform() {
     }
 
-    runInternal(passedValues) {
+    async runInternal(passedValues) {
         const localScope = new Map();
 
         this.args.forEach((argName, index) => {
@@ -37,9 +37,9 @@ class FunctionBlock extends BlockContainer {
 
         const previousScope = Block.currentScope;
         Block.currentScope = localScope;
-        
+
         if (this.innerBlock) {
-            this.innerBlock.activate();
+            await this.innerBlock.activate();
         }
 
         Block.currentScope = previousScope;

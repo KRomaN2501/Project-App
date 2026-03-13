@@ -2,7 +2,7 @@ class AssignmentVarBlock extends Block {
     constructor(domElement) {
         super(domElement);
         this.varNames = "";
-        this.varValue = null;
+        this.varValue = "";
     }
 
     /** @param {string} str */
@@ -21,7 +21,16 @@ class AssignmentVarBlock extends Block {
         }
     }
 
-    _perform() {
+
+
+    async _perform() {
+        let entered = false;
+        if (this.varValue == "") {
+            entered = true;
+            Console.output("Введите значение");
+            let userInput = await Console.input();
+            this.varValue = userInput;
+        }
         if (!Convert.canConvertToVarNames(this.varNames, Block.variables, true)) {
             Console.output("Ошибка");
             return;
@@ -32,5 +41,7 @@ class AssignmentVarBlock extends Block {
         }
         let varNamesSet = Convert.convertToVarNames(this.varNames);
         varNamesSet.forEach(name => Block.variables.set(name, Convert.convertToNumber(this.varValue, Block.variables, Block.arrays)));
+
+        if (entered) this.varValue = "";
     }
 }

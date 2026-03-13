@@ -1,7 +1,17 @@
 class Console {
-    /** @returns {string} */
     static input() {
-        return InputAreaInConsole();
+        return new Promise((resolve) => {
+            clearInput();
+            const inputField = document.getElementById('input-field');
+            const onKeyDown = (e) => {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                    const value = inputField.value;
+                    inputField.removeEventListener('keydown', onKeyDown);
+                    resolve(value);
+                }
+            };
+            inputField.addEventListener('keydown', onKeyDown);
+        });
     }
 
     /** @param {string} str*/

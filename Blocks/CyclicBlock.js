@@ -13,13 +13,13 @@ class CyclicBlock extends BlockContainer {
         }
     }
 
-    _perform() {
+    async _perform() {
         if (!Convert.canConvertToBool(this.condition, Block.variables, Block.arrays)) {
             Console.output("Ошибка");
             return;
         }
         while (Convert.convertToBool(this.condition, Block.variables, Block.arrays)) {
-            if (this.innerBlock) this.innerBlock.activate();
+            if (this.innerBlock) await this.innerBlock.activate();
         }
     }
 }

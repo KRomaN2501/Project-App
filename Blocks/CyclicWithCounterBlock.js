@@ -31,7 +31,7 @@ class CyclicWithCounterBlock extends BlockContainer {
         }
     }
 
-    _perform() {
+    async _perform() {
         if (!Convert.canConvertToVarNames(this.varNames, Block.variables, true)) {
             Console.output("Ошибка");
             return;
@@ -46,7 +46,7 @@ class CyclicWithCounterBlock extends BlockContainer {
         }
 
         while (Convert.convertToBool(this.condition, Block.variables, Block.arrays)) {
-            if (this.innerBlock) this.innerBlock.activate();
+            if (this.innerBlock) await this.innerBlock.activate();
             let varNamesSet = Convert.convertToVarNames(this.varNames);
             varNamesSet.forEach(name => Block.variables.set(name, Convert.convertToNumber(this.varValue, Block.variables, Block.arrays)));
             console.log("конец цикла");

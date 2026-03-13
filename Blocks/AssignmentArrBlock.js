@@ -3,7 +3,7 @@ class AssignmentArrBlock extends Block {
         super(domElement);
         this.arrNames = "";
         this.arrIndex = null;
-        this.arrValue = null;
+        this.arrValue = "";
     }
 
     /** @param {string} str */
@@ -34,7 +34,15 @@ class AssignmentArrBlock extends Block {
         }
     }
 
-    _perform() {
+    async _perform() {
+        let entered = false;
+        if (this.arrValue == "") {
+            entered = true;
+            Console.output("Введите значение");
+            let userInput = await Console.input();
+            this.arrValue = userInput;
+        }
+
         if (!Convert.canConvertToArrNames(this.arrNames, Block.arrays, true)) {
             Console.output("Ошибка 1");
             return;
@@ -64,5 +72,7 @@ class AssignmentArrBlock extends Block {
         for (const name of arrNamesSet) {
             Block.arrays.get(name)[arrIndexNumber] = arrValueNumber;
         }
+
+        if (entered) this.arrValue = "";
     }
 }

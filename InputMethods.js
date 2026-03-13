@@ -14,7 +14,7 @@ function InputAreaInBlocks(logic, domElement) {
         input.addEventListener('change', () => {
             const text = input.value;
 
-       
+
             if (logic instanceof CreateVarBlock) {
                 logic.setNames(text);
             }
@@ -38,7 +38,7 @@ function InputAreaInBlocks(logic, domElement) {
                 else if (index === 2)
                     logic.setValue(text);
             }
-            else if (logic instanceof CyclicWithCounterBlock){
+            else if (logic instanceof CyclicWithCounterBlock) {
                 if (index === 0)
                     logic.setNames(text);
                 else if (index === 1)
@@ -49,7 +49,7 @@ function InputAreaInBlocks(logic, domElement) {
             else if (logic.setCondition) {
                 logic.setCondition(text);
             }
-            
+
             else if (logic instanceof PrintVarBlock) {
                 logic.setNames(text);
             }
@@ -62,40 +62,38 @@ function InputAreaInBlocks(logic, domElement) {
                 else if (index === 1)
                     logic.setIndex(text);
             }
-            else if (logic instanceof FunctionBlock) 
-            {
-                if (index === 0) 
+            else if (logic instanceof FunctionBlock) {
+                if (index === 0)
                     logic.setName(text);
-                else if (index === 1) 
+                else if (index === 1)
                     logic.setArgs(text);
             }
-            else if (logic instanceof CallFuncBlock) 
-            {
-                if (index === 0) 
-                    logic.setTargetName(text); 
-                else if (index === 1) 
-                    logic.setParams(text); 
+            else if (logic instanceof CallFuncBlock) {
+                if (index === 0)
+                    logic.setTargetName(text);
+                else if (index === 1)
+                    logic.setParams(text);
             }
         });
     });
 }
 
 
-function InputAreaInConsole() {
-    const inputField = document.getElementById('input-field');
+// function InputAreaInConsole() {
+//     const inputField = document.getElementById('input-field');
 
-    if (!inputField) return;
+//     if (!inputField) return;
 
-    inputField.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter') {
-            if (!e.shiftKey) {
-                e.preventDefault();
-                const currentText = inputField.value;
-                return currentText;
-            }
-        }
-    });
-}
+//     inputField.addEventListener('keydown', (e) => {
+//         if (e.key === 'Enter') {
+//             if (!e.shiftKey) {
+//                 e.preventDefault();
+//                 const currentText = inputField.value;
+//                 return currentText;
+//             }
+//         }
+//     });
+// }
 
 /**
  * @param {string} txt 
@@ -109,6 +107,13 @@ function printToConsole(txt) {
     }
 }
 
+
+function clearInput() {
+    const inputField = document.getElementById('input-field');
+    if (inputField) {
+        inputField.value = "";
+    }
+}
 
 function clearOutput() {
     const outputField = document.getElementById('output-field');

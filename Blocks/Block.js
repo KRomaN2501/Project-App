@@ -51,8 +51,8 @@ class Block {
         // переопределяется в дочерних классах
     }
 
-    activate() {
-        this._perform();
+    async activate() {
+        await this._perform();
         this.runNext();
     }
 
