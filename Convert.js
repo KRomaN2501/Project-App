@@ -24,8 +24,8 @@ class Convert {
      * @returns {boolean}
      */
     static convertToBool(str, dict_vars, arrays) {
-        dict_vars = Convert.normalizeObj(dict_vars);
-        arrays = Convert.normalizeObj(arrays);
+        dict_vars = Convert.normalizeVariables(dict_vars);
+        arrays = Convert.normalizeArrays(arrays);
         const rpn_arr = Convert.transformation_to_RPN_and_bool(str);
         const result = Convert.count_RPN_and_bool(rpn_arr, dict_vars, arrays);
         if(result !== 0 && result !== 1) return false;
@@ -530,9 +530,9 @@ class Convert {
         for (const v of obj) {
             const arr = new Array(1e5).fill(1);
             map.set(v, arr);
-        }
-    } 
+            }
+        } 
     return map;
-}
+    }
 
 }
