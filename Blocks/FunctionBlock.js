@@ -28,7 +28,7 @@ class FunctionBlock extends BlockContainer {
     _perform() {
     }
 
-    async runInternal(passedValues) {
+    runInternal(passedValues) {
         const localScope = new Map();
 
         this.args.forEach((argName, index) => {
@@ -39,7 +39,7 @@ class FunctionBlock extends BlockContainer {
         Block.currentScope = localScope;
 
         if (this.innerBlock) {
-            await this.innerBlock.activate();
+            this.innerBlock.activate();
         }
 
         Block.currentScope = previousScope;
