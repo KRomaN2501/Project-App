@@ -33,7 +33,7 @@ class CreateArrBlock extends Block {
     }
 
     _perform() {
-        if (!Convert.canConvertToArrNames(this.arrNames, [...Block.arrays.keys()], false)) {
+        if (!Convert.canConvertToArrNames(this.arrNames, Block.arrays, false)) {
             Console.output("Ошибка 4");
             return;
         }
@@ -46,7 +46,7 @@ class CreateArrBlock extends Block {
     }
 
     delete() {
-        if (Convert.canConvertToArrNames(this.arrNames, [...Block.arrays.keys()], false)) {
+        if (Convert.canConvertToArrNames(this.arrNames, Block.arrays, true)) {
             let arrNamesSet = Convert.convertToArrNames(this.arrNames);
             Block.potentialArrays = Block.potentialArrays.filter(item => !arrNamesSet.has(item));
         }

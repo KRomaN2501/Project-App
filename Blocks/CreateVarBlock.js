@@ -31,7 +31,7 @@ class CreateVarBlock extends Block {
     }
 
     delete() {
-        if (Convert.canConvertToVarNames(this.varNames, Block.variables, false)) {
+        if (Convert.canConvertToVarNames(this.varNames, Block.variables, true)) {
             let varNamesSet = Convert.convertToVarNames(this.varNames);
             Block.potentialVariables = Block.potentialVariables.filter(item => !varNamesSet.has(item));
         }
