@@ -105,6 +105,6 @@ function updateBlockInputError(logic, index) {
 
     if (inputs[index]) {
         inputs[index].classList.add('error');
-        Console.output("Ошибка");
+        Console.output("Ошибка 1");
     }
 }

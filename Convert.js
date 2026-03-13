@@ -28,7 +28,7 @@ class Convert {
         arrays = Convert.normalizeObj(arrays);
         const rpn_arr = Convert.transformation_to_RPN_and_bool(str);
         const result = Convert.count_RPN_and_bool(rpn_arr, dict_vars, arrays);
-
+        if(result !== 0 && result !== 1) return false;
         return result === 1;
     }
 
@@ -305,6 +305,7 @@ class Convert {
             else if (value === "||") stack_num.push((first_number === 1 || second_number === 1) ? 1 : 0);
         }
 
+        if (stack_num.length !== 1) return null;
         return stack_num[0];
     }
 
