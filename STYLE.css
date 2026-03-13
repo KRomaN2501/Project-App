@@ -427,7 +427,12 @@ input[type="text"],
     background-color: #D1EFBD !important;
 }
 
-/* поддержка старых ID для обратной совместимости */
+.block[data-block-type="block-30"],
+.block[data-block-type="block-31"] {
+    background-color: #C6E6E3 !important
+}
+
+
 [id="block-0"], [id="block-1000"] { background-color: #CDCCF7 !important; }
 [id="block-1"], [id="block-2"] { background-color: #BBDFFF !important; }
 [id="block-3"], [id="block-4"] { background-color: #F7D1D7 !important; }
@@ -435,5 +440,5 @@ input[type="text"],
 [id="block-6"], [id="block-10"], [id="block-11"] { background-color: #FDD9B5 !important; }
 [id="block-20"], [id="block-21"] { background-color: #BACCE6 !important; }
 [id="block-8"], [id="block-9"], [id="block-13"] { background-color: #D1EFBD !important; }
-
+[id="block-30"], [id="block-31"] { background-color: #C6E6E3 !important; }
 

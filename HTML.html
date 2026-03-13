@@ -66,8 +66,7 @@
                 <ul class="blocks-list">
                     <li class="block" draggable="true" id="block-1">
                         Новая переменная
-                        <input type="text" class="block-input input-width-l" placeholder="имя переменной" value="имя переменной"
-                            tyle="width: 150px;">
+                        <input type="text" class="block-input input-width-l" placeholder="имя переменной" value="имя переменной">
                     </li>
                     <li class="block" draggable="true" id="block-2">
                         Присваивание
@@ -84,6 +83,16 @@
                         <input type="text" class="block-input input-width-l" placeholder="имя массива" value="имя массива">
                         <input type="text" class="block-input input-width-l" placeholder="индекс" value="индекс">
                         <input type="text" class="block-input input-width-l" placeholder="значение" value="значение">
+                    </li>
+                    <li class="block" draggable="true" id="block-30">
+                        Новая строка
+                        <input type="text" class="block-input input-width-l" placeholder="имя переменной" value="имя переменной"
+                            tyle="width: 150px;">
+                    </li>
+                    <li class="block" draggable="true" id="block-31">
+                        Присваивание строки
+                        <input type="text" class="block-input input-width-l" placeholder="имя строки" value="имя строки">
+                        <input type="text" class="block-input input-width-l" placeholder="текст" value="текст">
                     </li>
 
                 </ul>
@@ -136,6 +145,14 @@
         <div class="workspace" id="workspace">
             <div class="h2" id="h2">
                 <h2>Поле для кода</h2>
+                <div class="theme-switch-wrapper">
+                    <label class="theme-switch" for="checkbox">
+                        <input type="checkbox" id="checkbox" />
+                        <div class="slider round"></div>
+                    </label>
+                    <span id="theme-text">Темная тема</span>
+                </div>
+                
                 <button class="start-button" id="startButton">Запустить ▶</button>
             </div>
             <div class="code-area" id="code-area" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
@@ -162,6 +179,7 @@
         <script src="Blocks//PrintNumberBlock.js"></script>
         <script src="Blocks//CyclicWithCounterBlock.js"></script>
         <script src="Blocks//EndBlock.js"></script>
+        <script src="DarkTheme.js"></script>
 
 </body>
 
