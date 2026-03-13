@@ -13,7 +13,7 @@ class CreateVarBlock extends Block {
         Block.potentialVariables = Block.potentialVariables.filter(item => !varNamesSet.has(item));
 
         this.varNames = str;
-        if (!Convert.canConvertToVarNames(str, Block.potentialVariables, false)) {
+        if (!Convert.canConvertToVarNames(str, Block.potentialVariables, false, Block.potentialVariablesString)) {
             updateBlockInputError(this, 0, "");
         }
 
@@ -22,7 +22,7 @@ class CreateVarBlock extends Block {
     }
 
     _perform() {
-        if (!Convert.canConvertToVarNames(this.varNames, Block.variables, false)) {
+        if (!Convert.canConvertToVarNames(this.varNames, Block.variables, false, Block.variablesString)) {
             Console.output("Ошибка");
             return;
         }

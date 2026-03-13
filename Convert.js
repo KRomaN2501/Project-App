@@ -23,12 +23,12 @@ class Convert {
    * @param {Map<string, any[]>} [arrays]
    * @returns {boolean}
    */
-  static convertToBool(str, dictVars, arrays) {
+  static convertToBool(str, dictVars, arrays, strVars) {
     dictVars = Convert.normalizeVariables(dictVars);
     arrays = Convert.normalizeArrays(arrays);
 
     const rpnArr = Convert.transformationToRpnAndBool(str);
-    const result = Convert.countRpnAndBool(rpnArr, dictVars, arrays);
+    const result = Convert.countRpnAndBool(rpnArr, dictVars, arrays, strVars);
 
     if (result !== 0 && result !== 1) return false;
     return result === 1;
@@ -175,7 +175,7 @@ class Convert {
     return out;
   }
 
-  static countRpnAndBool(rpnArr, dictVars, arrays) {
+  static countRpnAndBool(rpnArr, dictVars, arrays, strVars) {
     const stack = [];
 
     for (const token of rpnArr) {
@@ -227,29 +227,40 @@ class Convert {
           stack.push(dictVars.get(token));
           continue;
         }
-        return null;
+        if (strVars.has(token)) {         
+            stack.push(strVars.get(token));
+            continue;
+        }
+        stack.push(token);
+        continue;
       }
 
       const second = stack.pop();
       const first = stack.pop();
 
-      if (token === "+") stack.push(first + second);
-      else if (token === "-") stack.push(first - second);
-      else if (token === "*") stack.push(first * second);
-      else if (token === "/") {
-        if (second === 0) return null;
-        stack.push(Math.trunc(first / second));
-      } else if (token === "%") {
-        if (second === 0) return null;
-        stack.push(first % second);
-      } else if (token === ">") stack.push(first > second ? 1 : 0);
-      else if (token === ">=") stack.push(first >= second ? 1 : 0);
-      else if (token === "<") stack.push(first < second ? 1 : 0);
-      else if (token === "<=") stack.push(first <= second ? 1 : 0);
-      else if (token === "===") stack.push(first === second ? 1 : 0);
-      else if (token === "!==") stack.push(first !== second ? 1 : 0);
-      else if (token === "&&") stack.push(first === 1 && second === 1 ? 1 : 0);
-      else if (token === "||") stack.push(first === 1 || second === 1 ? 1 : 0);
+        if (token === "+" || token === "-" || token === "*" || token === "/" || token === "%") {
+        if (typeof first !== "number" || typeof second !== "number") return null;
+      }
+
+        if (token === "+") stack.push(first + second);
+        else if (token === "-") stack.push(first - second);
+        else if (token === "*") stack.push(first * second);
+        else if (token === "/") {
+            if (second === 0) return null;
+            stack.push(Math.trunc(first / second));
+        } 
+        else if (token === "%") {
+            if (second === 0) return null;
+            stack.push(first % second);
+        } 
+        else if (token === ">") stack.push(first > second ? 1 : 0);
+        else if (token === ">=") stack.push(first >= second ? 1 : 0);
+        else if (token === "<") stack.push(first < second ? 1 : 0);
+        else if (token === "<=") stack.push(first <= second ? 1 : 0);
+        else if (token === "===") stack.push(first === second ? 1 : 0);
+        else if (token === "!==") stack.push(first !== second ? 1 : 0);
+        else if (token === "&&") stack.push(first === 1 && second === 1 ? 1 : 0);
+        else if (token === "||") stack.push(first === 1 || second === 1 ? 1 : 0);
     }
 
     if (stack.length !== 1) return null;
@@ -330,7 +341,7 @@ class Convert {
     return true;
   }
 
-  static canConvertToVarNames(str, dictVars, included) {
+  static canConvertToVarNames(str, dictVars, included, strVars = null) {
     if (!str || typeof str !== "string") return false;
 
     dictVars = Convert.normalizeVariables(dictVars);
@@ -343,7 +354,10 @@ class Convert {
       if (dictVars instanceof Map) {
         const exists = dictVars.has(name);
         if (included && !exists) return false;
-        if (!included && exists) return false;
+        if (!included){
+            const strExisrs = strVars.has(name);
+            if(exists && strExisrs) return false;
+        }
       } else if (Array.isArray(dictVars)) {
         const exists = dictVars.includes(name);
         if (included && !exists) return false;
@@ -376,7 +390,7 @@ class Convert {
       const rpn = Convert.transformationToRpnAndBool(str);
       if (!rpn || rpn.length === 0) return false;
 
-      const result = Convert.countRpnAndBool(rpn, dictVars, arrays);
+      const result = Convert.countRpnAndBool(rpn, dictVars, arrays, strVars);
       if (result === null || result === undefined || typeof result !== "number" || Number.isNaN(result)) {
         return false;
       }
@@ -386,16 +400,17 @@ class Convert {
     }
   }
 
-  static canConvertToBool(str, dictVars, arrays) {
+  static canConvertToBool(str, dictVars, arrays, strVars) {
     if (!str || typeof str !== "string") return false;
 
     dictVars = Convert.normalizeVariables(dictVars);
     arrays = Convert.normalizeArrays(arrays);
+    strVars = Convert.normalizeStringVars(strVars);
 
     try {
       const tokens = Convert.transformation(str);
       if (!tokens || tokens.length === 0) return false;
-      if (!Convert.checkVariables(tokens, dictVars, arrays)) return false;
+      //if (!Convert.checkVariables(tokens, dictVars, arrays)) return false;
 
       let balance = 0;
       for (const t of tokens) {
@@ -408,7 +423,7 @@ class Convert {
       const rpn = Convert.transformationToRpnAndBool(str);
       if (!rpn || rpn.length === 0) return false;
 
-      const result = Convert.countRpnAndBool(rpn, dictVars, arrays);
+      const result = Convert.countRpnAndBool(rpn, dictVars, arrays, strVars);
       if (result !== 0 && result !== 1) return false;
 
       return true;
@@ -417,7 +432,7 @@ class Convert {
     }
   }
 
-  static checkVariables(tokens, dictVars, arrays) {
+static checkVariables(tokens, dictVars, arrays) {
     let dictSet;
     let arrSet;
 
@@ -433,9 +448,9 @@ class Convert {
       }
     }
     return true;
-  }
+}
 
-  static normalizeVariables(obj) {
+static normalizeVariables(obj) {
     if (!obj) return new Map();
     if (obj instanceof Map) return obj;
 
@@ -444,9 +459,9 @@ class Convert {
       for (const v of obj) map.set(v, 1);
     }
     return map;
-  }
+}
 
-  static normalizeArrays(obj) {
+static normalizeArrays(obj) {
     if (!obj) return new Map();
     if (obj instanceof Map) return obj;
 
@@ -458,5 +473,12 @@ class Convert {
       }
     }
     return map;
-  }
+}
+
+static normalizeStringVars(obj) {
+    if (!obj) return new Map();
+    if (obj instanceof Map) return obj;
+    return new Map(); 
+}
+
 }
