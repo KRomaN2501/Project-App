@@ -1,29 +1,33 @@
-class CallFuncBlock extends Block {
-
-    /** @param {HTMLElement} domElement */
+class CallFunctionBlock extends Block {
     constructor(domElement) {
         super(domElement);
         this.targetFuncName = "";
+        this.params = ""; 
     }
 
     /** @param {string} name */
-    setNames(name) {
-        this.targetFuncName = name;
-        
-        if (!Convert.isVariable(name)) {
-            updateBlockInputError(this, 0);
-        }
+    setTargetName(name) {
+        this.targetFuncName = name.trim();
+    }
+
+    /** @param {string} str */
+    setParams(str) {
+        this.params = str;
     }
 
     _perform() {
-        const funcBlock = Block.allBlocks.find(b => 
-            b instanceof FunctionBlock && b.funcName === this.targetFuncName
-        );
-
+        const funcBlock = FunctionBlock.allFunctions.get(this.targetFuncName);
+        
         if (funcBlock) {
-            funcBlock.call();
+            const paramExpressions = this.params.split(',').map(p => p.trim()).filter(p => p !== "");
+            const evaluatedValues = paramExpressions.map(expr => 
+                Convert.convertToNumber(expr, Block.variables, Block.arrays)
+            );
+
+            funcBlock.runInternal(evaluatedValues);
         } else {
-            Console.output("Ошибка: функция  не найдена");
+            Console.output("Функция не найдена");
+            updateBlockInputError(this, 0);
         }
     }
 }

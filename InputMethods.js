@@ -53,6 +53,20 @@ function InputAreaInBlocks(logic, domElement) {
                 else if (index === 1)
                     logic.setIndex(text);
             }
+            else if (logic instanceof FunctionBlock) 
+            {
+                if (index === 0) 
+                    logic.setName(text);
+                else if (index === 1) 
+                    logic.setArgs(text);
+            }
+            else if (logic instanceof CallFuncBlock) 
+            {
+                if (index === 0) 
+                    logic.setTargetName(text); 
+                else if (index === 1) 
+                    logic.setParams(text); 
+            }
         });
     });
 }
