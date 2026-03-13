@@ -8,6 +8,8 @@ class Convert {
      */
 
     static convertToNumber(str, dict_vars, arrays, min = null, max = null) { //min и max включительно
+        dict_vars = Convert.normalizeObj(dict_vars);
+        arrays = Convert.normalizeObj(arrays);
         const rpn_arr = Convert.transformation_to_RPN_and_bool(str);
         const result = Convert.count_RPN_and_bool(rpn_arr, dict_vars, arrays);
         if (min === null && max === null) return result;
@@ -22,7 +24,8 @@ class Convert {
      * @returns {boolean}
      */
     static convertToBool(str, dict_vars, arrays) {
-
+        dict_vars = Convert.normalizeObj(dict_vars);
+        arrays = Convert.normalizeObj(arrays);
         const rpn_arr = Convert.transformation_to_RPN_and_bool(str);
         const result = Convert.count_RPN_and_bool(rpn_arr, dict_vars, arrays);
 
@@ -255,15 +258,15 @@ class Convert {
             }
 
             if (!isOperator(value)) {
-                if (arrays && arrays.has && arrays.has(value)) {
+                if (arrays.has(value)) {
                     stack_num.push(value);
                     continue;
                 }
-                if (dict_vars && dict_vars.has && dict_vars.has(value)) {
+                if (dict_vars.has(value)) {
                     stack_num.push(dict_vars.get(value));
                     continue;
                 }
-                continue;
+                return null;
             }
 
             const second_number = stack_num.pop();
@@ -390,7 +393,7 @@ class Convert {
         return true;
     }
 
-    static canConvertToNumber(str, dict_vars, arrays, min, max) {
+    static canConvertToNumber(str, dict_vars, arrays, min = null, max = null) {
         if (!str || typeof str !== "string") return false;
 
         dict_vars = Convert.normalizeObj(dict_vars);

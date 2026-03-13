@@ -14,7 +14,7 @@ class CyclicBlock extends BlockContainer {
     }
 
     _perform() {
-        if (!Convert.canConvertToBool(this.condition, [...Block.variables.keys()], [...Block.arrays.keys()])) {
+        if (!Convert.canConvertToBool(this.condition, Block.variables, Block.arrays)) {
             Console.output("Ошибка");
             return;
         }
