@@ -8,8 +8,8 @@ class Convert {
      */
 
     static convertToNumber(str, dict_vars, arrays, min = null, max = null) { //min и max включительно
-        dict_vars = Convert.normalizeObj(dict_vars);
-        arrays = Convert.normalizeObj(arrays);
+        dict_vars = Convert.normalizeVariables(dict_vars);
+        arrays = Convert.normalizeArrays(arrays);
         const rpn_arr = Convert.transformation_to_RPN_and_bool(str);
         const result = Convert.count_RPN_and_bool(rpn_arr, dict_vars, arrays);
         if (min === null && max === null) return result;
@@ -165,8 +165,7 @@ class Convert {
 
             if (isOperator(c)) {
                 while (
-                    stack_op.length > 0 &&
-                    isOperator(stack_op[stack_op.length - 1]) &&
+                    stack_op.length > 0 && isOperator(stack_op[stack_op.length - 1]) &&
                     (priority[stack_op[stack_op.length - 1]] >= priority[c] || (c != "!" && priority[stack_op[stack_op.length - 1]] == priority[c]))
                 ) {
                     out.push(stack_op.pop());
@@ -363,7 +362,7 @@ class Convert {
     }
     static canConvertToArrNames(str, arrays, included) {
         if (!str || typeof str !== "string") return false;
-        arrays = this.normalizeObj(arrays);
+        arrays = this.normalizeArrays(arrays);
         const names = str.split(',').map(s => s.trim()).filter(n => n !== '');
 
         if (names.length === 0) return false;
@@ -385,7 +384,7 @@ class Convert {
 
     static canConvertToVarNames(str, dict_vars, included) {
         if (!str || typeof str !== "string") return false;
-        dict_vars = this.normalizeObj(dict_vars);
+        dict_vars = this.normalizeVariables(dict_vars);
         const names = str.split(',').map(s => s.trim()).filter(n => n !== '');
 
         if (names.length === 0) return false;
@@ -406,12 +405,12 @@ class Convert {
         return true;
     }
 
-    static canConvertToNumber(str, dict_vars, arrays, min = null, max = null) {
+    static canConvertToNumber(str, dict_vars, arrays) {
         if (!str || typeof str !== "string") return false;
 
-        dict_vars = Convert.normalizeObj(dict_vars);
+        dict_vars = Convert.normalizeVariables(dict_vars);
         console.log(dict_vars);
-        arrays = Convert.normalizeObj(arrays);
+        arrays = Convert.normalizeArrays(arrays);
         console.log(arrays);
 
         try {
@@ -434,14 +433,18 @@ class Convert {
             if (balance !== 0) return false;
 
             const rpn = Convert.transformation_to_RPN_and_bool(str);
-            if (!rpn || rpn.length === 0) return false;
+            if (!rpn || rpn.length === 0) {
+                console.log(rpn);
+                console.log("тут что-то не так"); 
+                return false;
+            }
 
             const result = Convert.count_RPN_and_bool(rpn, dict_vars, arrays);
-            if (result === null || result === undefined || typeof result !== "number" || Number.isNaN(result)) return false;
-
-            if (min !== null && result < min) return false;
-            if (max !== null && result > max) return false;
-
+            if (result === null || result === undefined || typeof result !== "number" || Number.isNaN(result)) {
+                console.log(result);
+                console.log("there что-то не так"); 
+                return false;
+            }
             return true;
         }
         catch {
@@ -451,8 +454,8 @@ class Convert {
     static canConvertToBool(str, dict_vars, arrays) {
         if (!str || typeof str !== "string") return false;
 
-        dict_vars = Convert.normalizeObj(dict_vars);
-        arrays = Convert.normalizeObj(arrays);
+        dict_vars = Convert.normalizeVariables(dict_vars);
+        arrays = Convert.normalizeArrays(arrays);
 
         try {
             const tokens = Convert.transformation(str);
@@ -506,29 +509,30 @@ class Convert {
         return true;
     }
 
-static normalizeObj(Obj) {
-    if (!Obj) return new Map();
-
-    if (Array.isArray(Obj)) {
+    static normalizeVariables(obj) {
+        if (!obj) return new Map();
+        if (obj instanceof Map) return obj;
         const map = new Map();
-        for (const v of Obj) {
-            map.set(v, 0);
-        }
+        if (Array.isArray(obj)) {
+            for (const v of obj) {
+                map.set(v, 1); 
+            }
+        } 
         return map;
     }
 
-    if (Obj instanceof Map) {
-        return Obj;
-    }
+    static normalizeArrays(obj) {
+        if (!obj) return new Map();
+        if (obj instanceof Map) return obj;
 
-    if (typeof Obj === "object") {
         const map = new Map();
-        for (const key of Object.keys(Obj)) {
-            map.set(key, Obj[key]);
+        if (Array.isArray(obj)) {
+        for (const v of obj) {
+            const arr = new Array(1e5).fill(1);
+            map.set(v, arr);
         }
-        return map;
-    }
-    return new Map();
+    } 
+    return map;
 }
 
 }
