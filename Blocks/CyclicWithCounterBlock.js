@@ -36,15 +36,12 @@ class CyclicWithCounterBlock extends BlockContainer {
         Console.output("Ошибка в именах переменных");
         return;
     }
-    
-    // Выполняем цикл, пока условие истинно
+
     while (Convert.convertToBool(this.condition, Block.variables, Block.arrays)) {
-        // Выполняем вложенные блоки
         if (this.innerBlock) {
             this.innerBlock.activate();
         }
         
-        // Обновляем значение переменной (шаг цикла)
         let newValue = Convert.convertToNumber(this.varValue, Block.variables, Block.arrays);
         let varNamesSet = Convert.convertToVarNames(this.varNames);
         
