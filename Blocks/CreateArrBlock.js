@@ -32,7 +32,7 @@ class CreateArrBlock extends Block {
         }
     }
 
-    _perform() {
+    async _perform() {
         if (!Convert.canConvertToArrNames(this.arrNames, Block.arrays, false)) {
             Console.output("Ошибка 4");
             return;

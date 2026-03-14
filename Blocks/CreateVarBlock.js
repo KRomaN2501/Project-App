@@ -21,7 +21,7 @@ class CreateVarBlock extends Block {
         varNamesSet.forEach(name => Block.potentialVariables.push(name));
     }
 
-    _perform() {
+    async _perform() {
         if (!Convert.canConvertToVarNames(this.varNames, Block.variables, false, Block.variablesString)) {
             Console.output("Ошибка");
             return;

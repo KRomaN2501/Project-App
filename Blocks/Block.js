@@ -55,12 +55,12 @@ class Block {
 
     async activate() {
         await this._perform();
-        this.runNext();
+        await this.runNext();
     }
 
-    runNext() {
+    async runNext() {
         if (this.nextBlock) {
-            this.nextBlock.activate();
+            await this.nextBlock.activate();
         }
     }
 }

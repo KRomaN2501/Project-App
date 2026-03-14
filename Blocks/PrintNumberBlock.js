@@ -13,7 +13,7 @@ class PrintNumberBlock extends Block {
         }
     }
 
-    _perform() {
+    async _perform() {
         if (!Convert.canConvertToNumber(this.number, Block.variables, Block.arrays)) {
             Console.output("Ошибка");
             return;

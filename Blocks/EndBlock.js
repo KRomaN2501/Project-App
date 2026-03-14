@@ -3,7 +3,7 @@ class EndBlock extends Block {
         super(domElement);
     }
 
-    _perform() {
+    async _perform() {
         console.log("Программа завершена.");
     }
 

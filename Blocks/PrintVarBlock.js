@@ -13,7 +13,7 @@ class PrintVarBlock extends Block {
         }
     }
 
-    _perform() {
+    async _perform() {
         if (!Convert.canConvertToVarNames(this.varNames, Block.variables, true)) {
             Console.output("Ошибка");
             return;

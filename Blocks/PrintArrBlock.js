@@ -26,7 +26,7 @@ class PrintArrBlock extends Block {
         }
     }
 
-    _perform() {
+    async _perform() {
         if (!Convert.canConvertToArrNames(this.arrNames, Block.arrays, true)) {
             Console.output("Ошибка 6");
             return;
